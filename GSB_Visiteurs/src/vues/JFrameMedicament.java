@@ -153,7 +153,7 @@ public class JFrameMedicament extends javax.swing.JFrame {
         jPanel1.add(jTextFieldComposition);
         jTextFieldComposition.setBounds(280, 190, 90, 20);
 
-        jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Pictures\\gsb_background.png")); // NOI18N
+        jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Documents\\NetBeansProjects\\GSB_Visiteurs\\GSB_Visiteurs\\images\\gsb_background.png")); // NOI18N
         jPanel1.add(jLabelBackground);
         jLabelBackground.setBounds(0, 0, 700, 490);
 

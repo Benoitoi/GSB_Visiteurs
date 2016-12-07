@@ -195,7 +195,7 @@ public class JFrameRapportVisite extends javax.swing.JFrame {
 
         jLabelBackground.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBackground.setForeground(new java.awt.Color(0, 0, 153));
-        jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Pictures\\gsb_background.png")); // NOI18N
+        jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Documents\\NetBeansProjects\\GSB_Visiteurs\\GSB_Visiteurs\\images\\gsb_background.png")); // NOI18N
         jPanel1.add(jLabelBackground);
         jLabelBackground.setBounds(0, 0, 1070, 480);
 

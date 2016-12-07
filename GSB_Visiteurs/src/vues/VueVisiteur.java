@@ -194,7 +194,7 @@ public class VueVisiteur extends javax.swing.JFrame {
         jPanel1.add(jTextFieldVille);
         jTextFieldVille.setBounds(330, 300, 110, 20);
 
-        jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Pictures\\gsb_background.png")); // NOI18N
+        jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Documents\\NetBeansProjects\\GSB_Visiteurs\\GSB_Visiteurs\\images\\gsb_background.png")); // NOI18N
         jPanel1.add(jLabelBackground);
         jLabelBackground.setBounds(0, 0, 750, 480);
 

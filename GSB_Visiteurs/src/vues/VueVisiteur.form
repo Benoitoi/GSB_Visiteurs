@@ -355,7 +355,7 @@
         <Component class="javax.swing.JLabel" name="jLabelBackground">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Benoit\Pictures\gsb_background.png"/>
+              <Image iconType="2" name="C:\Users\Benoit\Documents\NetBeansProjects\GSB_Visiteurs\GSB_Visiteurs\images\gsb_background.png"/>
             </Property>
           </Properties>
           <Constraints>
