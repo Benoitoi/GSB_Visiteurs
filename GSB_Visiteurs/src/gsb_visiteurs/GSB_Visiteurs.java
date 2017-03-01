@@ -5,12 +5,11 @@
  */
 package gsb_visiteurs;
 
-import vues.*;
 import controleurs.*;
 
 /**
  *
- * @author btssio
+ * @author pnoel
  */
 public class GSB_Visiteurs {
 
@@ -18,10 +17,9 @@ public class GSB_Visiteurs {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        VueConnexion uneVue = new VueConnexion();
-        CtrlConnexion unControleur = new CtrlConnexion(uneVue);
+        CtrlPrincipal leControleurPrincipal = new CtrlPrincipal();
         // afficher la vue
-        uneVue.setVisible(true);
+        leControleurPrincipal.afficherConnexion();
+        Connexion.lancerConnexion();
     }
-    
 }

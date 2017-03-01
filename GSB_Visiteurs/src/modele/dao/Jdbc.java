@@ -1,87 +1,135 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modele.dao;
 
-import controleurs.CtrlConnexion;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import sun.tools.jar.Main;
+import gsb_visiteurs.Connexion;
+import java.sql.*;
 
 /**
+ * Singleton fournit un objet de connexion JDBC
  *
- * @author Benoit
+ * @author nbourgeois
+ * @version 2 22 novembre 2013
  */
 public class Jdbc {
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
 
+    // Instance du jdbc Jdbc
+    private static Jdbc jdbc = null;
+    // Paramètre de la connexion
+    private String piloteJdbc = "";
+    private String protocoleJdbc = "";
+    private String serveurBd = "";
+    private String nomBd = "";
+    private String loginSgbd = "";
+    private String mdpSgbd = "";
+    // Connexion
+    private Connection connexion = null; // java.sql.Connection
+
+    private Jdbc() {
     }
-    
-    public static Connection getConnexion() {
-        String bdd = null;
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("OracleBDD.data"));
-            bdd = (String) ois.readObject();
-        } catch (IOException ex) {
-            Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Erreur impossible de charger le fichier contenant le nom de la connection à la base de données Oracle\n"+ex);
-        }
-        DriverManager.setLoginTimeout(3);
-        Properties propertiesJdbc; // objet de propriétés pour JDBC
-        InputStream input; // flux de lecture des properties
-        // Chargement des paramètres du fichier de properties
-        propertiesJdbc = new Properties();
-        input = Main.class.getResourceAsStream("/"+bdd+".properties");
-        try {
-            propertiesJdbc.load(input);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Erreur impossible de charger le fichier des propriétés de la connection à la base de données Oracle\n"+ex);
-        }
-        try {
-            input.close();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Erreur impossible fermer le fichier des propriétés de la connection à la base de données Oracle\n"+ex);
-        }
-        
-        Connection connexion = null;
-        try {
-            Class.forName(propertiesJdbc.getProperty("pilote"));
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Main - classe JDBC non trouvée");
-        }
-        try {
-            connexion = DriverManager.getConnection(propertiesJdbc.getProperty("protocole")+propertiesJdbc.getProperty("url")+propertiesJdbc.getProperty("base"), propertiesJdbc.getProperty("utilisateur"), propertiesJdbc.getProperty("mdp"));
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Main - échec de connexion");
-        }
+
+    /**
+     * @param pilote : classe du pilote Jdbc
+     * @param protocole : préfixe l'URL du serveur ; dépend du type de SGBD
+     * @param serveur : adresse du serveur + port (fini par un /, sauf pour
+     * Oracle ; BD pour embarquée : chemin accès répertoire )
+     * @param base : nom de la BD ou du DSN pour ODBC
+     * @param login : utilisateur autorisé du SGBD (ou schéma Oracle)
+     * @param mdp : son mot de passe
+     */
+    private Jdbc(String pilote, String protocole, String serveur, String base, String login, String mdp) {
+        this.piloteJdbc = pilote;
+        this.protocoleJdbc = protocole;
+        this.serveurBd = serveur;
+        this.nomBd = base;
+        this.loginSgbd = login;
+        this.mdpSgbd = mdp;
+    }
+
+    public static Jdbc creer(String pilote, String protocole, String serveur, String base, String login, String mdp) {
+        jdbc = new Jdbc(pilote, protocole, serveur, base, login, mdp);
+        return jdbc;
+    }
+
+    public static Jdbc getInstance() {
+        return jdbc;
+    }
+
+    public void connecter() throws ClassNotFoundException, SQLException {
+        Class.forName(this.getPiloteJdbc());
+        setConnexion(DriverManager.getConnection(this.getProtocoleJdbc() + this.getServeurBd() + this.getNomBd(), this.getLoginSgbd(), this.getMdpSgbd()));
+        getConnexion().setAutoCommit(true);
+    }
+
+    public void deconnecter() throws SQLException {
+        getConnexion().close();
+    }
+
+    public static java.sql.Date utilDateToSqlDate(java.util.Date uneDate) {
+        return (new java.sql.Date(uneDate.getTime()));
+    }
+
+    /**
+     * ************************************* *
+     * ACCESSEURS * **************************************
+     */
+    public String getPiloteJdbc() {
+        return piloteJdbc;
+    }
+
+    public void setPiloteJdbc(String piloteJdbc) {
+        this.piloteJdbc = piloteJdbc;
+    }
+
+    /**
+     * @return the protocoleJdbc
+     */
+    public String getProtocoleJdbc() {
+        return protocoleJdbc;
+    }
+
+    /**
+     * @param protocoleJdbc the protocoleJdbc to set
+     */
+    public void setProtocoleJdbc(String protocoleJdbc) {
+        this.protocoleJdbc = protocoleJdbc;
+    }
+
+    public String getServeurBd() {
+        return serveurBd;
+    }
+
+    public void setServeurBd(String serveurBd) {
+        this.serveurBd = serveurBd;
+    }
+
+    public String getNomBd() {
+        return nomBd;
+    }
+
+    public void setNomBd(String nomBd) {
+        this.nomBd = nomBd;
+    }
+
+    public String getLoginSgbd() {
+        return loginSgbd;
+    }
+
+    public void setLoginSgbd(String loginSgbd) {
+        this.loginSgbd = loginSgbd;
+    }
+
+    public String getMdpSgbd() {
+        return mdpSgbd;
+    }
+
+    public void setMdpSgbd(String mdpSgbd) {
+        this.mdpSgbd = mdpSgbd;
+    }
+
+    public Connection getConnexion() {
         return connexion;
-//        Connection connexion = null;
-//        try {
-//            Class.forName("oracle.jdbc.driver.OracleDriver");
-//        } catch (ClassNotFoundException ex) {
-//            JOptionPane.showMessageDialog(null, "Main - classe JDBC non trouvée");
-//        }
-//        try {
-//            connexion = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "GSB", "gsb");
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Main - échec de connexion");
-//        }
-//        return connexion;
+    }
+
+    public void setConnexion(Connection connexion) {
+        this.connexion = connexion;
     }
 }

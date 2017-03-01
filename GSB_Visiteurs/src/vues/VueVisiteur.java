@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author btssio
+ * @author kcloarec
  */
 public class VueVisiteur extends javax.swing.JFrame {
 
@@ -35,13 +35,13 @@ public class VueVisiteur extends javax.swing.JFrame {
         jComboBoxChercher = new javax.swing.JComboBox();
         jButtonSuivant = new javax.swing.JButton();
         jButtonPrecedent = new javax.swing.JButton();
-        jButtonFermer = new javax.swing.JButton();
+        jButtonQuitter = new javax.swing.JButton();
         jButtonOk = new javax.swing.JButton();
         jSeparator = new javax.swing.JSeparator();
         jLabelNom = new javax.swing.JLabel();
         jLabelPrenom = new javax.swing.JLabel();
         jLabelChercherVisiteurs = new javax.swing.JLabel();
-        jLabelChercher = new javax.swing.JLabel();
+        jLabelRechercher = new javax.swing.JLabel();
         jLabelAdresse = new javax.swing.JLabel();
         jLabelVille = new javax.swing.JLabel();
         jLabelSecteur = new javax.swing.JLabel();
@@ -53,9 +53,12 @@ public class VueVisiteur extends javax.swing.JFrame {
         jTextFieldAdresse = new javax.swing.JTextField();
         jTextFieldCodePostal = new javax.swing.JTextField();
         jTextFieldVille = new javax.swing.JTextField();
+        jButtonMenuGeneral = new javax.swing.JButton();
+        jTextFieldRechercher = new javax.swing.JTextField();
+        jLabelChercher1 = new javax.swing.JLabel();
         jLabelBackground = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Visiteurs");
         setResizable(false);
 
@@ -63,7 +66,7 @@ public class VueVisiteur extends javax.swing.JFrame {
 
         jComboBoxChercher.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(jComboBoxChercher);
-        jComboBoxChercher.setBounds(320, 130, 56, 20);
+        jComboBoxChercher.setBounds(330, 130, 160, 20);
 
         jButtonSuivant.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonSuivant.setForeground(new java.awt.Color(0, 0, 153));
@@ -77,16 +80,16 @@ public class VueVisiteur extends javax.swing.JFrame {
         jPanel1.add(jButtonPrecedent);
         jButtonPrecedent.setBounds(250, 430, 100, 23);
 
-        jButtonFermer.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButtonFermer.setForeground(new java.awt.Color(0, 0, 153));
-        jButtonFermer.setText("Fermer");
-        jButtonFermer.addActionListener(new java.awt.event.ActionListener() {
+        jButtonQuitter.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonQuitter.setForeground(new java.awt.Color(0, 0, 153));
+        jButtonQuitter.setText("Quitter");
+        jButtonQuitter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonFermerActionPerformed(evt);
+                jButtonQuitterActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonFermer);
-        jButtonFermer.setBounds(617, 420, 80, 23);
+        jPanel1.add(jButtonQuitter);
+        jButtonQuitter.setBounds(617, 420, 80, 23);
 
         jButtonOk.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonOk.setForeground(new java.awt.Color(0, 0, 153));
@@ -97,7 +100,7 @@ public class VueVisiteur extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButtonOk);
-        jButtonOk.setBounds(400, 130, 47, 23);
+        jButtonOk.setBounds(510, 123, 60, 30);
 
         jSeparator.setBackground(new java.awt.Color(51, 51, 255));
         jSeparator.setForeground(new java.awt.Color(0, 0, 153));
@@ -122,11 +125,11 @@ public class VueVisiteur extends javax.swing.JFrame {
         jPanel1.add(jLabelChercherVisiteurs);
         jLabelChercherVisiteurs.setBounds(300, 10, 230, 50);
 
-        jLabelChercher.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabelChercher.setForeground(new java.awt.Color(0, 0, 153));
-        jLabelChercher.setText("Chercher");
-        jPanel1.add(jLabelChercher);
-        jLabelChercher.setBounds(250, 130, 60, 14);
+        jLabelRechercher.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabelRechercher.setForeground(new java.awt.Color(0, 0, 153));
+        jLabelRechercher.setText("Rechercher");
+        jPanel1.add(jLabelRechercher);
+        jLabelRechercher.setBounds(250, 100, 70, 14);
 
         jLabelAdresse.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelAdresse.setForeground(new java.awt.Color(0, 0, 153));
@@ -154,11 +157,11 @@ public class VueVisiteur extends javax.swing.JFrame {
 
         jComboBoxSecteur.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(jComboBoxSecteur);
-        jComboBoxSecteur.setBounds(270, 340, 56, 20);
+        jComboBoxSecteur.setBounds(270, 340, 100, 20);
 
         jComboBoxLabo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(jComboBoxLabo);
-        jComboBoxLabo.setBounds(270, 380, 56, 20);
+        jComboBoxLabo.setBounds(270, 380, 100, 20);
 
         jTextFieldNom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,7 +179,7 @@ public class VueVisiteur extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jTextFieldAdresse);
-        jTextFieldAdresse.setBounds(270, 260, 110, 20);
+        jTextFieldAdresse.setBounds(270, 260, 170, 20);
 
         jTextFieldCodePostal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,9 +197,25 @@ public class VueVisiteur extends javax.swing.JFrame {
         jPanel1.add(jTextFieldVille);
         jTextFieldVille.setBounds(330, 300, 110, 20);
 
+        jButtonMenuGeneral.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonMenuGeneral.setForeground(new java.awt.Color(0, 0, 153));
+        jButtonMenuGeneral.setText("Menu général");
+        jPanel1.add(jButtonMenuGeneral);
+        jButtonMenuGeneral.setBounds(50, 30, 130, 40);
+
+        jTextFieldRechercher.setText("Nom Prénom");
+        jPanel1.add(jTextFieldRechercher);
+        jTextFieldRechercher.setBounds(330, 100, 160, 20);
+
+        jLabelChercher1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabelChercher1.setForeground(new java.awt.Color(0, 0, 153));
+        jLabelChercher1.setText("Chercher");
+        jPanel1.add(jLabelChercher1);
+        jLabelChercher1.setBounds(250, 130, 60, 14);
+
         jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Documents\\NetBeansProjects\\GSB_Visiteurs\\GSB_Visiteurs\\images\\gsb_background.png")); // NOI18N
         jPanel1.add(jLabelBackground);
-        jLabelBackground.setBounds(0, 0, 750, 480);
+        jLabelBackground.setBounds(0, 0, 760, 490);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -216,9 +235,9 @@ public class VueVisiteur extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonOkActionPerformed
 
-    private void jButtonFermerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFermerActionPerformed
+    private void jButtonQuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitterActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonFermerActionPerformed
+    }//GEN-LAST:event_jButtonQuitterActionPerformed
 
     private void jTextFieldCodePostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCodePostalActionPerformed
         // TODO add your handling code here:
@@ -236,8 +255,43 @@ public class VueVisiteur extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldNomActionPerformed
 
-    public JButton getjButtonFermer() {
-        return jButtonFermer;
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(VueVisiteur.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(VueVisiteur.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(VueVisiteur.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(VueVisiteur.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new VueVisiteur().setVisible(true);
+            }
+        });
+    }
+
+    public JButton getjButtonQuitter() {
+        return jButtonQuitter;
     }
 
     public JButton getjButtonOk() {
@@ -283,57 +337,32 @@ public class VueVisiteur extends javax.swing.JFrame {
     public JTextField getjTextFieldVille() {
         return jTextFieldVille;
     }
-    
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(VueVisiteur.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(VueVisiteur.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(VueVisiteur.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(VueVisiteur.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new VueVisiteur().setVisible(true);
-//            }
-//        });
-//    }
+
+    public JButton getjButtonMenuGeneral() {
+        return jButtonMenuGeneral;
+    }
+
+    public JTextField getjTextFieldRechercher() {
+        return jTextFieldRechercher;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonFermer;
+    private javax.swing.JButton jButtonMenuGeneral;
     private javax.swing.JButton jButtonOk;
     private javax.swing.JButton jButtonPrecedent;
+    private javax.swing.JButton jButtonQuitter;
     private javax.swing.JButton jButtonSuivant;
     private javax.swing.JComboBox jComboBoxChercher;
     private javax.swing.JComboBox jComboBoxLabo;
     private javax.swing.JComboBox jComboBoxSecteur;
     private javax.swing.JLabel jLabelAdresse;
     private javax.swing.JLabel jLabelBackground;
-    private javax.swing.JLabel jLabelChercher;
+    private javax.swing.JLabel jLabelChercher1;
     private javax.swing.JLabel jLabelChercherVisiteurs;
     private javax.swing.JLabel jLabelLabo;
     private javax.swing.JLabel jLabelNom;
     private javax.swing.JLabel jLabelPrenom;
+    private javax.swing.JLabel jLabelRechercher;
     private javax.swing.JLabel jLabelSecteur;
     private javax.swing.JLabel jLabelVille;
     private javax.swing.JPanel jPanel1;
@@ -342,6 +371,7 @@ public class VueVisiteur extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldCodePostal;
     private javax.swing.JTextField jTextFieldNom;
     private javax.swing.JTextField jTextFieldPrenom;
+    private javax.swing.JTextField jTextFieldRechercher;
     private javax.swing.JTextField jTextFieldVille;
     // End of variables declaration//GEN-END:variables
 }

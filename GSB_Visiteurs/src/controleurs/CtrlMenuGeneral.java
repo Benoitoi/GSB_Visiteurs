@@ -5,25 +5,27 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JOptionPane;
-import vues.*;
+import vues.VueMenuGeneral;
 
 /**
- * @author bjaouen
+ * @author kcloarec
  * @version 7/12/2016 - 1.0
  */
 public class CtrlMenuGeneral implements WindowListener {
-    
+
     private VueMenuGeneral vue; // LA VUE
+    private CtrlPrincipal ctrlPrincipal;
     private Ecouteur ecouteur = new Ecouteur(); //L'écouteur
 
-    public CtrlMenuGeneral(VueMenuGeneral vue) {
+    public CtrlMenuGeneral(VueMenuGeneral vue, CtrlPrincipal ctrl) {
         this.vue = vue;
+        this.ctrlPrincipal = ctrl;
         // le contrôleur écoute la vue
         this.vue.addWindowListener(this);
         // ajout des check box de la vue au listener
         vue.getjCheckBoxComptesRendus().addActionListener(ecouteur);
         vue.getjCheckBoxMedicaments().addActionListener(ecouteur);
-        vue.getjCheckBoxPracticiens().addActionListener(ecouteur);
+        vue.getjCheckBoxPraticiens().addActionListener(ecouteur);
         vue.getjCheckBoxVisiteurs().addActionListener(ecouteur);
         vue.getjCheckBoxQuitter().addActionListener(ecouteur);
         vue.getjCheckBoxDeconnection().addActionListener(ecouteur);
@@ -31,77 +33,48 @@ public class CtrlMenuGeneral implements WindowListener {
 
     // contrôle de la vue
     private class Ecouteur implements ActionListener {
-    @Override
+
+        @Override
         public void actionPerformed(ActionEvent evenement) {
-//            if (evenement.getSource() == vue.getjCheckBoxComptesRendus()) {
-//                vue.getjCheckBoxComptesRendus().setSelected(false);
-//                compteRendu();
-//            }
+            if (evenement.getSource() == vue.getjCheckBoxComptesRendus()) {
+                vue.getjCheckBoxComptesRendus().setSelected(false);
+                ctrlPrincipal.afficherCompteRendu();
+            }
             if (evenement.getSource() == vue.getjCheckBoxMedicaments()) {
                 vue.getjCheckBoxMedicaments().setSelected(false);
-                JOptionPane.showMessageDialog(null, "La fonctionnalité "+vue.getjCheckBoxMedicaments().getText()+ " n'est pas encore disponible.");
+                ctrlPrincipal.afficherMedicament(null);
+                //JOptionPane.showMessageDialog(null, "La fonctionnalité " + vue.getjCheckBoxMedicaments().getText() + " n'est pas encore disponible.");
             }
-            if (evenement.getSource() == vue.getjCheckBoxPracticiens()) {
-                vue.getjCheckBoxPracticiens().setSelected(false);
-                JOptionPane.showMessageDialog(null, "La fonctionnalité "+vue.getjCheckBoxPracticiens().getText()+ " n'est pas encore disponible.");
+            if (evenement.getSource() == vue.getjCheckBoxPraticiens()) {
+                vue.getjCheckBoxPraticiens().setSelected(false);
+                ctrlPrincipal.afficherPraticien(-1);
+                //JOptionPane.showMessageDialog(null, "La fonctionnalité " + vue.getjCheckBoxPraticiens().getText() + " n'est pas encore disponible.");
             }
             if (evenement.getSource() == vue.getjCheckBoxVisiteurs()) {
                 vue.getjCheckBoxVisiteurs().setSelected(false);
-                visiteur();
+                ctrlPrincipal.afficherVisiteur();
             }
             if (evenement.getSource() == vue.getjCheckBoxDeconnection()) {
                 vue.getjCheckBoxDeconnection().setSelected(false);
-                deconnection();
+                // Confirmer avant de se déconnecter
+                int rep = JOptionPane.showConfirmDialog(getVue(), "Se déconnecter\nEtes-vous sûr(e) ?", "GSB - Visiteurs", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (rep == JOptionPane.YES_OPTION) {
+                    // se déconnecter
+                    ctrlPrincipal.afficherConnexion();
+                }
             }
             if (evenement.getSource() == vue.getjCheckBoxQuitter()) {
                 vue.getjCheckBoxQuitter().setSelected(false);
-                quitter();
+                ctrlPrincipal.quitterApplication();
             }
         }
     }
-    /**
-     * Ouvrir l'affichage des visiteurs
-     */
-    public void visiteur(){
-        //
-        VueVisiteur uneVue = new VueVisiteur();
-        CtrlVisiteur unControleur = new CtrlVisiteur(uneVue);
-        // afficher la vue
-        uneVue.setVisible(true);
-        vue.dispose();
-    }
-    /**
-     * Se déconnecter, après demande de confirmation
-     */
-    public void deconnection(){
-        // Confirmer avant de se déconnecter
-        int rep = JOptionPane.showConfirmDialog(getVue(), "Se déconnecter\nEtes-vous sûr(e) ?", "GSB - Visiteurs", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (rep == JOptionPane.YES_OPTION) {
-            // se déconnecter
-            VueConnexion uneVue = new VueConnexion();
-            CtrlConnexion unControleur = new CtrlConnexion(uneVue);
-            // afficher la vue
-            uneVue.setVisible(true);
-            vue.dispose();
-        }
-    }
-    /**
-     * Quitter l'application, après demande de confirmation
-     */
-    private void quitter() {
-        // Confirmer avant de quitter
-        int rep = JOptionPane.showConfirmDialog(getVue(), "Quitter l'application\nEtes-vous sûr(e) ?", "GSB - Visiteurs", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (rep == JOptionPane.YES_OPTION) {
-            // mettre fin à l'application
-            System.exit(0);
-        }
-    }
-
+    
     // ACCESSEURS et MUTATEURS
     public VueMenuGeneral getVue() {
         return vue;
     }
-    
+
     public void setVue(VueMenuGeneral vue) {
         this.vue = vue;
     }
@@ -110,30 +83,30 @@ public class CtrlMenuGeneral implements WindowListener {
     @Override
     public void windowOpened(WindowEvent e) {
     }
-    
+
     @Override
-    public void windowClosing(WindowEvent e) {        
-        quitter();
+    public void windowClosing(WindowEvent e) {
+        ctrlPrincipal.quitterApplication();
     }
-    
+
     @Override
     public void windowClosed(WindowEvent e) {
     }
-    
+
     @Override
     public void windowIconified(WindowEvent e) {
     }
-    
+
     @Override
     public void windowDeiconified(WindowEvent e) {
     }
-    
+
     @Override
     public void windowActivated(WindowEvent e) {
     }
-    
+
     @Override
     public void windowDeactivated(WindowEvent e) {
     }
-    
+
 }

@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Classe représentant les adresses des clients de l'agence bancaire
+ * Classe représentant les visiteurs
  *
- * @author btssio
+ * @author kcloarec
  * @version 1.0 :
  *
  */
@@ -88,6 +88,14 @@ public class Visiteur implements Serializable {
         this.codePostal = codePostal;
     }
 
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+    
     public Date getDateEmbauche() {
         return dateEmbauche;
     }
@@ -112,111 +120,12 @@ public class Visiteur implements Serializable {
         this.codeLaboratoire = codeLaboratoire;
     }
     
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String toString() {
         return "Visiteur{" + "matricule=" + matricule + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", codePostal=" + codePostal + ", ville=" + ville + ", dateEmbauche=" + dateEmbauche + ", codeSecteur=" + codeSecteur + ", codeLaboratoire=" + codeLaboratoire + '}';
     }
-    
-    
-//    /**
-//     *
-//     * @return id : identifiant de l'adresse
-//     */
-//    public int getId() {
-//        return id;
-//    }
-//
-//    /**
-//     *
-//     * @param id : identifiant BDD de l'adresse
-//     */
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-//
-//    /**
-//     * Constructeur avec 3 paramètres : sans l'identifiant
-//     * @param rue
-//     * @param cp
-//     * @param ville
-//     */
-//    public Visiteur(String rue, String cp, String ville) {
-//        this.rue = rue;
-//        this.cp = cp;
-//        this.ville = ville;
-//    }
-//
-//    /**
-//     *
-//     * @return String attributs de l'adresse
-//     */
-//    @Override
-//    public String toString() {
-//        return ("Adresse{rue: " + this.getRue() + "\tcp: " + this.getCp() + "\tville: " + this.getVille()) + "}";
-//    }
-//
-//    /**
-//     *
-//     * @return
-//     */
-//    public String getRue() {
-//        return rue;
-//    }
-//
-//    /**
-//     *
-//     * @param String adresse
-//     */
-//    public void setRue(String adresse) {
-//        this.rue = adresse;
-//    }
-//
-//    /**
-//     *
-//     * @return String code postal
-//     */
-//    public String getCp() {
-//        return cp;
-//    }
-//
-//    /**
-//     *
-//     * @param cp
-//     */
-//    public void setCp(String cp) {
-//        this.cp = cp;
-//    }
-//
-//    /**
-//     *
-//     * @return
-//     */
-//    public String getVille() {
-//        return ville;
-//    }
-//
-//    /**
-//     *
-//     * @param ville
-//     */
-//    public void setVille(String ville) {
-//        this.ville = ville;
-//    }
-//    
-//    /**
-//     * Redéfinition de la méthode equals
-//     * 
-//     * @param adresse
-//     * @return true si 2 adresses ont le même identifiant BDD
-//     */
-//    @Override
-//    public boolean equals(Object adresse) {
-//        if (adresse == null) {
-//            return false;
-//        } else if (adresse instanceof Visiteur) {
-//            return this.id == ((Visiteur) adresse).id;
-//        } else {
-//            return false;
-//        }
-//    }
 }

@@ -6,13 +6,14 @@
 package vues;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
  *
- * @author btssio
+ * @author tlauterbach
  */
 public class VueConnexion extends javax.swing.JFrame {
 
@@ -42,9 +43,11 @@ public class VueConnexion extends javax.swing.JFrame {
         jLabelCheckLogin = new javax.swing.JLabel();
         jLabelCheckMdp = new javax.swing.JLabel();
         jButtonChangeBdd = new javax.swing.JButton();
+        jCheckBoxSouvenirId = new javax.swing.JCheckBox();
+        jCheckBoxSouvenirMdp = new javax.swing.JCheckBox();
         jLabelBackground = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Identifiez-vous");
         setResizable(false);
 
@@ -67,6 +70,11 @@ public class VueConnexion extends javax.swing.JFrame {
         jButtonQuitter.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonQuitter.setForeground(new java.awt.Color(0, 0, 153));
         jButtonQuitter.setText("Quitter");
+        jButtonQuitter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonQuitterActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButtonQuitter);
         jButtonQuitter.setBounds(580, 430, 90, 23);
         jPanel1.add(jPasswordMdp);
@@ -88,6 +96,14 @@ public class VueConnexion extends javax.swing.JFrame {
         jPanel1.add(jButtonChangeBdd);
         jButtonChangeBdd.setBounds(20, 420, 190, 23);
 
+        jCheckBoxSouvenirId.setText("Se souvenir");
+        jPanel1.add(jCheckBoxSouvenirId);
+        jCheckBoxSouvenirId.setBounds(540, 140, 130, 30);
+
+        jCheckBoxSouvenirMdp.setText("Se souvenir");
+        jPanel1.add(jCheckBoxSouvenirMdp);
+        jCheckBoxSouvenirMdp.setBounds(540, 180, 130, 30);
+
         jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Documents\\NetBeansProjects\\GSB_Visiteurs\\GSB_Visiteurs\\images\\gsb_background.png")); // NOI18N
         jPanel1.add(jLabelBackground);
         jLabelBackground.setBounds(0, 0, 700, 480);
@@ -105,6 +121,10 @@ public class VueConnexion extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonQuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonQuitterActionPerformed
 
     public JButton getjButtonOk() {
         return jButtonOk;
@@ -137,6 +157,16 @@ public class VueConnexion extends javax.swing.JFrame {
     public JButton getjButtonChangeBdd() {
         return jButtonChangeBdd;
     }
+
+    public JCheckBox getjCheckBoxSouvenirId() {
+        return jCheckBoxSouvenirId;
+    }
+
+    public JCheckBox getjCheckBoxSouvenirMdp() {
+        return jCheckBoxSouvenirMdp;
+    }
+    
+    
     
     /**
      * @param args the command line arguments
@@ -178,6 +208,8 @@ public class VueConnexion extends javax.swing.JFrame {
     private javax.swing.JButton jButtonChangeBdd;
     private javax.swing.JButton jButtonOk;
     private javax.swing.JButton jButtonQuitter;
+    private javax.swing.JCheckBox jCheckBoxSouvenirId;
+    private javax.swing.JCheckBox jCheckBoxSouvenirMdp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelBackground;
     private javax.swing.JLabel jLabelCheckLogin;

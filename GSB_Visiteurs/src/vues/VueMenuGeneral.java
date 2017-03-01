@@ -9,7 +9,7 @@ import javax.swing.JCheckBox;
 
 /**
  *
- * @author btssio
+ * @author pnoel
  */
 public class VueMenuGeneral extends javax.swing.JFrame {
 
@@ -33,13 +33,13 @@ public class VueMenuGeneral extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jCheckBoxComptesRendus = new javax.swing.JCheckBox();
         jCheckBoxVisiteurs = new javax.swing.JCheckBox();
-        jCheckBoxPracticiens = new javax.swing.JCheckBox();
+        jCheckBoxPraticiens = new javax.swing.JCheckBox();
         jCheckBoxMedicaments = new javax.swing.JCheckBox();
         jCheckBoxQuitter = new javax.swing.JCheckBox();
         jCheckBoxDeconnection = new javax.swing.JCheckBox();
         jLabelBackground = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Gestion des comptes rendus");
         setResizable(false);
 
@@ -63,11 +63,16 @@ public class VueMenuGeneral extends javax.swing.JFrame {
         jPanel1.add(jCheckBoxVisiteurs);
         jCheckBoxVisiteurs.setBounds(220, 200, 90, 23);
 
-        jCheckBoxPracticiens.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jCheckBoxPracticiens.setForeground(new java.awt.Color(0, 0, 153));
-        jCheckBoxPracticiens.setText("Practiciens");
-        jPanel1.add(jCheckBoxPracticiens);
-        jCheckBoxPracticiens.setBounds(220, 240, 100, 23);
+        jCheckBoxPraticiens.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jCheckBoxPraticiens.setForeground(new java.awt.Color(0, 0, 153));
+        jCheckBoxPraticiens.setText("Praticiens");
+        jCheckBoxPraticiens.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxPraticiensActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jCheckBoxPraticiens);
+        jCheckBoxPraticiens.setBounds(220, 240, 100, 23);
 
         jCheckBoxMedicaments.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCheckBoxMedicaments.setForeground(new java.awt.Color(0, 0, 153));
@@ -105,40 +110,45 @@ public class VueMenuGeneral extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(VueMenuGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(VueMenuGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(VueMenuGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(VueMenuGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new VueMenuGeneral().setVisible(true);
-//            }
-//        });
-//    }
+    private void jCheckBoxPraticiensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPraticiensActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxPraticiensActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(VueMenuGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(VueMenuGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(VueMenuGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(VueMenuGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new VueMenuGeneral().setVisible(true);
+            }
+        });
+    }
+    
     public JCheckBox getjCheckBoxComptesRendus() {
         return jCheckBoxComptesRendus;
     }
@@ -147,8 +157,8 @@ public class VueMenuGeneral extends javax.swing.JFrame {
         return jCheckBoxMedicaments;
     }
     
-    public JCheckBox getjCheckBoxPracticiens() {
-        return jCheckBoxPracticiens;
+    public JCheckBox getjCheckBoxPraticiens() {
+        return jCheckBoxPraticiens;
     }
     
     public JCheckBox getjCheckBoxVisiteurs() {
@@ -168,7 +178,7 @@ public class VueMenuGeneral extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBoxComptesRendus;
     private javax.swing.JCheckBox jCheckBoxDeconnection;
     private javax.swing.JCheckBox jCheckBoxMedicaments;
-    private javax.swing.JCheckBox jCheckBoxPracticiens;
+    private javax.swing.JCheckBox jCheckBoxPraticiens;
     private javax.swing.JCheckBox jCheckBoxQuitter;
     private javax.swing.JCheckBox jCheckBoxVisiteurs;
     private javax.swing.JLabel jLabel1;

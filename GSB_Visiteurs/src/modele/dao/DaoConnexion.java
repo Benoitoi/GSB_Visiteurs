@@ -1,131 +1,122 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modele.dao;
 
+import gsb_visiteurs.Connexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import modele.metier.Visiteur;
 
 /**
  *
- * @author Benoit
+ * @author tlauterbach
  */
 public class DaoConnexion {
-    
+
     /**
-    * Verification de l'authentification sur le nom et la date d'embauche pour accéder aux fonctionnalités de l'application
-    * @param login identifiant (String chaine de caractere)
-    * @param mdp mot de passe (String chaine de caractere)
-    * @return boolean true si l'authentification est bonne false si elle ne l'est pas
-    * @throws SQLException 
-    */
-    
+     * Verification de l'authentification sur le nom et la date d'embauche pour
+     * accéder aux fonctionnalités de l'application
+     *
+     * @param login identifiant (String chaine de caractere)
+     * @param mdp mot de passe (String chaine de caractere)
+     * @return code (int entier) : 11 si le login et le mot de passe sont
+     * corrects 10 si seul le login est correct 0 (00) si les deux ne sont pas
+     * corrects
+     * @throws SQLException
+     */
     public static int verifierInfosConnexion(String login, String mdp) throws SQLException {
-        int code = -1;
+        int code;
         boolean bonMdp = false;
         boolean bonLogin = false;
-        boolean succes = false;
-        String formatMdp = null;
         java.sql.Date sqlDate = null;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        try{
-            Date date = new Date(mdp); 
+        try {
+            Date date = new Date(mdp);
             sqlDate = new java.sql.Date(date.getTime());
-            formatMdp = formatter.format(sqlDate).toUpperCase();
-            date = new Date(formatMdp); 
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String formatMdp = formatter.format(sqlDate).toUpperCase();
+            date = new Date(formatMdp);
             sqlDate = new java.sql.Date(date.getTime());
-        }catch(Exception e){
+        } catch (Exception e) {
+            //Si le mot de passe est sous forme d'une date incorrecte la convertion de date ne marchera pas
             System.out.println("Mauvais mot de passe !");
-        }        
-        String requete;
-        ResultSet rs;
-        PreparedStatement pstmt;
-        requete = "SELECT * FROM VISITEUR";
-        pstmt = Jdbc.getConnexion().prepareStatement(requete);
-//        pstmt.setString(1, login);
-//        pstmt.setString(2, mdp);
-        rs = pstmt.executeQuery();
-        while (rs.next() && !succes) {
-            //String formatEmbauche = formatter.format(rs.getDate("vis_dateembauche")).toUpperCase();
-            try{
-                //bonMdp = sqlDate.equals(formatEmbauche);
-                
-                bonMdp = sqlDate.equals(rs.getDate("vis_dateembauche"));
-            }catch(Exception e){
-                
+        }
+        Jdbc jdbc = Connexion.getInstance();
+        String requete = "SELECT VIS_NOM FROM VISITEUR WHERE VIS_NOM = ?";
+        PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);
+        pstmt.setString(1, login);
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            bonLogin = true;
+            requete = "SELECT VIS_NOM, VIS_DATEEMBAUCHE FROM VISITEUR WHERE VIS_NOM = ? AND VIS_DATEEMBAUCHE = ?";
+            pstmt = jdbc.getConnexion().prepareStatement(requete);
+            pstmt.setString(1, login);
+            pstmt.setDate(2, sqlDate);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                bonMdp = true;
             }
-            try{
-                bonLogin = login.equals(rs.getString("vis_nom"));
-            }catch(Exception e){
-                
+        } else {
+            requete = "SELECT VIS_DATEEMBAUCHE FROM VISITEUR WHERE VIS_DATEEMBAUCHE = ?";
+            pstmt = jdbc.getConnexion().prepareStatement(requete);
+            pstmt.setDate(1, sqlDate);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                bonMdp = true;
             }
-            if (bonLogin) {
-                if (bonMdp) {
-                    code = 11;
-                    System.out.println("Logged in!");
-                    succes = true;
-                } else {
-                    code = 10;
-                    System.out.println("Password did not match username!");
-                }
+        }
+
+        if (bonLogin) {
+            if (bonMdp) {
+                code = 11;
+                System.out.println("Bienvenue!");
             } else {
-                if (!bonMdp) {
-                    code = 00;//0
-                    System.out.println("Username and password did not match the database");
-                } else {
-                    code = 01;//1
-                    System.out.println("Username did not match the database");
-                }
+                code = 10;
+                System.out.println("Mauvais mot de passe.");
+            }
+        } else {
+            if (!bonMdp) {
+                code = 00;//sera lu comme 0
+                System.out.println("Login et mot de passe incorrects.");
+            } else {
+                code = 01;//sera lu comme 1
+                System.out.println("Login incorrect");
             }
         }
         return code;
     }
-    
-//    /**
-//     * Récupération de toutes les informations de l'utilisateur qui se connecte
-//     * @param nom nom du visiteur
-//     * @param dateEmbauche date d'embauche du visiteur
-//     * @return objet Visiteur
-//     * @throws SQLException 
-//     */
-    public static Visiteur getConnectedVisiteur(String login, String mdp) throws SQLException {
+
+    /**
+     * Récupération de toutes les informations de l'utilisateur qui se connecte
+     *
+     * @param leNom nom du visiteur
+     * @param laDateEmbauche date d'embauche du visiteur
+     * @return objet Visiteur
+     * @throws SQLException
+     */
+    public static Visiteur getConnectedVisiteur(String leNom, String laDateEmbauche) throws SQLException {
         Visiteur unVisiteur = null;
-        ResultSet rs;
-        PreparedStatement pstmt;
-        String formatMdp = null;
         java.sql.Date sqlDate = null;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        try{
-            Date date = new Date(mdp); 
+        try {
+            Date date = new Date(laDateEmbauche);
             sqlDate = new java.sql.Date(date.getTime());
-            formatMdp = formatter.format(sqlDate).toUpperCase();
-            date = new Date(formatMdp); 
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String formatMdp = formatter.format(sqlDate).toUpperCase();
+            date = new Date(formatMdp);
             sqlDate = new java.sql.Date(date.getTime());
-        }catch(Exception e){
+        } catch (Exception e) {
+            //normalement le mot de passe est correct ici mais on laisse quand meme l'exception au cas ou
             System.out.println("Mauvais mot de passe !");
-        }    
-//        try{
-//            Date date = new Date(mdp); 
-//            formatMdp = formatter.format(date);
-//        }catch(Exception e){
-//            System.out.println("Mauvais mot de passe !");
-//        } 
+        }
+
+        Jdbc jdbc = Connexion.getInstance();
         // préparer la requête
         String requete = "SELECT * FROM VISITEUR WHERE VIS_NOM = ? AND VIS_DATEEMBAUCHE = ?";
-        pstmt = Jdbc.getConnexion().prepareStatement(requete);
-        pstmt.setString(1, login);
+        PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);
+        pstmt.setString(1, leNom);
         pstmt.setDate(2, sqlDate);
-        rs = pstmt.executeQuery();
+        ResultSet rs = pstmt.executeQuery();
         if (rs.next()) {
             String matricule = rs.getString("VIS_MATRICULE");
             String nom = rs.getString("VIS_NOM");
