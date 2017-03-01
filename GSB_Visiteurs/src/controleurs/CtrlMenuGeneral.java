@@ -38,17 +38,18 @@ public class CtrlMenuGeneral implements WindowListener {
         public void actionPerformed(ActionEvent evenement) {
             if (evenement.getSource() == vue.getjCheckBoxComptesRendus()) {
                 vue.getjCheckBoxComptesRendus().setSelected(false);
-                ctrlPrincipal.afficherCompteRendu();
+                //ctrlPrincipal.afficherCompteRendu();
+                JOptionPane.showMessageDialog(null, "La fonctionnalité " + vue.getjCheckBoxComptesRendus().getText() + " n'est pas encore disponible.");
             }
             if (evenement.getSource() == vue.getjCheckBoxMedicaments()) {
                 vue.getjCheckBoxMedicaments().setSelected(false);
-                ctrlPrincipal.afficherMedicament(null);
-                //JOptionPane.showMessageDialog(null, "La fonctionnalité " + vue.getjCheckBoxMedicaments().getText() + " n'est pas encore disponible.");
+                //ctrlPrincipal.afficherMedicament(null);
+                JOptionPane.showMessageDialog(null, "La fonctionnalité " + vue.getjCheckBoxMedicaments().getText() + " n'est pas encore disponible.");
             }
             if (evenement.getSource() == vue.getjCheckBoxPraticiens()) {
                 vue.getjCheckBoxPraticiens().setSelected(false);
-                ctrlPrincipal.afficherPraticien(-1);
-                //JOptionPane.showMessageDialog(null, "La fonctionnalité " + vue.getjCheckBoxPraticiens().getText() + " n'est pas encore disponible.");
+                //ctrlPrincipal.afficherPraticien(-1);
+                JOptionPane.showMessageDialog(null, "La fonctionnalité " + vue.getjCheckBoxPraticiens().getText() + " n'est pas encore disponible.");
             }
             if (evenement.getSource() == vue.getjCheckBoxVisiteurs()) {
                 vue.getjCheckBoxVisiteurs().setSelected(false);
