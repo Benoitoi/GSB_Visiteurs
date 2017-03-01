@@ -9,9 +9,9 @@ package modele.metier;
  */
 
 public class Laboratoire {
-    String codeLaboratoire;
-    String nomLaboratoire;
-    String chefDeVente;
+    private String codeLaboratoire;
+    private String nomLaboratoire;
+    private String chefDeVente;
 
     public Laboratoire(String codeLaboratoire, String nomLaboratoire, String chefDeVente) {
         this.codeLaboratoire = codeLaboratoire;

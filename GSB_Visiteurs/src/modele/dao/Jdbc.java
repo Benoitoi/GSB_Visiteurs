@@ -1,6 +1,5 @@
 package modele.dao;
 
-import gsb_visiteurs.Connexion;
 import java.sql.*;
 
 /**

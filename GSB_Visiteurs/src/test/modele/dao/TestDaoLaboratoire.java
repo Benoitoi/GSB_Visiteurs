@@ -4,19 +4,19 @@ import controleurs.CtrlVisiteur;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import modele.dao.DaoVisiteur;
+import modele.dao.DaoLaboratoire;
 
 /**
  *
  * @author btssio
  */
-public class TestDaoVisiteur {
+public class TestDaoLaboratoire {
 
     public static void main(String[] args) {
         System.out.println("Test DaoVisiteur\n");
         try {
-            System.out.println("Test 1 : obtenir tous les visiteurs");
-            System.out.println(DaoVisiteur.getAllVisiteurs());
+            System.out.println("Test 1 : obtenir tous les laboratoires");
+            System.out.println(DaoLaboratoire.getAllLaboratoires());
         } catch (SQLException ex) {
             Logger.getLogger(CtrlVisiteur.class.getName()).log(Level.SEVERE, null, ex);
         }

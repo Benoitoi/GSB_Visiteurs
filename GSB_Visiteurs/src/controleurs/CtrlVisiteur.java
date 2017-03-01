@@ -19,6 +19,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import modele.dao.DaoLaboratoire;
+import modele.dao.DaoSecteur;
 import modele.dao.DaoVisiteur;
 import modele.metier.Laboratoire;
 import modele.metier.Secteur;
@@ -51,7 +53,7 @@ public class CtrlVisiteur implements WindowListener {
      * @param vue
      * @param ctrl
      */
-    public CtrlVisiteur(VueVisiteur vue, CtrlPrincipal ctrl) {
+    public CtrlVisiteur(final VueVisiteur vue, CtrlPrincipal ctrl) {
         this.ecouteur = new Ecouteur();
         this.vue = vue;
         this.ctrlPrincipal = ctrl;
@@ -222,7 +224,7 @@ public class CtrlVisiteur implements WindowListener {
         remplirJComboBoxVisiteurs();
 
         try {
-            lesSecteurs = DaoVisiteur.getAllSecteurs();
+            lesSecteurs = DaoSecteur.getAllSecteurs();
         } catch (SQLException ex) {
             Logger.getLogger(CtrlVisiteur.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -233,7 +235,7 @@ public class CtrlVisiteur implements WindowListener {
         }
 
         try {
-            lesLaboratoires = DaoVisiteur.getAllLaboratoires();
+            lesLaboratoires = DaoLaboratoire.getAllLaboratoires();
         } catch (SQLException ex) {
             Logger.getLogger(CtrlVisiteur.class.getName()).log(Level.SEVERE, null, ex);
         }

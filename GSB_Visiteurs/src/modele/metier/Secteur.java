@@ -7,10 +7,10 @@ package modele.metier;
  * @version 1.0 :
  *
  */
-
 public class Secteur {
-    String codeSecteur;
-    String libelleSecteur;
+
+    private String codeSecteur;
+    private String libelleSecteur;
 
     public Secteur(String codeSecteur, String libelleSecteur) {
         this.codeSecteur = codeSecteur;

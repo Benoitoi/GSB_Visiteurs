@@ -1,6 +1,5 @@
 package test.modele.metier;
 
-import java.util.Date;
 import modele.metier.Secteur;
 
 /**

@@ -1,6 +1,5 @@
 package controleurs;
 
-import gsb_visiteurs.Connexion;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -177,18 +177,20 @@ public class CtrlConnexion implements WindowListener {
     private void displaySavedData() {
         ObjectInputStream ois = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream("login.data"));
+            ois = new ObjectInputStream(new FileInputStream("logins.data"));
             String login = (String) ois.readObject();
             vue.getjTextFieldLogin().setText(login);
             if (!login.equals("")) {
                 vue.getjCheckBoxSouvenirId().setSelected(true);
             }
-            ois = new ObjectInputStream(new FileInputStream("mdp.data"));
+            ois = new ObjectInputStream(new FileInputStream("mdps.data"));
             String mdp = (String) ois.readObject();
             vue.getjPasswordMdp().setText(mdp);
             if (!mdp.equals("")) {
                 vue.getjCheckBoxSouvenirMdp().setSelected(true);
             }
+        }catch (FileNotFoundException fnfe){
+            Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, fnfe);
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

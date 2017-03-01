@@ -43,47 +43,4 @@ public class DaoVisiteur {
         }
         return lesVisiteurs;
     }
-
-    /**
-     * Extraction de tous les secteurs
-     * 
-     * @return ArrayList<Secteur> : collection de secteurs
-     * @throws SQLException 
-     */
-    public static ArrayList<Secteur> getAllSecteurs() throws SQLException {
-        ArrayList<Secteur> lesSecteurs = new ArrayList<>();
-        Jdbc jdbc = Connexion.getInstance();
-        //préparer la requête
-        String requete = "SELECT * FROM SECTEUR";
-        PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);
-        ResultSet rs = pstmt.executeQuery();
-        while (rs.next()) {
-            String code = rs.getString("SEC_CODE");
-            String libelle = rs.getString("SEC_LIBELLE");
-            lesSecteurs.add(new Secteur(code, libelle));
-        }
-        return lesSecteurs;
-    }
-
-    /**
-     * Extraction de tous les laboratoires
-     * 
-     * @return ArrayList<Laboratoire> : collection de laboratoires
-     * @throws SQLException 
-     */
-    public static ArrayList<Laboratoire> getAllLaboratoires() throws SQLException {
-        ArrayList<Laboratoire> lesLaboratoires = new ArrayList<>();
-        Jdbc jdbc = Connexion.getInstance();
-        //préparer la requête
-        String requete = "SELECT * FROM LABO";
-        PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);
-        ResultSet rs = pstmt.executeQuery();
-        while (rs.next()) {
-            String code = rs.getString("LAB_CODE");
-            String nom = rs.getString("LAB_NOM");
-            String chefDeVente = rs.getString("LAB_CHEFVENTE");
-            lesLaboratoires.add(new Laboratoire(code, nom, chefDeVente));
-        }
-        return lesLaboratoires;
-    }
 }
