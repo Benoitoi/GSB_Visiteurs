@@ -32,4 +32,27 @@ public class DaoSecteur {
         }
         return lesSecteurs;
     }
+
+    /**
+     * Extraction d'un secteur selon son code
+     *
+     * @param codeSecteur
+     * @return leSecteurs
+     * @throws SQLException
+     */
+    public static Secteur getOneByCode(String codeSecteur) throws SQLException {
+        Secteur leSecteurs = null;
+        Jdbc jdbc = Jdbc.getInstance();
+        //préparer la requête
+        String requete = "SELECT * FROM SECTEUR WHERE SEC_CODE= ?";
+        PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);
+        pstmt.setString(1, codeSecteur);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            String code = rs.getString("SEC_CODE");
+            String libelle = rs.getString("SEC_LIBELLE");
+            leSecteurs = new Secteur(code, libelle);
+        }
+        return leSecteurs;
+    }
 }
