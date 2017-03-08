@@ -1,5 +1,6 @@
 package controleurs;
 
+import gsb_visiteurs.Connexion;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +27,7 @@ import javax.swing.event.DocumentListener;
 import vues.VueConnexion;
 import modele.dao.DaoConnexion;
 import modele.metier.Visiteur;
+import util.FileReader;
 
 /**
  * @author bjaouen
@@ -40,6 +42,9 @@ public class CtrlConnexion implements WindowListener {
     private boolean mdpFocused = false;
     private boolean loginCorrect = false;
     private boolean mdpCorrect = false;
+    private int bddSelected = -1;
+    private final String PROD_BDD = "oracleProduction";
+    private  final  String DEV_BDD = "oracleExpress";
 
     /**
      *
@@ -57,6 +62,7 @@ public class CtrlConnexion implements WindowListener {
         vue.getjButtonOk().addActionListener(ecouteur);
         vue.getjButtonQuitter().addActionListener(ecouteur);
         vue.getjButtonChangeBdd().addActionListener(ecouteur);
+        vue.getjCheckBoxAfficher().addActionListener(ecouteur);
 
         //paramétrage des composant a selectionné lors d'une tabulation pour rendre plus rapide la saisie
         vue.getjTextFieldLogin().setNextFocusableComponent(vue.getjPasswordMdp());
@@ -65,10 +71,11 @@ public class CtrlConnexion implements WindowListener {
         //REMPLISSAGE AUTOMATIQUE DES IDENTIFIANTS POUR LES TESTS
         //vue.getjTextFieldLogin().setText("swiss");
         //vue.getjPasswordMdp().setText("18-jun-2003");
-        
         //affichée les données sauvegardées
         displaySavedData();
-                
+
+        checkSelectedBdd();
+
         vue.getjTextFieldLogin().addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent ke) {
@@ -116,7 +123,6 @@ public class CtrlConnexion implements WindowListener {
          checkMdp();
          }
          });*/
-        
         vue.getjTextFieldLogin().addFocusListener(new FocusListener() {
 
             @Override
@@ -153,7 +159,9 @@ public class CtrlConnexion implements WindowListener {
 
             @Override
             public void mouseReleased(MouseEvent me) {
-                vue.getjPasswordMdp().setEchoChar('•');
+                if (!vue.getjCheckBoxAfficher().isSelected()) {
+                    vue.getjPasswordMdp().setEchoChar('•');
+                }
             }
 
             @Override
@@ -177,19 +185,19 @@ public class CtrlConnexion implements WindowListener {
     private void displaySavedData() {
         ObjectInputStream ois = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream("logins.data"));
+            ois = new ObjectInputStream(new FileInputStream("login.data"));
             String login = (String) ois.readObject();
             vue.getjTextFieldLogin().setText(login);
             if (!login.equals("")) {
                 vue.getjCheckBoxSouvenirId().setSelected(true);
             }
-            ois = new ObjectInputStream(new FileInputStream("mdps.data"));
+            ois = new ObjectInputStream(new FileInputStream("mdp.data"));
             String mdp = (String) ois.readObject();
             vue.getjPasswordMdp().setText(mdp);
             if (!mdp.equals("")) {
                 vue.getjCheckBoxSouvenirMdp().setSelected(true);
             }
-        }catch (FileNotFoundException fnfe){
+        } catch (FileNotFoundException fnfe) {
             Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, fnfe);
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,25 +216,77 @@ public class CtrlConnexion implements WindowListener {
      *
      */
     private void changeBdd() {
-        String ObjButtons[] = {"ORACLE eXpress", "ORACLE Production"};
-        int PromptResult = JOptionPane.showOptionDialog(getVue(), "Choissiez la base de donnée sur laquelle exécuter l'application :", "Changement base de donnée", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, ObjButtons, ObjButtons[1]);
+        String[] options = null;
+        if (bddSelected == 1) {
+            options = new String[]{"ORACLE eXpress"};
+        } else if (bddSelected == 0) {
+            options = new String[]{"ORACLE Production"};
+        } else {
+            options = new String[]{"ORACLE eXpress", "ORACLE Production"};
+        }
+        String ObjButtons[] = options;
+        int PromptResult = JOptionPane.showOptionDialog(getVue(), "Choissiez la base de donnée sur laquelle exécuter l'application :", "Changement base de donnée", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, ObjButtons, ObjButtons);
         if (PromptResult == JOptionPane.YES_OPTION) {
-            String oracleBDD = "oracleExpress";
-            try {
-                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("OracleBDD.data"));
-                oos.writeObject(oracleBDD);
-            } catch (IOException ex) {
-                Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            doChange(bddSelected);
         } else if (PromptResult == JOptionPane.NO_OPTION) {
-            String oracleBDD = "oracleProduction";
+            doChange(bddSelected);
+        }
+    }
+
+    private void doChange(int bdd) {
+        if (bdd == 1) {
+            bddSelected = 0;
+            write(DEV_BDD);
+            vue.getjLabelBaseDeDonnee().setText(DEV_BDD);
+        } else {
+            bddSelected = 1;
+            vue.getjLabelBaseDeDonnee().setText(PROD_BDD);
+            write(PROD_BDD);
+        }
+        ctrlPrincipal.doWait(true, vue);
+        Connexion.lancerConnexion();
+
+        ctrlPrincipal.doWait(false, vue);
+
+    }
+
+    private void write(String oracleBDD) {
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream("OracleBDD.data"));
+            oos.writeObject(oracleBDD);
+        } catch (IOException ex) {
+            Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
             try {
-                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("OracleBDD.data"));
-                oos.writeObject(oracleBDD);
+                if (oos != null) {
+                    oos.close();
+                }
             } catch (IOException ex) {
                 Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+
+    private ObjectInputStream read() {
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(new FileInputStream("OracleBDD.data"));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ois;
+    }
+
+    private void close(ObjectInputStream ois) {
+        try {
+            if (ois != null) {
+                ois.close();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -292,12 +352,42 @@ public class CtrlConnexion implements WindowListener {
             if (evenement.getSource() == vue.getjButtonChangeBdd()) {
                 changeBdd();
             }
+            if (evenement.getSource() == vue.getjCheckBoxAfficher()) {
+                if (vue.getjCheckBoxAfficher().isSelected()) {
+                    vue.getjButtonAfficherMdp().setEnabled(false);
+                    vue.getjPasswordMdp().setEchoChar((char) 0);
+                } else {
+                    vue.getjButtonAfficherMdp().setEnabled(true);
+                    vue.getjPasswordMdp().setEchoChar('•');
+                }
+            }
         }
     }
 
-    private void checkSelectedBdd(){
-        
+    private void checkSelectedBdd() {
+        try {
+            String bdd = (String) read().readObject();
+            if (bdd != null) {
+                switch (bdd) {
+                    case DEV_BDD:
+                        vue.getjLabelBaseDeDonnee().setText(DEV_BDD);
+                        bddSelected = 0;
+                        break;
+                    case PROD_BDD:
+                        vue.getjLabelBaseDeDonnee().setText(PROD_BDD);
+                        bddSelected = 1;
+                        break;
+                    default:
+                        vue.getjLabelBaseDeDonnee().setText("Aucune base de donnée sélectionnée");
+                        bddSelected = -1;
+                        break;
+                }
+            }
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
     /**
      * Tentative de connection
      */
@@ -312,17 +402,17 @@ public class CtrlConnexion implements WindowListener {
         String login = vue.getjTextFieldLogin().getText().replaceAll("\\s{2,}", "").trim();
         String mdp = vue.getjPasswordMdp().getText().replaceAll("\\s{2,}", "").trim();
         if (mdp.equals("") && login.equals("")) {
-            JOptionPane.showMessageDialog(null, "Veuillez spécifier votre login et votre mot de passe.");
+            JOptionPane.showMessageDialog(vue, "Veuillez spécifier votre login et votre mot de passe.");
             vue.getjTextFieldLogin().requestFocus();
             vue.getjTextFieldLogin().selectAll();
         } else if (mdp.equals("")) {
             if (!loginFocused) {
-                JOptionPane.showMessageDialog(null, "Veuillez spécifier votre mot de passe.");
+                JOptionPane.showMessageDialog(vue, "Veuillez spécifier votre mot de passe.");
             }
             vue.getjPasswordMdp().requestFocus();
             vue.getjPasswordMdp().selectAll();
         } else if (login.equals("")) {
-            JOptionPane.showMessageDialog(null, "Veuillez spécifier votre login.");
+            JOptionPane.showMessageDialog(vue, "Veuillez spécifier votre login.");
             vue.getjTextFieldLogin().requestFocus();
             vue.getjTextFieldLogin().selectAll();
         } else {
@@ -332,15 +422,15 @@ public class CtrlConnexion implements WindowListener {
                 if (code == 11) {//bon login et mdp
                     openApp();
                 } else if (code == 0) {//mauvais login et mdp
-                    JOptionPane.showMessageDialog(null, "Votre login et votre mot de passe ne sont pas corrects.");
+                    JOptionPane.showMessageDialog(vue, "Votre login et votre mot de passe ne sont pas corrects.");
                     vue.getjTextFieldLogin().requestFocus();
                     vue.getjTextFieldLogin().selectAll();
                 } else if (code == 1) {//mauvais login bon mdp
-                    JOptionPane.showMessageDialog(null, "Votre login est incorrect.");
+                    JOptionPane.showMessageDialog(vue, "Votre login est incorrect.");
                     vue.getjTextFieldLogin().requestFocus();
                     vue.getjTextFieldLogin().selectAll();
                 } else if (code == 10) {//bon login mauvais mdp
-                    JOptionPane.showMessageDialog(null, "Votre mot de passe est incorrect.");
+                    JOptionPane.showMessageDialog(vue, "Votre mot de passe est incorrect.");
                     vue.getjPasswordMdp().requestFocus();
                     vue.getjPasswordMdp().selectAll();
                 }
@@ -348,7 +438,7 @@ public class CtrlConnexion implements WindowListener {
                 checkMdp();
 
             } catch (SQLException ex) {
-                Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(vue, "Erreur de communication avec la base de donnée. " + ex);
             }
         }
     }
@@ -363,25 +453,17 @@ public class CtrlConnexion implements WindowListener {
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("visiteur.data"));
                 oos.writeObject(leVisiteur);
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Impossible de sauvegarder l'état de l'objet visiteur." + ex);
+                JOptionPane.showMessageDialog(vue, "Impossible de sauvegarder l'état de l'objet visiteur." + ex);
                 Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erreur SQL " + ex);
+            JOptionPane.showMessageDialog(vue, "Erreur SQL " + ex);
             Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
         }
         saveData();
         // afficher la vue
         ctrlPrincipal.afficherMenuGeneral(getVue());
-        Visiteur visiteurLu = null;
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("visiteur.data"));
-            visiteurLu = (Visiteur) ois.readObject();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Impossible de lire le fichier contenant l'état de l'objet visiteur." + ex);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Erreur impossible de charger le fichier contenant l'état de l'objet du visiteur\n" + ex);
-        }
+        Visiteur visiteurLu = FileReader.getConnectedVisiteur(vue);
         JOptionPane.showMessageDialog(ctrlPrincipal.getCtrlMenuGeneral().getVue(), "Bienvenue sur l'application GSB Visiteur Monsieur " + visiteurLu.getNom(), "Bienvenue", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -403,45 +485,83 @@ public class CtrlConnexion implements WindowListener {
                 oos.writeObject("");
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Impossible de sauvegarder les informations saisies." + ex);
+            JOptionPane.showMessageDialog(vue, "Impossible de sauvegarder les informations saisies." + ex);
         }
     }
 
     // ACCESSEURS et MUTATEURS
-    public VueConnexion getVue() {
+
+    /**
+     *
+     * @return
+     */
+        public VueConnexion getVue() {
         return vue;
     }
 
+    /**
+     *
+     * @param vue
+     */
     public void setVue(VueConnexion vue) {
         this.vue = vue;
     }
 
     // REACTIONS EVENEMENTIELLES
-    @Override
+
+    /**
+     *
+     * @param e
+     */
+        @Override
     public void windowOpened(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowClosing(WindowEvent e) {
         ctrlPrincipal.quitterApplication();
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowClosed(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowIconified(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowDeiconified(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowActivated(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowDeactivated(WindowEvent e) {
     }

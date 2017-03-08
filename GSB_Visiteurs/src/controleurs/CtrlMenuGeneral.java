@@ -14,9 +14,14 @@ import vues.VueMenuGeneral;
 public class CtrlMenuGeneral implements WindowListener {
 
     private VueMenuGeneral vue; // LA VUE
-    private CtrlPrincipal ctrlPrincipal;
-    private Ecouteur ecouteur = new Ecouteur(); //L'écouteur
+    private final CtrlPrincipal ctrlPrincipal;
+    private final Ecouteur ecouteur = new Ecouteur(); //L'écouteur
 
+    /**
+     *
+     * @param vue
+     * @param ctrl
+     */
     public CtrlMenuGeneral(VueMenuGeneral vue, CtrlPrincipal ctrl) {
         this.vue = vue;
         this.ctrlPrincipal = ctrl;
@@ -38,18 +43,18 @@ public class CtrlMenuGeneral implements WindowListener {
         public void actionPerformed(ActionEvent evenement) {
             if (evenement.getSource() == vue.getjCheckBoxComptesRendus()) {
                 vue.getjCheckBoxComptesRendus().setSelected(false);
-                //ctrlPrincipal.afficherCompteRendu();
-                JOptionPane.showMessageDialog(null, "La fonctionnalité " + vue.getjCheckBoxComptesRendus().getText() + " n'est pas encore disponible.");
+                ctrlPrincipal.afficherCompteRendu();
+                //JOptionPane.showMessageDialog(vue, "La fonctionnalité " + vue.getjCheckBoxComptesRendus().getText() + " n'est pas encore disponible.");
             }
             if (evenement.getSource() == vue.getjCheckBoxMedicaments()) {
                 vue.getjCheckBoxMedicaments().setSelected(false);
-                //ctrlPrincipal.afficherMedicament(null);
-                JOptionPane.showMessageDialog(null, "La fonctionnalité " + vue.getjCheckBoxMedicaments().getText() + " n'est pas encore disponible.");
+                ctrlPrincipal.afficherMedicament(null);
+                //JOptionPane.showMessageDialog(vue, "La fonctionnalité " + vue.getjCheckBoxMedicaments().getText() + " n'est pas encore disponible.");
             }
             if (evenement.getSource() == vue.getjCheckBoxPraticiens()) {
                 vue.getjCheckBoxPraticiens().setSelected(false);
-                //ctrlPrincipal.afficherPraticien(-1);
-                JOptionPane.showMessageDialog(null, "La fonctionnalité " + vue.getjCheckBoxPraticiens().getText() + " n'est pas encore disponible.");
+                ctrlPrincipal.afficherPraticien(-1);
+                //JOptionPane.showMessageDialog(vue, "La fonctionnalité " + vue.getjCheckBoxPraticiens().getText() + " n'est pas encore disponible.");
             }
             if (evenement.getSource() == vue.getjCheckBoxVisiteurs()) {
                 vue.getjCheckBoxVisiteurs().setSelected(false);
@@ -70,42 +75,78 @@ public class CtrlMenuGeneral implements WindowListener {
             }
         }
     }
-    
+
     // ACCESSEURS et MUTATEURS
+    /**
+     *
+     * @return
+     */
     public VueMenuGeneral getVue() {
         return vue;
     }
 
+    /**
+     *
+     * @param vue
+     */
     public void setVue(VueMenuGeneral vue) {
         this.vue = vue;
     }
 
     // REACTIONS EVENEMENTIELLES
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowOpened(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowClosing(WindowEvent e) {
         ctrlPrincipal.quitterApplication();
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowClosed(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowIconified(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowDeiconified(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowActivated(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowDeactivated(WindowEvent e) {
     }
