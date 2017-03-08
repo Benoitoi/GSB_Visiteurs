@@ -6,6 +6,10 @@
 package gsb_visiteurs;
 
 import controleurs.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -20,6 +24,11 @@ public class GSB_Visiteurs {
         CtrlPrincipal leControleurPrincipal = new CtrlPrincipal();
         // afficher la vue
         leControleurPrincipal.afficherConnexion();
-        Connexion.lancerConnexion();
+        try {
+            // Paramétrage de l'apparance système
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());//getCrossPlatformLookAndFeelClassName
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(GSB_Visiteurs.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
