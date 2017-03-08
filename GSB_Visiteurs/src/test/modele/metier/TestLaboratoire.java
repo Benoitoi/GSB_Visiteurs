@@ -11,6 +11,10 @@ import modele.metier.Laboratoire;
  */
 public class TestLaboratoire {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         System.out.println("\nTest classe Laboratoire\n");
         Laboratoire laboratoire = null;

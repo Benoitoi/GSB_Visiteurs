@@ -11,6 +11,10 @@ import modele.metier.Secteur;
  */
 public class TestSecteur {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         System.out.println("\nTest classe Secteur\n");
         Secteur secteur = null;

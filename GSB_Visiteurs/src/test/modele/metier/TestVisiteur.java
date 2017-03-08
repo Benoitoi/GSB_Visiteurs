@@ -12,6 +12,10 @@ import modele.metier.Visiteur;
  */
 public class TestVisiteur {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         System.out.println("\nTest classe Visiteur\n");
         Visiteur visiteur = null;

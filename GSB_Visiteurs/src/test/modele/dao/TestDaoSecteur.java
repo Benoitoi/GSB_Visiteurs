@@ -12,6 +12,10 @@ import modele.dao.DaoSecteur;
  */
 public class TestDaoSecteur {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         System.out.println("Test DaoVisiteur\n");
         try {

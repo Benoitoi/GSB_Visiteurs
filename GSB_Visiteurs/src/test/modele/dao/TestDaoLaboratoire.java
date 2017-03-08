@@ -12,6 +12,10 @@ import modele.dao.DaoLaboratoire;
  */
 public class TestDaoLaboratoire {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         System.out.println("Test DaoVisiteur\n");
         try {
