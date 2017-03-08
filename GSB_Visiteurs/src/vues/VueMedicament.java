@@ -269,58 +269,114 @@ public class VueMedicament extends javax.swing.JFrame {
         });
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonPrecedent() {
         return jButtonPrecedent;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonFermer() {
         return jButtonFermer;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonSuivant() {
         return jButtonSuivant;
     }
 
+    /**
+     *
+     * @return
+     */
     public JComboBox getjComboBoxFamille() {
         return jComboBoxFamille;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextArea getjTextAreaContreIndications() {
         return jTextAreaContreIndications;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextArea getjTextAreaEffetsIndesirables() {
         return jTextAreaEffetsIndesirables;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldCode() {
         return jTextFieldCode;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldComposition() {
         return jTextFieldComposition;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldNomCommercial() {
         return jTextFieldNomCommercial;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldPrixEchantillon() {
         return jTextFieldPrixEchantillon;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonMenuGeneral() {
         return jButtonMenuGeneral;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonOk() {
         return jButtonOk;
     }
 
+    /**
+     *
+     * @return
+     */
     public JComboBox getjComboBoxChercher() {
         return jComboBoxChercher;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldRechercher() {
         return jTextFieldRechercher;
     }

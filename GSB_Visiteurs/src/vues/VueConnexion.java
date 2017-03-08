@@ -45,6 +45,9 @@ public class VueConnexion extends javax.swing.JFrame {
         jButtonChangeBdd = new javax.swing.JButton();
         jCheckBoxSouvenirId = new javax.swing.JCheckBox();
         jCheckBoxSouvenirMdp = new javax.swing.JCheckBox();
+        jCheckBoxAfficher = new javax.swing.JCheckBox();
+        jLabelBaseDeDonnee = new javax.swing.JLabel();
+        jLabelBdd = new javax.swing.JLabel();
         jLabelBackground = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -84,7 +87,7 @@ public class VueConnexion extends javax.swing.JFrame {
         jButtonAfficherMdp.setForeground(new java.awt.Color(0, 51, 153));
         jButtonAfficherMdp.setText("Afficher");
         jPanel1.add(jButtonAfficherMdp);
-        jButtonAfficherMdp.setBounds(150, 180, 90, 30);
+        jButtonAfficherMdp.setBounds(140, 180, 90, 30);
         jPanel1.add(jLabelCheckLogin);
         jLabelCheckLogin.setBounds(420, 140, 50, 40);
         jPanel1.add(jLabelCheckMdp);
@@ -103,6 +106,16 @@ public class VueConnexion extends javax.swing.JFrame {
         jCheckBoxSouvenirMdp.setText("Se souvenir");
         jPanel1.add(jCheckBoxSouvenirMdp);
         jCheckBoxSouvenirMdp.setBounds(540, 180, 130, 30);
+        jPanel1.add(jCheckBoxAfficher);
+        jCheckBoxAfficher.setBounds(240, 190, 20, 20);
+
+        jLabelBaseDeDonnee.setForeground(new java.awt.Color(255, 0, 51));
+        jPanel1.add(jLabelBaseDeDonnee);
+        jLabelBaseDeDonnee.setBounds(230, 420, 160, 20);
+
+        jLabelBdd.setText("Base de données utilisée :");
+        jPanel1.add(jLabelBdd);
+        jLabelBdd.setBounds(230, 400, 170, 14);
 
         jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Documents\\NetBeansProjects\\GSB_Visiteurs\\GSB_Visiteurs\\images\\gsb_background.png")); // NOI18N
         jPanel1.add(jLabelBackground);
@@ -126,44 +139,100 @@ public class VueConnexion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonQuitterActionPerformed
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonOk() {
         return jButtonOk;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonQuitter() {
         return jButtonQuitter;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldLogin() {
         return jTextFieldLogin;
     }
     
+    /**
+     *
+     * @return
+     */
     public JPasswordField getjPasswordMdp() {
         return jPasswordMdp;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonAfficherMdp() {
         return jButtonAfficherMdp;
     }
 
+    /**
+     *
+     * @return
+     */
     public JLabel getjLabelCheckLogin() {
         return jLabelCheckLogin;
     }
 
+    /**
+     *
+     * @return
+     */
     public JLabel getjLabelCheckMdp() {
         return jLabelCheckMdp;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonChangeBdd() {
         return jButtonChangeBdd;
     }
 
+    /**
+     *
+     * @return
+     */
     public JCheckBox getjCheckBoxSouvenirId() {
         return jCheckBoxSouvenirId;
     }
 
+    /**
+     *
+     * @return
+     */
     public JCheckBox getjCheckBoxSouvenirMdp() {
         return jCheckBoxSouvenirMdp;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public JCheckBox getjCheckBoxAfficher() {
+        return jCheckBoxAfficher;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public JLabel getjLabelBaseDeDonnee() {
+        return jLabelBaseDeDonnee;
     }
     
     
@@ -208,10 +277,13 @@ public class VueConnexion extends javax.swing.JFrame {
     private javax.swing.JButton jButtonChangeBdd;
     private javax.swing.JButton jButtonOk;
     private javax.swing.JButton jButtonQuitter;
+    private javax.swing.JCheckBox jCheckBoxAfficher;
     private javax.swing.JCheckBox jCheckBoxSouvenirId;
     private javax.swing.JCheckBox jCheckBoxSouvenirMdp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelBackground;
+    private javax.swing.JLabel jLabelBaseDeDonnee;
+    private javax.swing.JLabel jLabelBdd;
     private javax.swing.JLabel jLabelCheckLogin;
     private javax.swing.JLabel jLabelCheckMdp;
     private javax.swing.JPanel jPanel1;

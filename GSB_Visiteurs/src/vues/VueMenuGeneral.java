@@ -149,26 +149,50 @@ public class VueMenuGeneral extends javax.swing.JFrame {
         });
     }
     
+    /**
+     *
+     * @return
+     */
     public JCheckBox getjCheckBoxComptesRendus() {
         return jCheckBoxComptesRendus;
     }
 
+    /**
+     *
+     * @return
+     */
     public JCheckBox getjCheckBoxMedicaments() {
         return jCheckBoxMedicaments;
     }
     
+    /**
+     *
+     * @return
+     */
     public JCheckBox getjCheckBoxPraticiens() {
         return jCheckBoxPraticiens;
     }
     
+    /**
+     *
+     * @return
+     */
     public JCheckBox getjCheckBoxVisiteurs() {
         return jCheckBoxVisiteurs;
     }
     
+    /**
+     *
+     * @return
+     */
     public JCheckBox getjCheckBoxQuitter() {
         return jCheckBoxQuitter;
     }
 
+    /**
+     *
+     * @return
+     */
     public JCheckBox getjCheckBoxDeconnection() {
         return jCheckBoxDeconnection;
     }

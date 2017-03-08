@@ -34,8 +34,6 @@ public class VueRapportVisite extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabelRapportVisite = new javax.swing.JLabel();
         jLabelNuméroRapport = new javax.swing.JLabel();
@@ -53,25 +51,16 @@ public class VueRapportVisite extends javax.swing.JFrame {
         jLabelOffreEchantillons = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableOffreEchantillons = new javax.swing.JTable();
-        jButtonPrécédent = new javax.swing.JButton();
+        jButtonPrecedent = new javax.swing.JButton();
         jButtonSuivant = new javax.swing.JButton();
-        jButtonNouveau = new javax.swing.JButton();
+        jButtonValider = new javax.swing.JButton();
         jButtonFermer = new javax.swing.JButton();
         jButtonMenuGeneral = new javax.swing.JButton();
+        jButtonNouveau = new javax.swing.JButton();
+        jButtonPlus = new javax.swing.JButton();
+        jButtonMoins = new javax.swing.JButton();
+        jButtonToutSupprimer = new javax.swing.JButton();
         jLabelBackground = new javax.swing.JLabel();
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Rapport de visite");
@@ -170,23 +159,23 @@ public class VueRapportVisite extends javax.swing.JFrame {
         jPanel1.add(jScrollPane2);
         jScrollPane2.setBounds(130, 340, 440, 90);
 
-        jButtonPrécédent.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButtonPrécédent.setForeground(new java.awt.Color(0, 0, 153));
-        jButtonPrécédent.setText("Précédent");
-        jPanel1.add(jButtonPrécédent);
-        jButtonPrécédent.setBounds(130, 440, 120, 23);
+        jButtonPrecedent.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonPrecedent.setForeground(new java.awt.Color(0, 0, 153));
+        jButtonPrecedent.setText("Précédent");
+        jPanel1.add(jButtonPrecedent);
+        jButtonPrecedent.setBounds(70, 440, 120, 23);
 
         jButtonSuivant.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonSuivant.setForeground(new java.awt.Color(0, 0, 153));
         jButtonSuivant.setText("Suivant");
         jPanel1.add(jButtonSuivant);
-        jButtonSuivant.setBounds(270, 440, 100, 23);
+        jButtonSuivant.setBounds(220, 440, 100, 23);
 
-        jButtonNouveau.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButtonNouveau.setForeground(new java.awt.Color(0, 0, 153));
-        jButtonNouveau.setText("Nouveau");
-        jPanel1.add(jButtonNouveau);
-        jButtonNouveau.setBounds(390, 440, 110, 23);
+        jButtonValider.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonValider.setForeground(new java.awt.Color(0, 0, 153));
+        jButtonValider.setText("Valider");
+        jPanel1.add(jButtonValider);
+        jButtonValider.setBounds(480, 440, 110, 23);
 
         jButtonFermer.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonFermer.setForeground(new java.awt.Color(0, 0, 153));
@@ -204,6 +193,24 @@ public class VueRapportVisite extends javax.swing.JFrame {
         });
         jPanel1.add(jButtonMenuGeneral);
         jButtonMenuGeneral.setBounds(10, 10, 130, 40);
+
+        jButtonNouveau.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonNouveau.setForeground(new java.awt.Color(0, 0, 153));
+        jButtonNouveau.setText("Nouveau");
+        jPanel1.add(jButtonNouveau);
+        jButtonNouveau.setBounds(350, 440, 110, 23);
+
+        jButtonPlus.setText("+");
+        jPanel1.add(jButtonPlus);
+        jButtonPlus.setBounds(580, 360, 40, 23);
+
+        jButtonMoins.setText("-");
+        jPanel1.add(jButtonMoins);
+        jButtonMoins.setBounds(580, 390, 40, 23);
+
+        jButtonToutSupprimer.setText("Tout supprimer");
+        jPanel1.add(jButtonToutSupprimer);
+        jButtonToutSupprimer.setBounds(630, 390, 110, 23);
 
         jLabelBackground.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBackground.setForeground(new java.awt.Color(0, 0, 153));
@@ -265,69 +272,145 @@ public class VueRapportVisite extends javax.swing.JFrame {
         });
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonDetailsPraticien() {
         return jButtonDetailsPraticien;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonFermer() {
         return jButtonFermer;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonNouveau() {
         return jButtonNouveau;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonPrecedent() {
-        return jButtonPrécédent;
+        return jButtonPrecedent;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonSuivant() {
         return jButtonSuivant;
     }
 
+    /**
+     *
+     * @return
+     */
     public JComboBox getjComboBoxPraticien() {
         return jComboBoxPraticien;
     }
 
+    /**
+     *
+     * @return
+     */
     public JDateChooser getjDateChooserDateRapport() {
         return jDateChooserDateRapport;
     }
 
-    public JTable getjTable1() {
-        return jTable1;
-    }
-
+    /**
+     *
+     * @return
+     */
     public JTable getjTableOffreEchantillons() {
         return jTableOffreEchantillons;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextArea getjTextAreaBilan() {
         return jTextAreaBilan;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldMotifVisite() {
         return jTextFieldMotifVisite;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldNumeroRapport() {
         return jTextFieldNumeroRapport;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonMenuGeneral() {
         return jButtonMenuGeneral;
     }
 
-    public JButton getjButtonPrécédent() {
-        return jButtonPrécédent;
+    /**
+     *
+     * @return
+     */
+    public JButton getjButtonValider() {
+        return jButtonValider;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public JButton getjButtonMoins() {
+        return jButtonMoins;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public JButton getjButtonPlus() {
+        return jButtonPlus;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public JButton getjButtonToutSupprimer() {
+        return jButtonToutSupprimer;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDetailsPraticien;
     private javax.swing.JButton jButtonFermer;
     private javax.swing.JButton jButtonMenuGeneral;
+    private javax.swing.JButton jButtonMoins;
     private javax.swing.JButton jButtonNouveau;
-    private javax.swing.JButton jButtonPrécédent;
+    private javax.swing.JButton jButtonPlus;
+    private javax.swing.JButton jButtonPrecedent;
     private javax.swing.JButton jButtonSuivant;
+    private javax.swing.JButton jButtonToutSupprimer;
+    private javax.swing.JButton jButtonValider;
     private javax.swing.JComboBox jComboBoxPraticien;
     private com.toedter.calendar.JDateChooser jDateChooserDateRapport;
     private javax.swing.JLabel jLabel4;
@@ -339,10 +422,8 @@ public class VueRapportVisite extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPraticien;
     private javax.swing.JLabel jLabelRapportVisite;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTableOffreEchantillons;
     private javax.swing.JTextArea jTextAreaBilan;
     private javax.swing.JTextField jTextFieldMotifVisite;

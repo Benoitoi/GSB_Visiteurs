@@ -295,58 +295,114 @@ public class VuePraticien extends javax.swing.JFrame {
         });
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonMenuGeneral() {
         return jButtonMenuGeneral;
     }
     
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldRechercher() {
         return jTextFieldRechercher;
     }
     
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonFermer() {
         return jButtonFermer;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonOk() {
         return jButtonOk;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonPrecedent() {
         return jButtonPrecedent;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonSuivant() {
         return jButtonSuivant;
     }
 
+    /**
+     *
+     * @return
+     */
     public JComboBox getjComboBoxChercher() {
         return jComboBoxChercher;
     }
 
+    /**
+     *
+     * @return
+     */
     public JComboBox getjComboBoxLieuExercice() {
         return jComboBoxLieuExercice;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldAdresse() {
         return jTextFieldAdresse;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldCodePostal() {
         return jTextFieldCodePostal;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldCoefNotoriete() {
         return jTextFieldCoefNotoriete;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldNom() {
         return jTextFieldNom;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldPrenom() {
         return jTextFieldPrenom;
     }
 
+    /**
+     *
+     * @return
+     */
     public JTextField getjTextFieldVille() {
         return jTextFieldVille;
     }
