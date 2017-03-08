@@ -9,21 +9,21 @@ package modele.metier;
  */
 
 public class Offre {
-    String matriculeVisiteur;
-    int numeroRapport;
+    Visiteur visiteur;
+    RapportVisite rapport;
     String medicament;
     int quantiteOffre;
 
     /**
      *
-     * @param matriculeVisiteur
-     * @param numeroRapport
+     * @param visiteur
+     * @param rapport
      * @param medicament
      * @param quantiteOffre
      */
-    public Offre(String matriculeVisiteur, int numeroRapport, String medicament, int quantiteOffre) {
-        this.matriculeVisiteur = matriculeVisiteur;
-        this.numeroRapport = numeroRapport;
+    public Offre(Visiteur visiteur, RapportVisite rapport, String medicament, int quantiteOffre) {
+        this.visiteur = visiteur;
+        this.rapport = rapport;
         this.medicament = medicament;
         this.quantiteOffre = quantiteOffre;
     }
@@ -32,32 +32,32 @@ public class Offre {
      *
      * @return
      */
-    public String getMatriculeVisiteur() {
-        return matriculeVisiteur;
+    public Visiteur getVisiteur() {
+        return visiteur;
     }
 
     /**
      *
-     * @param matriculeVisiteur
+     * @param visiteur
      */
-    public void setMatriculeVisiteur(String matriculeVisiteur) {
-        this.matriculeVisiteur = matriculeVisiteur;
+    public void setVisiteur(Visiteur visiteur) {
+        this.visiteur = visiteur;
     }
 
     /**
      *
      * @return
      */
-    public int getNumeroRapport() {
-        return numeroRapport;
+    public RapportVisite getRapport() {
+        return rapport;
     }
 
     /**
      *
-     * @param numeroRapport
+     * @param rapportVisite
      */
-    public void setNumeroRapport(int numeroRapport) {
-        this.numeroRapport = numeroRapport;
+    public void setNumeroRapport(RapportVisite rapportVisite) {
+        this.rapport = rapportVisite;
     }
 
     /**
@@ -98,8 +98,6 @@ public class Offre {
      */
     @Override
     public String toString() {
-        return "Offre{" + "matriculeVisiteur=" + matriculeVisiteur + ", numeroRapport=" + numeroRapport + ", medicament=" + medicament + ", quantiteOffre=" + quantiteOffre + '}';
+        return "Offre{" + "matricule visiteur=" + visiteur.getMatricule() + ", numeroRapport=" + rapport.getNumeroRapport() + ", medicament=" + medicament + ", quantiteOffre=" + quantiteOffre + '}';
     }
-
-
 }
