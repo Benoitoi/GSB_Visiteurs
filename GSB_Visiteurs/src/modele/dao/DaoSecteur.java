@@ -1,6 +1,5 @@
 package modele.dao;
 
-import gsb_visiteurs.Connexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +20,7 @@ public class DaoSecteur {
      */
     public static ArrayList<Secteur> getAllSecteurs() throws SQLException {
         ArrayList<Secteur> lesSecteurs = new ArrayList<>();
-        Jdbc jdbc = Connexion.getInstance();
+        Jdbc jdbc = Jdbc.getInstance();
         //préparer la requête
         String requete = "SELECT * FROM SECTEUR";
         PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);

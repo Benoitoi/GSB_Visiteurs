@@ -1,6 +1,5 @@
 package modele.dao;
 
-import gsb_visiteurs.Connexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +25,7 @@ public class DaoConnexion {
      * @throws SQLException
      */
     public static int verifierInfosConnexion(String login, String mdp) throws SQLException {
-        int code;
+        int code = -1;
         boolean bonMdp = false;
         boolean bonLogin = false;
         java.sql.Date sqlDate = null;
@@ -41,7 +40,7 @@ public class DaoConnexion {
             //Si le mot de passe est sous forme d'une date incorrecte la convertion de date ne marchera pas
             System.out.println("Mauvais mot de passe !");
         }
-        Jdbc jdbc = Connexion.getInstance();
+        Jdbc jdbc = Jdbc.getInstance();
         String requete = "SELECT VIS_NOM FROM VISITEUR WHERE VIS_NOM = ?";
         PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);
         pstmt.setString(1, login);
@@ -110,7 +109,7 @@ public class DaoConnexion {
             System.out.println("Mauvais mot de passe !");
         }
 
-        Jdbc jdbc = Connexion.getInstance();
+        Jdbc jdbc = Jdbc.getInstance();
         // préparer la requête
         String requete = "SELECT * FROM VISITEUR WHERE VIS_NOM = ? AND VIS_DATEEMBAUCHE = ?";
         PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);

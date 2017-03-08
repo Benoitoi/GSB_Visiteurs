@@ -1,16 +1,20 @@
 package modele.dao;
 
 import java.sql.*;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import util.FileReader;
 
 /**
- * Singleton fournit un objet de connexion JDBC
+ * Classe fournit un objet de connexion JDBC
  *
  * @author nbourgeois
  * @version 2 22 novembre 2013
  */
 public class Jdbc {
 
-    // Instance du jdbc Jdbc
+    // Instance de l'objet Jdbc
     private static Jdbc jdbc = null;
     // Paramètre de la connexion
     private String piloteJdbc = "";
@@ -43,25 +47,57 @@ public class Jdbc {
         this.mdpSgbd = mdp;
     }
 
-    public static Jdbc creer(String pilote, String protocole, String serveur, String base, String login, String mdp) {
-        jdbc = new Jdbc(pilote, protocole, serveur, base, login, mdp);
+    /**
+     *
+     * @return
+     */
+    public static Jdbc creer() {
+        Properties propertiesJdbc = FileReader.getBddProperties();
+        jdbc = new Jdbc(propertiesJdbc.getProperty("pilote"), propertiesJdbc.getProperty("protocole"), propertiesJdbc.getProperty("url"), propertiesJdbc.getProperty("base"), propertiesJdbc.getProperty("utilisateur"), propertiesJdbc.getProperty("mdp"));
+        try {
+            jdbc.connecter();
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return jdbc;
     }
 
+    /**
+     *
+     * @return
+     */
     public static Jdbc getInstance() {
+        if(jdbc == null){
+            creer();
+        }
         return jdbc;
     }
 
+    /**
+     *
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public void connecter() throws ClassNotFoundException, SQLException {
+        DriverManager.setLoginTimeout(3);//temps d'attente de 3 seconde au lieu de 10 par défaut avant d'afficher echec de la connexion
         Class.forName(this.getPiloteJdbc());
         setConnexion(DriverManager.getConnection(this.getProtocoleJdbc() + this.getServeurBd() + this.getNomBd(), this.getLoginSgbd(), this.getMdpSgbd()));
         getConnexion().setAutoCommit(true);
     }
 
+    /**
+     *
+     * @throws SQLException
+     */
     public void deconnecter() throws SQLException {
         getConnexion().close();
     }
 
+    /**
+     *
+     * @param uneDate
+     * @return
+     */
     public static java.sql.Date utilDateToSqlDate(java.util.Date uneDate) {
         return (new java.sql.Date(uneDate.getTime()));
     }
@@ -69,11 +105,16 @@ public class Jdbc {
     /**
      * ************************************* *
      * ACCESSEURS * **************************************
+     * @return 
      */
     public String getPiloteJdbc() {
         return piloteJdbc;
     }
 
+    /**
+     *
+     * @param piloteJdbc
+     */
     public void setPiloteJdbc(String piloteJdbc) {
         this.piloteJdbc = piloteJdbc;
     }
@@ -92,42 +133,82 @@ public class Jdbc {
         this.protocoleJdbc = protocoleJdbc;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getServeurBd() {
         return serveurBd;
     }
 
+    /**
+     *
+     * @param serveurBd
+     */
     public void setServeurBd(String serveurBd) {
         this.serveurBd = serveurBd;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNomBd() {
         return nomBd;
     }
 
+    /**
+     *
+     * @param nomBd
+     */
     public void setNomBd(String nomBd) {
         this.nomBd = nomBd;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getLoginSgbd() {
         return loginSgbd;
     }
 
+    /**
+     *
+     * @param loginSgbd
+     */
     public void setLoginSgbd(String loginSgbd) {
         this.loginSgbd = loginSgbd;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getMdpSgbd() {
         return mdpSgbd;
     }
 
+    /**
+     *
+     * @param mdpSgbd
+     */
     public void setMdpSgbd(String mdpSgbd) {
         this.mdpSgbd = mdpSgbd;
     }
 
+    /**
+     *
+     * @return
+     */
     public Connection getConnexion() {
         return connexion;
     }
 
+    /**
+     *
+     * @param connexion
+     */
     public void setConnexion(Connection connexion) {
         this.connexion = connexion;
     }

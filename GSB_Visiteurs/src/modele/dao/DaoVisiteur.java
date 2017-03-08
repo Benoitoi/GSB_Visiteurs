@@ -1,14 +1,11 @@
 package modele.dao;
 
-import gsb_visiteurs.Connexion;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import modele.metier.Laboratoire;
 import modele.metier.Visiteur;
-import modele.metier.Secteur;
 
 /**
  *
@@ -24,7 +21,7 @@ public class DaoVisiteur {
      */
     public static ArrayList<Visiteur> getAllVisiteurs() throws SQLException {
         ArrayList<Visiteur> lesVisiteurs = new ArrayList<>();
-        Jdbc jdbc = Connexion.getInstance();
+        Jdbc jdbc = Jdbc.getInstance();
         //préparer la requête
         String requete = "SELECT * FROM VISITEUR";
         PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);

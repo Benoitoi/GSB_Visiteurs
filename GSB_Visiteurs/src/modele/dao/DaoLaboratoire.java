@@ -1,6 +1,5 @@
 package modele.dao;
 
-import gsb_visiteurs.Connexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,8 +19,8 @@ public class DaoLaboratoire {
      * @throws SQLException
      */
     public static ArrayList<Laboratoire> getAllLaboratoires() throws SQLException {
-        ArrayList<Laboratoire> lesLaboratoires = new ArrayList<Laboratoire>();
-        Jdbc jdbc = Connexion.getInstance();
+        ArrayList<Laboratoire> lesLaboratoires = new ArrayList<>();
+        Jdbc jdbc = Jdbc.getInstance();
          //préparer la requête
         String requete = "SELECT * FROM LABO";
         PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);
