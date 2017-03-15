@@ -21,13 +21,13 @@ public class TestDaoMedicament {
         try {
             System.out.println("Test 1 : obtenir tous les medicaments");
             System.out.println(DaoMedicament.getAllMedicaments());
-            System.out.println("Test 2 : un medicament par un depot legal innexistant\n");
+            System.out.println("Test 2 : obtenir un medicament par un depot legal innexistant\n");
            if(DaoMedicament.getOneByDepotLegal("nonexistant") == null) {
                 System.out.println("succès");
             } else {
                 System.out.println("échec");
             }
-            System.out.println("Test 3 : un medicament par un depot legal existant\n");
+            System.out.println("Test 3 : obtenir un medicament par un depot legal existant\n");
             if(DaoMedicament.getOneByDepotLegal("DEPRIL9") == null) {
                 System.out.println("échec");
             } else {

@@ -21,13 +21,13 @@ public class TestDaoLaboratoire {
         try {
             System.out.println("Test 1 : obtenir tous les laboratoires");
             System.out.println(DaoLaboratoire.getAllLaboratoires());
-            System.out.println("Test 2 : un laboratoire par un code innexistant\n");
+            System.out.println("Test 2 : obtenir un laboratoire par un code innexistant\n");
             if(DaoLaboratoire.getOneByCode("nonexistant") == null) {
                 System.out.println("succès");
             } else {
                 System.out.println("échec");
             }
-            System.out.println("Test 3 : un laboratoire par un code existant\n");
+            System.out.println("Test 3 : obtenir un laboratoire par un code existant\n");
             if(DaoLaboratoire.getOneByCode("BC") == null) {
                 System.out.println("échec");
             } else {
