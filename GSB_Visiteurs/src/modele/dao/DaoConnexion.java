@@ -71,18 +71,14 @@ public class DaoConnexion {
         if (bonLogin) {
             if (bonMdp) {
                 code = 11;
-                System.out.println("Bienvenue!");
             } else {
                 code = 10;
-                System.out.println("Mauvais mot de passe.");
             }
         } else {
             if (!bonMdp) {
                 code = 00;//sera lu comme 0
-                System.out.println("Login et mot de passe incorrects.");
             } else {
                 code = 01;//sera lu comme 1
-                System.out.println("Login incorrect");
             }
         }
         rs.close();
