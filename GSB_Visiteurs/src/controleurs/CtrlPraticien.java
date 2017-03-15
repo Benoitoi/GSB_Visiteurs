@@ -38,6 +38,8 @@ public class CtrlPraticien implements WindowListener {
     private final ArrayList<String> listePraticiens = new ArrayList<>();
     private final ArrayList<String> nomPrenomTrouve = new ArrayList<>();
     private boolean rechercheFocused = false;
+    private boolean editMode = false;
+    private boolean detailMode = false;
 
     /**
      *
@@ -53,7 +55,6 @@ public class CtrlPraticien implements WindowListener {
 
         vue.getjComboBoxLieuExercice().setModel(modeleJComboBoxLieux);
         vue.getjComboBoxChercher().setModel(modeleJComboBoxNomsPrenomsPraticiens);
-        remplirJComboBoxs();
 
         vue.getjButtonFermer().addActionListener(ecouteur);
         vue.getjButtonOk().addActionListener(ecouteur);
@@ -128,8 +129,32 @@ public class CtrlPraticien implements WindowListener {
                 afficherRecherche();
             }
         });
+        //initialisation des données
+        init();
+        //remplir les listes déroulantes
+        remplirJComboBoxs();
         // préparer l'état iniitial de la vue
         afficherLePraticien(0);
+        isEditing(editMode);
+    }
+
+    private void init() {
+        try {
+            lesPraticiens = DaoPraticien.getAllPraticiens();
+            lesTypesPraticiens = DaoTypePraticien.getAll();
+        } catch (SQLException ex) {
+            Logger.getLogger(CtrlPraticien.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void isEditing(boolean b) {
+        vue.getjTextFieldNom().setEditable(b);
+        vue.getjTextFieldPrenom().setEditable(b);
+        vue.getjTextFieldAdresse().setEditable(b);
+        vue.getjTextFieldCodePostal().setEditable(b);
+        vue.getjTextFieldVille().setEditable(b);
+        vue.getjTextFieldCoefNotoriete().setEditable(b);
+        vue.getjComboBoxLieuExercice().setEnabled(b);
     }
 
     /**
@@ -140,7 +165,13 @@ public class CtrlPraticien implements WindowListener {
         @Override
         public void actionPerformed(ActionEvent evenement) {
             if (evenement.getSource() == vue.getjButtonFermer()) {
-                ctrlPrincipal.fermer(getVue());
+                if (detailMode) {
+                    getVue().dispose();
+                    detailMode = false;
+                    detailMode(detailMode);
+                } else {
+                    ctrlPrincipal.fermer(getVue());
+                }
             } else if (evenement.getSource() == vue.getjButtonOk()) {
                 afficherLePraticien(vue.getjComboBoxChercher().getSelectedIndex());
             } else if (evenement.getSource() == vue.getjButtonPrecedent()) {
@@ -177,7 +208,7 @@ public class CtrlPraticien implements WindowListener {
     private void afficherLePraticien(int indexPraticien) {
         if (lesPraticiensTrouvee.size() > 0) {
             Praticien praticienAffiche = lesPraticiensTrouvee.get(indexPraticien);
-            String codeTypePraticien = praticienAffiche.getTypeCode();
+            String codeTypePraticien = praticienAffiche.getType().getTypeCode();
             int indexLieu = 0;
             int indexLieuPraticien = 0;
             for (TypePraticien unTypePraticien : lesTypesPraticiens) {
@@ -203,11 +234,6 @@ public class CtrlPraticien implements WindowListener {
      *
      */
     private void remplirJComboBoxPraticiens() {
-        try {
-            lesPraticiens = DaoPraticien.getAllPraticiens();
-        } catch (SQLException ex) {
-            Logger.getLogger(CtrlPraticien.class.getName()).log(Level.SEVERE, null, ex);
-        }
         listePraticiens.clear();
         lesPraticiensTrouvee.clear();
         modeleJComboBoxNomsPrenomsPraticiens.removeAllElements();
@@ -222,17 +248,11 @@ public class CtrlPraticien implements WindowListener {
      *
      */
     private void remplirJComboBoxs() {
-        remplirJComboBoxPraticiens();
-
-        try {
-            lesTypesPraticiens = DaoTypePraticien.getTypePraticien();
-        } catch (SQLException ex) {
-            Logger.getLogger(CtrlPraticien.class.getName()).log(Level.SEVERE, null, ex);
-        }
         modeleJComboBoxLieux.removeAllElements();
         for (TypePraticien unTypePraticien : lesTypesPraticiens) {
             modeleJComboBoxLieux.addElement(unTypePraticien.getTypeLieu());
         }
+        remplirJComboBoxPraticiens();
     }
 
     /**
@@ -249,6 +269,17 @@ public class CtrlPraticien implements WindowListener {
             indexPraticien++;
         }
         afficherLePraticien(indexConnectedPraticien);
+        detailMode = true;
+        detailMode(detailMode);
+    }
+
+    public void detailMode(boolean b) {
+        vue.getjButtonMenuGeneral().setVisible(!b);
+        vue.getjTextFieldRechercher().setEnabled(!b);
+        vue.getjComboBoxChercher().setEnabled(!b);
+        vue.getjButtonOk().setEnabled(!b);
+        vue.getjButtonPrecedent().setEnabled(!b);
+        vue.getjButtonSuivant().setEnabled(!b);
     }
 
     /**
@@ -286,12 +317,11 @@ public class CtrlPraticien implements WindowListener {
     }
 
     // ACCESSEURS et MUTATEURS
-
     /**
      *
      * @return
      */
-        public VuePraticien getVue() {
+    public VuePraticien getVue() {
         return vue;
     }
 
@@ -304,12 +334,11 @@ public class CtrlPraticien implements WindowListener {
     }
 
     // REACTIONS EVENEMENTIELLES
-
     /**
      *
      * @param e
      */
-        @Override
+    @Override
     public void windowOpened(WindowEvent e) {
     }
 
@@ -319,9 +348,24 @@ public class CtrlPraticien implements WindowListener {
      */
     @Override
     public void windowClosing(WindowEvent e) {
-        ctrlPrincipal.quitterApplication();
+        if (detailMode) {
+            getVue().dispose();
+            detailMode = false;
+            detailMode(detailMode);
+        } else {
+            ctrlPrincipal.quitterApplication();
+        }
     }
 
+    public boolean isDetailMode() {
+        return detailMode;
+    }
+
+    public void setDetailMode(boolean detailMode) {
+        this.detailMode = detailMode;
+    }
+
+    
     /**
      *
      * @param e

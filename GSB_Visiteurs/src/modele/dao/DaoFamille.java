@@ -14,9 +14,9 @@ public class DaoFamille {
 
     /**
      * Extraction de toutes les familles
-     * 
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static ArrayList<Famille> getAllFamilles() throws SQLException {
         ArrayList<Famille> lesFamilles = new ArrayList<>();
@@ -30,6 +30,33 @@ public class DaoFamille {
             String famLibelle = rs.getString("FAM_LIBELLE");
             lesFamilles.add(new Famille(famCode, famLibelle));
         }
+        rs.close();
+        pstmt.close();
         return lesFamilles;
+    }
+
+    /**
+     * Extraction d'une famille son code
+     *
+     * @param codeFamille
+     * @return laFamille
+     * @throws SQLException
+     */
+    public static Famille getOneByCode(String codeFamille) throws SQLException {
+        Famille laFamille = null;
+        Jdbc jdbc = Jdbc.getInstance();
+        //préparer la requête
+        String requete = "SELECT * FROM FAMILLE WHERE FAM_CODE= ?";
+        PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);
+        pstmt.setString(1, codeFamille);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            String famCode = rs.getString("FAM_CODE");
+            String famLibelle = rs.getString("FAM_LIBELLE");
+            laFamille = new Famille(famCode, famLibelle);
+        }
+        rs.close();
+        pstmt.close();
+        return laFamille;
     }
 }

@@ -8,15 +8,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import modele.dao.DaoLaboratoire;
@@ -25,6 +21,7 @@ import modele.dao.DaoVisiteur;
 import modele.metier.Laboratoire;
 import modele.metier.Secteur;
 import modele.metier.Visiteur;
+import util.FileReader;
 import vues.VueVisiteur;
 
 /**
@@ -46,7 +43,10 @@ public class CtrlVisiteur implements WindowListener {
     private final ArrayList<Visiteur> lesVisiteursTrouvee = new ArrayList<>();
     private final ArrayList<String> nomPrenomTrouve = new ArrayList<>();
     private boolean rechercheFocused = false;
-    private boolean comboBoxVisiteursFocused = false;
+    private boolean editMode = false;
+    private int[] indexRecherche;
+    private boolean hasChoosed = false;
+    private int indexSelectedVisiteur = -1;
 
     /**
      *
@@ -57,13 +57,15 @@ public class CtrlVisiteur implements WindowListener {
         this.ecouteur = new Ecouteur();
         this.vue = vue;
         this.ctrlPrincipal = ctrl;
-        
+
         this.vue.addWindowListener(this);
+
+        init();
+        remplirJComboBoxs();
 
         vue.getjComboBoxSecteur().setModel(modeleJComboBoxSecteurs);
         vue.getjComboBoxLabo().setModel(modeleJComboBoxLaboratoires);
         vue.getjComboBoxChercher().setModel(modeleJComboBoxNomsPrenomsVisiteurs);
-        remplirJComboBoxs();
 
         vue.getjButtonQuitter().addActionListener(ecouteur);
         vue.getjButtonOk().addActionListener(ecouteur);
@@ -73,19 +75,6 @@ public class CtrlVisiteur implements WindowListener {
         vue.getjComboBoxLabo().addActionListener(ecouteur);
         vue.getjComboBoxSecteur().addActionListener(ecouteur);
         vue.getjButtonMenuGeneral().addActionListener(ecouteur);
-
-        vue.getjComboBoxChercher().addFocusListener(new FocusListener() {
-
-            @Override
-            public void focusGained(FocusEvent e) {
-                comboBoxVisiteursFocused = true;
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                comboBoxVisiteursFocused = false;
-            }
-        });
 
         vue.getjTextFieldRechercher().addFocusListener(new FocusListener() {
 
@@ -101,13 +90,17 @@ public class CtrlVisiteur implements WindowListener {
             @Override
             public void focusLost(FocusEvent e) {
                 rechercheFocused = false;
+                if (hasChoosed) {
+
+                    hasChoosed = false;
+                }
                 afficherRecherche();
                 if (vue.getjTextFieldRechercher().getText().equals("")) {
                     vue.getjTextFieldRechercher().setText("Nom Prénom");
                 }
             }
         });
-        
+
         vue.getjTextFieldRechercher().addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent ke) {
@@ -115,7 +108,8 @@ public class CtrlVisiteur implements WindowListener {
                     afficherLeVisiteur(vue.getjComboBoxChercher().getSelectedIndex());
                     vue.getjComboBoxChercher().hidePopup();
                 }
-                if (ke.getKeyCode() == KeyEvent.VK_UP) {
+                if (ke.getKeyCode() == KeyEvent.VK_UP || ke.getKeyCode() == KeyEvent.VK_LEFT) {
+                    vue.getjComboBoxChercher().showPopup();
                     int precedent = vue.getjComboBoxChercher().getSelectedIndex() - 1;
                     if (precedent < 0) {
                         vue.getjComboBoxChercher().setSelectedIndex(modeleJComboBoxNomsPrenomsVisiteurs.getSize() - 1);
@@ -124,7 +118,8 @@ public class CtrlVisiteur implements WindowListener {
                     }
                     afficherLeVisiteur(vue.getjComboBoxChercher().getSelectedIndex());
                 }
-                if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
+                if (ke.getKeyCode() == KeyEvent.VK_DOWN || ke.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    vue.getjComboBoxChercher().showPopup();
                     int suivant = vue.getjComboBoxChercher().getSelectedIndex() + 1;
                     if (suivant > modeleJComboBoxNomsPrenomsVisiteurs.getSize() - 1) {
                         vue.getjComboBoxChercher().setSelectedIndex(0);
@@ -135,7 +130,7 @@ public class CtrlVisiteur implements WindowListener {
                 }
             }
         });
-        
+
         vue.getjTextFieldRechercher().getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void changedUpdate(DocumentEvent e) {
@@ -152,8 +147,20 @@ public class CtrlVisiteur implements WindowListener {
                 afficherRecherche();
             }
         });
+
         // préparer l'état iniitial de la vue : on affiche la fiche du visiteur connecté
         rechercherIndexVisiteurConnecte();
+        isEditing(editMode);
+    }
+
+    private void init() {
+        try {
+            lesVisiteurs = DaoVisiteur.getAllVisiteurs();
+            lesSecteurs = DaoSecteur.getAllSecteurs();
+            lesLaboratoires = DaoLaboratoire.getAllLaboratoires();
+        } catch (SQLException ex) {
+            Logger.getLogger(CtrlVisiteur.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -164,19 +171,21 @@ public class CtrlVisiteur implements WindowListener {
         if (lesVisiteursTrouvee.size() > 0) {
             Visiteur visiteurAffiche = lesVisiteursTrouvee.get(indexVisiteur);
 
-            String codeSecteurVisiteur = visiteurAffiche.getCodeSecteur();
             int indexSecteurVisiteur = 0;
-            if (codeSecteurVisiteur != null) {
-                int indexSecteur = 1;
-                for (Secteur unSecteur : lesSecteurs) {
-                    if (unSecteur.getCodeSecteur().equals(codeSecteurVisiteur)) {
-                        indexSecteurVisiteur = indexSecteur;
+            if (visiteurAffiche.getSecteur() != null) {
+                String codeSecteurVisiteur = visiteurAffiche.getSecteur().getCodeSecteur();
+                if (codeSecteurVisiteur != null) {
+                    int indexSecteur = 1;
+                    for (Secteur unSecteur : lesSecteurs) {
+                        if (unSecteur.getCodeSecteur().equals(codeSecteurVisiteur)) {
+                            indexSecteurVisiteur = indexSecteur;
+                        }
+                        indexSecteur++;
                     }
-                    indexSecteur++;
                 }
             }
 
-            String codeLaboratoireVisiteur = visiteurAffiche.getCodeLaboratoire();
+            String codeLaboratoireVisiteur = visiteurAffiche.getLaboratoire().getCodeLaboratoire();
             int indexLaboratoire = 0;
             int indexLaboratoireVisiteur = 0;
             for (Laboratoire unLaboratoire : lesLaboratoires) {
@@ -202,10 +211,9 @@ public class CtrlVisiteur implements WindowListener {
      *
      */
     private void remplirJComboBoxVisiteurs() {
-        try {
-            lesVisiteurs = DaoVisiteur.getAllVisiteurs();
-        } catch (SQLException ex) {
-            Logger.getLogger(CtrlVisiteur.class.getName()).log(Level.SEVERE, null, ex);
+        int index = -1;
+        if (indexRecherche != null) {
+            index = indexRecherche[vue.getjComboBoxChercher().getSelectedIndex()];
         }
         listeVisiteurs.clear();
         lesVisiteursTrouvee.clear();
@@ -215,6 +223,9 @@ public class CtrlVisiteur implements WindowListener {
             listeVisiteurs.add(unVisiteur.getNom() + " " + unVisiteur.getPrenom());
             modeleJComboBoxNomsPrenomsVisiteurs.addElement(unVisiteur.getNom() + " " + unVisiteur.getPrenom());
         }
+        if (!vue.getjTextFieldRechercher().getText().equals("")) {
+            vue.getjComboBoxChercher().setSelectedIndex(index);
+        }
     }
 
     /**
@@ -223,22 +234,12 @@ public class CtrlVisiteur implements WindowListener {
     private void remplirJComboBoxs() {
         remplirJComboBoxVisiteurs();
 
-        try {
-            lesSecteurs = DaoSecteur.getAllSecteurs();
-        } catch (SQLException ex) {
-            Logger.getLogger(CtrlVisiteur.class.getName()).log(Level.SEVERE, null, ex);
-        }
         modeleJComboBoxSecteurs.removeAllElements();
         modeleJComboBoxSecteurs.addElement("Aucun");
         for (Secteur unSecteur : lesSecteurs) {
             modeleJComboBoxSecteurs.addElement(unSecteur.getLibelleSecteur());
         }
 
-        try {
-            lesLaboratoires = DaoLaboratoire.getAllLaboratoires();
-        } catch (SQLException ex) {
-            Logger.getLogger(CtrlVisiteur.class.getName()).log(Level.SEVERE, null, ex);
-        }
         modeleJComboBoxLaboratoires.removeAllElements();
         for (Laboratoire unLaboratoire : lesLaboratoires) {
             modeleJComboBoxLaboratoires.addElement(unLaboratoire.getNomLaboratoire());
@@ -249,15 +250,7 @@ public class CtrlVisiteur implements WindowListener {
      *
      */
     private void rechercherIndexVisiteurConnecte() {
-        Visiteur visiteurLu = null;
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("visiteur.data"));
-            visiteurLu = (Visiteur) ois.readObject();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Impossible de lire le fichier contenant l'état de l'objet visiteur." + ex);
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Erreur impossible de charger le fichier contenant l'état de l'objet du visiteur\n" + ex);
-        }
+        Visiteur visiteurLu = FileReader.getConnectedVisiteur(vue);
         String matriculeVisiteur = visiteurLu.getMatricule();
         int indexVisiteur = 0;
         int indexConnectedVisiteur = 0;
@@ -279,18 +272,22 @@ public class CtrlVisiteur implements WindowListener {
         } else {
             nomPrenomTrouve.clear();
             lesVisiteursTrouvee.clear();
+            indexRecherche = new int[listeVisiteurs.size()];
+            int k = 0;
             for (int i = 0; i < listeVisiteurs.size(); i++) {
                 if (listeVisiteurs.get(i).toLowerCase().contains(vue.getjTextFieldRechercher().getText().toLowerCase())) {
                     nomPrenomTrouve.add(listeVisiteurs.get(i));
                     lesVisiteursTrouvee.add(lesVisiteurs.get(i));
+                    indexRecherche[k] = i;
+                    k++;
                 }
             }
             modeleJComboBoxNomsPrenomsVisiteurs.removeAllElements();
-            if (nomPrenomTrouve.size() == 0) {
+            if (nomPrenomTrouve.isEmpty()) {
                 modeleJComboBoxNomsPrenomsVisiteurs.addElement("Aucun résultat");
             }
-            for (int i = 0; i < nomPrenomTrouve.size(); i++) {
-                modeleJComboBoxNomsPrenomsVisiteurs.addElement(nomPrenomTrouve.get(i));
+            for (String nomPrenomTrouve1 : nomPrenomTrouve) {
+                modeleJComboBoxNomsPrenomsVisiteurs.addElement(nomPrenomTrouve1);
             }
 
         }
@@ -304,8 +301,18 @@ public class CtrlVisiteur implements WindowListener {
         }
     }
 
+    private void isEditing(boolean b) {
+        vue.getjTextFieldAdresse().setEditable(b);
+        vue.getjTextFieldCodePostal().setEditable(b);
+        vue.getjTextFieldNom().setEditable(b);
+        vue.getjTextFieldPrenom().setEditable(b);
+        vue.getjTextFieldVille().setEditable(b);
+        vue.getjComboBoxLabo().setEnabled(b);
+        vue.getjComboBoxSecteur().setEnabled(b);
+    }
+
     /**
-     * 
+     *
      */
     private class Ecouteur implements ActionListener {
 
@@ -329,8 +336,11 @@ public class CtrlVisiteur implements WindowListener {
                 } else {
                     afficherLeVisiteur(suivant);
                 }
-            } else if (evenement.getSource() == vue.getjComboBoxChercher() && comboBoxVisiteursFocused) {
-                afficherLeVisiteur(vue.getjComboBoxChercher().getSelectedIndex());
+            } else if (evenement.getSource() == vue.getjComboBoxChercher()) {
+                int index = vue.getjComboBoxChercher().getSelectedIndex();
+                if (index != -1) {
+                    afficherLeVisiteur(index);
+                }
             } else if (evenement.getSource() == vue.getjComboBoxLabo()) {
                 //
             } else if (evenement.getSource() == vue.getjComboBoxSecteur()) {
@@ -342,40 +352,76 @@ public class CtrlVisiteur implements WindowListener {
     }
 
     // ACCESSEURS et MUTATEURS
+    /**
+     *
+     * @return
+     */
     public VueVisiteur getVue() {
         return vue;
     }
 
+    /**
+     *
+     * @param vue
+     */
     public void setVue(VueVisiteur vue) {
         this.vue = vue;
     }
 
     // REACTIONS EVENEMENTIELLES
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowOpened(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowClosing(WindowEvent e) {
         ctrlPrincipal.quitterApplication();
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowClosed(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowIconified(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowDeiconified(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowActivated(WindowEvent e) {
     }
 
+    /**
+     *
+     * @param e
+     */
     @Override
     public void windowDeactivated(WindowEvent e) {
     }

@@ -11,7 +11,7 @@ package modele.metier;
 public class Medicament {
     String depotLegal;
     String nomCommercial;
-    String codeFamille;
+    Famille famille;
     String composition;
     String effets;
     String contreIndication;
@@ -21,16 +21,16 @@ public class Medicament {
      *
      * @param depotLegal
      * @param nomCommercial
-     * @param codeFamille
+     * @param famille
      * @param composition
      * @param effets
      * @param contreIndication
      * @param prixEchantillon
      */
-    public Medicament(String depotLegal, String nomCommercial, String codeFamille, String composition, String effets, String contreIndication, float prixEchantillon) {
+    public Medicament(String depotLegal, String nomCommercial, Famille famille, String composition, String effets, String contreIndication, float prixEchantillon) {
         this.depotLegal = depotLegal;
         this.nomCommercial = nomCommercial;
-        this.codeFamille = codeFamille;
+        this.famille = famille;
         this.composition = composition;
         this.effets = effets;
         this.contreIndication = contreIndication;
@@ -73,16 +73,16 @@ public class Medicament {
      *
      * @return
      */
-    public String getCodeFamille() {
-        return codeFamille;
+    public Famille getFamille() {
+        return famille;
     }
 
     /**
      *
-     * @param codeFamille
+     * @param famille
      */
-    public void setCodeFamille(String codeFamille) {
-        this.codeFamille = codeFamille;
+    public void setFamille(Famille famille) {
+        this.famille = famille;
     }
 
     /**
@@ -155,6 +155,6 @@ public class Medicament {
      */
     @Override
     public String toString() {
-        return "Medicament{" + "depotLegal=" + depotLegal + ", nomCommercial=" + nomCommercial + ", codeFamille=" + codeFamille + ", composition=" + composition + ", effets=" + effets + ", contreIndication=" + contreIndication + ", prixEchantillon=" + prixEchantillon + '}';
+        return "Medicament{" + "depotLegal=" + depotLegal + ", nomCommercial=" + nomCommercial + ", codeFamille=" + famille.getCodeFamille() + ", composition=" + composition + ", effets=" + effets + ", contreIndication=" + contreIndication + ", prixEchantillon=" + prixEchantillon + '}';
     }
 }

@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
+import modele.metier.Laboratoire;
+import modele.metier.Secteur;
 import modele.metier.Visiteur;
 
 /**
@@ -28,14 +30,14 @@ public class DaoConnexion {
         int code = -1;
         boolean bonMdp = false;
         boolean bonLogin = false;
-        java.sql.Date sqlDate = null;
+        Date sqlDate = null;
         try {
-            Date date = new Date(mdp);
-            sqlDate = new java.sql.Date(date.getTime());
+            java.util.Date date = new java.util.Date(mdp);
+            sqlDate = new Date(date.getTime());
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             String formatMdp = formatter.format(sqlDate).toUpperCase();
-            date = new Date(formatMdp);
-            sqlDate = new java.sql.Date(date.getTime());
+            date = new java.util.Date(formatMdp);
+            sqlDate = new Date(date.getTime());
         } catch (Exception e) {
             //Si le mot de passe est sous forme d'une date incorrecte la convertion de date ne marchera pas
             System.out.println("Mauvais mot de passe !");
@@ -83,6 +85,8 @@ public class DaoConnexion {
                 System.out.println("Login incorrect");
             }
         }
+        rs.close();
+        pstmt.close();
         return code;
     }
 
@@ -96,14 +100,14 @@ public class DaoConnexion {
      */
     public static Visiteur getConnectedVisiteur(String leNom, String laDateEmbauche) throws SQLException {
         Visiteur unVisiteur = null;
-        java.sql.Date sqlDate = null;
+        Date sqlDate = null;
         try {
-            Date date = new Date(laDateEmbauche);
-            sqlDate = new java.sql.Date(date.getTime());
+            java.util.Date date = new java.util.Date(laDateEmbauche);
+            sqlDate = new Date(date.getTime());
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             String formatMdp = formatter.format(sqlDate).toUpperCase();
-            date = new Date(formatMdp);
-            sqlDate = new java.sql.Date(date.getTime());
+            date = new java.util.Date(formatMdp);
+            sqlDate = new Date(date.getTime());
         } catch (Exception e) {
             //normalement le mot de passe est correct ici mais on laisse quand meme l'exception au cas ou
             System.out.println("Mauvais mot de passe !");
@@ -126,8 +130,12 @@ public class DaoConnexion {
             Date dateEmbauche = rs.getDate("VIS_DATEEMBAUCHE");
             String codeSecteur = rs.getString("SEC_CODE");
             String codeLaboratoire = rs.getString("LAB_CODE");
-            unVisiteur = new Visiteur(matricule, nom, prenom, adresse, codePostal, ville, dateEmbauche, codeSecteur, codeLaboratoire);
+            Secteur leSecteur = DaoSecteur.getOneByCode(codeSecteur);
+            Laboratoire leLabo = DaoLaboratoire.getOneByCode(codeLaboratoire);
+            unVisiteur = new Visiteur(matricule, nom, prenom, adresse, codePostal, ville, dateEmbauche, leSecteur, leLabo);
         }
+        rs.close();
+        pstmt.close();
         return unVisiteur;
     }
 }

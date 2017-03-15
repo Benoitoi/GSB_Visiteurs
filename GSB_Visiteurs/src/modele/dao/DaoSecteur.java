@@ -30,6 +30,8 @@ public class DaoSecteur {
             String libelle = rs.getString("SEC_LIBELLE");
             lesSecteurs.add(new Secteur(code, libelle));
         }
+        rs.close();
+        pstmt.close();
         return lesSecteurs;
     }
 
@@ -53,6 +55,8 @@ public class DaoSecteur {
             String libelle = rs.getString("SEC_LIBELLE");
             leSecteurs = new Secteur(code, libelle);
         }
+        rs.close();
+        pstmt.close();
         return leSecteurs;
     }
 }

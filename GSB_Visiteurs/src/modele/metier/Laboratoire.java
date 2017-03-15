@@ -1,5 +1,7 @@
 package modele.metier;
 
+import java.io.Serializable;
+
 /**
  * Classe représentant les laboratoires
  *
@@ -7,8 +9,8 @@ package modele.metier;
  * @version 1.0 :
  *
  */
+public class Laboratoire implements Serializable {
 
-public class Laboratoire {
     private String codeLaboratoire;
     private String nomLaboratoire;
     private String chefDeVente;

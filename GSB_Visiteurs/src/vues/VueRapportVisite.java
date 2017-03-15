@@ -60,6 +60,7 @@ public class VueRapportVisite extends javax.swing.JFrame {
         jButtonPlus = new javax.swing.JButton();
         jButtonMoins = new javax.swing.JButton();
         jButtonToutSupprimer = new javax.swing.JButton();
+        jButtonSupprimer = new javax.swing.JButton();
         jLabelBackground = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -78,56 +79,56 @@ public class VueRapportVisite extends javax.swing.JFrame {
         jLabelNuméroRapport.setForeground(new java.awt.Color(153, 153, 153));
         jLabelNuméroRapport.setText("Numéro rapport :");
         jPanel1.add(jLabelNuméroRapport);
-        jLabelNuméroRapport.setBounds(130, 60, 120, 14);
+        jLabelNuméroRapport.setBounds(80, 60, 120, 14);
 
         jTextAreaBilan.setColumns(20);
         jTextAreaBilan.setRows(5);
         jScrollPane3.setViewportView(jTextAreaBilan);
 
         jPanel1.add(jScrollPane3);
-        jScrollPane3.setBounds(300, 240, 440, 80);
+        jScrollPane3.setBounds(250, 240, 440, 80);
 
         jTextFieldNumeroRapport.setEditable(false);
         jPanel1.add(jTextFieldNumeroRapport);
-        jTextFieldNumeroRapport.setBounds(300, 60, 90, 20);
+        jTextFieldNumeroRapport.setBounds(250, 60, 90, 20);
 
         jLabelPraticien.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelPraticien.setForeground(new java.awt.Color(0, 0, 153));
         jLabelPraticien.setText("Praticien :");
         jPanel1.add(jLabelPraticien);
-        jLabelPraticien.setBounds(130, 110, 90, 14);
+        jLabelPraticien.setBounds(80, 110, 90, 14);
 
         jComboBoxPraticien.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(jComboBoxPraticien);
-        jComboBoxPraticien.setBounds(300, 110, 150, 20);
+        jComboBoxPraticien.setBounds(250, 110, 150, 20);
 
         jButtonDetailsPraticien.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonDetailsPraticien.setForeground(new java.awt.Color(0, 0, 153));
         jButtonDetailsPraticien.setText("Détails");
         jPanel1.add(jButtonDetailsPraticien);
-        jButtonDetailsPraticien.setBounds(470, 110, 100, 23);
+        jButtonDetailsPraticien.setBounds(420, 110, 100, 23);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 153));
         jLabel4.setText("Date rapport :");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(130, 160, 100, 14);
+        jLabel4.setBounds(80, 160, 100, 14);
 
         jLabelMotifVisite.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelMotifVisite.setForeground(new java.awt.Color(0, 0, 153));
         jLabelMotifVisite.setText("Motif visite :");
         jPanel1.add(jLabelMotifVisite);
-        jLabelMotifVisite.setBounds(130, 210, 90, 14);
+        jLabelMotifVisite.setBounds(80, 210, 90, 14);
         jPanel1.add(jTextFieldMotifVisite);
-        jTextFieldMotifVisite.setBounds(300, 210, 210, 20);
+        jTextFieldMotifVisite.setBounds(250, 210, 210, 20);
 
         jLabelBilan.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBilan.setForeground(new java.awt.Color(0, 0, 153));
         jLabelBilan.setText("Bilan");
         jPanel1.add(jLabelBilan);
-        jLabelBilan.setBounds(130, 260, 70, 14);
+        jLabelBilan.setBounds(80, 260, 70, 14);
         jPanel1.add(jDateChooserDateRapport);
-        jDateChooserDateRapport.setBounds(300, 160, 120, 30);
+        jDateChooserDateRapport.setBounds(250, 160, 120, 30);
 
         jLabelOffreEchantillons.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelOffreEchantillons.setForeground(new java.awt.Color(0, 0, 153));
@@ -157,31 +158,36 @@ public class VueRapportVisite extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTableOffreEchantillons);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(130, 340, 440, 90);
+        jScrollPane2.setBounds(80, 340, 440, 90);
 
         jButtonPrecedent.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonPrecedent.setForeground(new java.awt.Color(0, 0, 153));
         jButtonPrecedent.setText("Précédent");
         jPanel1.add(jButtonPrecedent);
-        jButtonPrecedent.setBounds(70, 440, 120, 23);
+        jButtonPrecedent.setBounds(370, 60, 120, 23);
 
         jButtonSuivant.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonSuivant.setForeground(new java.awt.Color(0, 0, 153));
         jButtonSuivant.setText("Suivant");
+        jButtonSuivant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSuivantActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButtonSuivant);
-        jButtonSuivant.setBounds(220, 440, 100, 23);
+        jButtonSuivant.setBounds(520, 60, 100, 23);
 
         jButtonValider.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonValider.setForeground(new java.awt.Color(0, 0, 153));
         jButtonValider.setText("Valider");
         jPanel1.add(jButtonValider);
-        jButtonValider.setBounds(480, 440, 110, 23);
+        jButtonValider.setBounds(390, 440, 110, 23);
 
         jButtonFermer.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonFermer.setForeground(new java.awt.Color(0, 0, 153));
         jButtonFermer.setText("Fermer");
         jPanel1.add(jButtonFermer);
-        jButtonFermer.setBounds(610, 440, 100, 23);
+        jButtonFermer.setBounds(570, 440, 100, 23);
 
         jButtonMenuGeneral.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonMenuGeneral.setForeground(new java.awt.Color(0, 0, 153));
@@ -198,19 +204,25 @@ public class VueRapportVisite extends javax.swing.JFrame {
         jButtonNouveau.setForeground(new java.awt.Color(0, 0, 153));
         jButtonNouveau.setText("Nouveau");
         jPanel1.add(jButtonNouveau);
-        jButtonNouveau.setBounds(350, 440, 110, 23);
+        jButtonNouveau.setBounds(50, 440, 110, 23);
 
         jButtonPlus.setText("+");
         jPanel1.add(jButtonPlus);
-        jButtonPlus.setBounds(580, 360, 40, 23);
+        jButtonPlus.setBounds(530, 360, 40, 23);
 
         jButtonMoins.setText("-");
         jPanel1.add(jButtonMoins);
-        jButtonMoins.setBounds(580, 390, 40, 23);
+        jButtonMoins.setBounds(530, 390, 40, 23);
 
         jButtonToutSupprimer.setText("Tout supprimer");
         jPanel1.add(jButtonToutSupprimer);
-        jButtonToutSupprimer.setBounds(630, 390, 110, 23);
+        jButtonToutSupprimer.setBounds(580, 390, 110, 23);
+
+        jButtonSupprimer.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonSupprimer.setForeground(new java.awt.Color(0, 0, 153));
+        jButtonSupprimer.setText("Supprimer");
+        jPanel1.add(jButtonSupprimer);
+        jButtonSupprimer.setBounds(220, 440, 110, 23);
 
         jLabelBackground.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBackground.setForeground(new java.awt.Color(0, 0, 153));
@@ -235,6 +247,10 @@ public class VueRapportVisite extends javax.swing.JFrame {
     private void jButtonMenuGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMenuGeneralActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonMenuGeneralActionPerformed
+
+    private void jButtonSuivantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuivantActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonSuivantActionPerformed
 
     /**
      * @param args the command line arguments
@@ -399,6 +415,12 @@ public class VueRapportVisite extends javax.swing.JFrame {
     public JButton getjButtonToutSupprimer() {
         return jButtonToutSupprimer;
     }
+
+    public JButton getjButtonSupprimer() {
+        return jButtonSupprimer;
+    }
+    
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDetailsPraticien;
@@ -409,6 +431,7 @@ public class VueRapportVisite extends javax.swing.JFrame {
     private javax.swing.JButton jButtonPlus;
     private javax.swing.JButton jButtonPrecedent;
     private javax.swing.JButton jButtonSuivant;
+    private javax.swing.JButton jButtonSupprimer;
     private javax.swing.JButton jButtonToutSupprimer;
     private javax.swing.JButton jButtonValider;
     private javax.swing.JComboBox jComboBoxPraticien;

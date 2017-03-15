@@ -1,6 +1,5 @@
 package modele.metier;
 
-import java.io.Serializable;
 import java.sql.Date;
 
 /**
@@ -11,27 +10,27 @@ import java.sql.Date;
  *
  */
 
-public class RapportVisite implements Serializable {
-    private String matriculeVisiteur; 
+public class RapportVisite {
+    private Visiteur visiteur; 
     private int numeroRapport;
-    private int numeroPraticien;
+    private Praticien praticien;
     private Date dateRapport;
     private String motifRapport;
     private String bilanRapport;
     
     /**
      * Constructeur avec les 6 attributs
-     * @param matriculeVisiteur : matricule du visiteur
+     * @param visiteur
+     * @param praticien
      * @param numeroRapport
-     * @param numeroPraticien
      * @param dateRapport
      * @param motifRapport
      * @param bilanRapport
      */
-    public RapportVisite(String matriculeVisiteur, int numeroRapport, int numeroPraticien, Date dateRapport, String motifRapport, String bilanRapport) {
-        this.matriculeVisiteur = matriculeVisiteur;
+    public RapportVisite(Visiteur visiteur, int numeroRapport, Praticien praticien, Date dateRapport, String motifRapport, String bilanRapport) {
+        this.visiteur = visiteur;
         this.numeroRapport = numeroRapport;
-        this.numeroPraticien = numeroPraticien;
+        this.praticien = praticien;
         this.dateRapport = dateRapport;
         this.motifRapport = motifRapport;
         this.bilanRapport = bilanRapport;
@@ -41,16 +40,16 @@ public class RapportVisite implements Serializable {
      *
      * @return
      */
-    public String getMatriculeVisiteur() {
-        return matriculeVisiteur;
+    public Visiteur getVisiteur() {
+        return visiteur;
     }
 
     /**
      *
-     * @param matriculeVisiteur
+     * @param visiteur
      */
-    public void setMatriculeVisiteur(String matriculeVisiteur) {
-        this.matriculeVisiteur = matriculeVisiteur;
+    public void setVisiteur(Visiteur visiteur) {
+        this.visiteur = visiteur;
     }
 
     /**
@@ -73,16 +72,16 @@ public class RapportVisite implements Serializable {
      *
      * @return
      */
-    public int getNumeroPraticien() {
-        return numeroPraticien;
+    public Praticien getPraticien() {
+        return praticien;
     }
 
     /**
      *
-     * @param numeroPraticien
+     * @param praticien
      */
-    public void setNumeroPraticien(int numeroPraticien) {
-        this.numeroPraticien = numeroPraticien;
+    public void setPraticien(Praticien praticien) {
+        this.praticien = praticien;
     }
 
     /**
@@ -139,6 +138,6 @@ public class RapportVisite implements Serializable {
      */
     @Override
     public String toString() {
-        return "RapportVisite{" + "matriculeVisiteur=" + matriculeVisiteur + ", numeroRapport=" + numeroRapport + ", numeroPraticien=" + numeroPraticien + ", dateRapport=" + dateRapport + ", motifRapport=" + motifRapport + ", bilanRapport=" + bilanRapport + '}';
+        return "RapportVisite{" + "matriculeVisiteur=" + visiteur.getMatricule() + ", numeroRapport=" + numeroRapport + ", numeroPraticien=" + praticien.getNumero() + ", dateRapport=" + dateRapport + ", motifRapport=" + motifRapport + ", bilanRapport=" + bilanRapport + '}';
     }
 }

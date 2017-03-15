@@ -6,6 +6,8 @@
 package gsb_visiteurs;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modele.dao.Jdbc;
 
@@ -27,9 +29,9 @@ public class Connexion {
         try {
             Jdbc.getInstance().connecter();
         } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Main - classe JDBC non trouvée "+ex);
+            JOptionPane.showMessageDialog(null, "Main - classe JDBC non trouvée " + ex);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Main - échec de connexion "+ex);
+            JOptionPane.showMessageDialog(null, "Main - échec de connexion " + ex);
         }
     }
 }

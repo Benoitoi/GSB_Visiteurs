@@ -143,6 +143,7 @@ public class VueMedicament extends javax.swing.JFrame {
         jComboBoxFamille.setBounds(260, 190, 190, 20);
 
         jTextAreaContreIndications.setColumns(20);
+        jTextAreaContreIndications.setLineWrap(true);
         jTextAreaContreIndications.setRows(5);
         jScrollPane1.setViewportView(jTextAreaContreIndications);
 
@@ -150,6 +151,7 @@ public class VueMedicament extends javax.swing.JFrame {
         jScrollPane1.setBounds(260, 331, 430, 80);
 
         jTextAreaEffetsIndesirables.setColumns(20);
+        jTextAreaEffetsIndesirables.setLineWrap(true);
         jTextAreaEffetsIndesirables.setRows(5);
         jScrollPane2.setViewportView(jTextAreaEffetsIndesirables);
 

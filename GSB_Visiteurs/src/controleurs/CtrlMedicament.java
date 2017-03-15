@@ -1,5 +1,6 @@
 package controleurs;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -8,11 +9,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.awt.Font;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import modele.dao.DaoFamille;
@@ -38,6 +44,8 @@ public class CtrlMedicament implements WindowListener {
     private final ArrayList<String> listeMedicaments = new ArrayList<>();
     private final ArrayList<String> nomPrenomTrouve;
     private boolean rechercheFocused = false;
+    private boolean editMode = false;
+    private boolean detailMode = false;
 
     /**
      *
@@ -134,6 +142,17 @@ public class CtrlMedicament implements WindowListener {
 
         // préparer l'état iniitial de la vue
         afficherLeMedicament(0);
+        isEditing(editMode);
+    }
+
+    private void isEditing(boolean b) {
+        vue.getjTextFieldCode().setEditable(b);
+        vue.getjTextFieldNomCommercial().setEditable(b);
+        vue.getjComboBoxFamille().setEnabled(b);
+        vue.getjTextFieldComposition().setEditable(b);
+        vue.getjTextAreaEffetsIndesirables().setEditable(b);
+        vue.getjTextAreaContreIndications().setEditable(b);
+        vue.getjTextFieldPrixEchantillon().setEditable(b);
     }
 
     private class Ecouteur implements ActionListener {
@@ -141,7 +160,13 @@ public class CtrlMedicament implements WindowListener {
         @Override
         public void actionPerformed(ActionEvent evenement) {
             if (evenement.getSource() == vue.getjButtonFermer()) {
-                ctrlPrincipal.fermer(getVue());
+                if (detailMode) {
+                    getVue().dispose();
+                    detailMode = false;
+                    detailMode(detailMode);
+                } else {
+                    ctrlPrincipal.fermer(getVue());
+                }
             } else if (evenement.getSource() == vue.getjButtonOk()) {
                 afficherLeMedicament(vue.getjComboBoxChercher().getSelectedIndex());
             } else if (evenement.getSource() == vue.getjButtonPrecedent()) {
@@ -171,6 +196,15 @@ public class CtrlMedicament implements WindowListener {
         }
     }
 
+    public void detailMode(boolean b) {
+        vue.getjButtonMenuGeneral().setVisible(!b);
+        vue.getjTextFieldRechercher().setEnabled(!b);
+        vue.getjComboBoxChercher().setEnabled(!b);
+        vue.getjButtonOk().setEnabled(!b);
+        vue.getjButtonPrecedent().setEnabled(!b);
+        vue.getjButtonSuivant().setEnabled(!b);
+    }
+
     // contrôle de la vue
     /**
      * Remplir le composant JTable avec les clients
@@ -180,14 +214,8 @@ public class CtrlMedicament implements WindowListener {
     private void afficherLeMedicament(int indexMedicament) {
         if (lesMedicamentsTrouvee.size() > 0) {
             Medicament medicamentAffiche = lesMedicamentsTrouvee.get(indexMedicament);
-            //        Medicament medicamentAffiche = null;
-            //        try {
-            //            medicamentAffiche = DaoMedicament.selectOneByRow(rowNumber);
-            //        } catch (SQLException ex) {
-            //            Logger.getLogger(CtrlMedicament.class.getName()).log(Level.SEVERE, null, ex);
-            //        }
 
-            String codeFamilleMedicament = medicamentAffiche.getCodeFamille();
+            String codeFamilleMedicament = medicamentAffiche.getFamille().getCodeFamille();
             int indexFamille = 0;
             int indexFamilleMedicament = 0;
             for (Famille unFamille : lesFamilles) {
@@ -197,16 +225,30 @@ public class CtrlMedicament implements WindowListener {
                 indexFamille++;
             }
 
+            int width = 0;
+            final Font FONT = new JLabel().getFont();
+            AffineTransform affinetransform = new AffineTransform();
+            FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
             vue.getjComboBoxFamille().setSelectedIndex(indexFamilleMedicament);
             vue.getjComboBoxChercher().setSelectedIndex(indexMedicament);
 
             vue.getjTextFieldCode().setText(medicamentAffiche.getDepotLegal());
             vue.getjTextFieldNomCommercial().setText(medicamentAffiche.getNomCommercial());
             vue.getjTextFieldComposition().setText(medicamentAffiche.getComposition());
+            width = (int) (FONT.getStringBounds(medicamentAffiche.getComposition(), frc).getWidth()) + 10;
+            System.out.println(vue.getjTextFieldComposition().getWidth());
+            System.out.println(width);
+            vue.getjTextFieldComposition().setSize(width, vue.getjTextFieldComposition().getHeight());
             vue.getjTextAreaEffetsIndesirables().setText(medicamentAffiche.getEffets());
+            vue.getjTextAreaEffetsIndesirables().setCaretPosition(0);
             vue.getjTextAreaContreIndications().setText(medicamentAffiche.getContreIndication());
+            vue.getjTextAreaContreIndications().setCaretPosition(0);
             vue.getjTextFieldPrixEchantillon().setText(String.valueOf(medicamentAffiche.getPrixEchantillon()));
         }
+    }
+
+    private void doRightDisplay(Component c) {
+
     }
 
     private void remplirJComboBoxMedicaments() {
@@ -285,15 +327,16 @@ public class CtrlMedicament implements WindowListener {
             indexMedoc++;
         }
         afficherLeMedicament(indexLeMedoc);
+        detailMode = true;
+        detailMode(detailMode);
     }
 
     // ACCESSEURS et MUTATEURS
-
     /**
      *
      * @return
      */
-        public VueMedicament getVue() {
+    public VueMedicament getVue() {
         return vue;
     }
 
@@ -306,12 +349,11 @@ public class CtrlMedicament implements WindowListener {
     }
 
     // REACTIONS EVENEMENTIELLES
-
     /**
      *
      * @param e
      */
-        @Override
+    @Override
     public void windowOpened(WindowEvent e) {
     }
 
@@ -321,7 +363,13 @@ public class CtrlMedicament implements WindowListener {
      */
     @Override
     public void windowClosing(WindowEvent e) {
-        ctrlPrincipal.quitterApplication();
+        if (detailMode) {
+            getVue().dispose();
+            detailMode = false;
+            detailMode(detailMode);
+        } else {
+            ctrlPrincipal.quitterApplication();
+        }
     }
 
     /**

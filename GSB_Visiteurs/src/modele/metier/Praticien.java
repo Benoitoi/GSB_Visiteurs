@@ -16,7 +16,7 @@ public class Praticien {
     int codePostal;
     String ville;
     float coefficientNotoriete;
-    String typeCode;
+    TypePraticien type;
 
     /**
      *
@@ -27,9 +27,9 @@ public class Praticien {
      * @param codePostal
      * @param ville
      * @param coefficientNotoriete
-     * @param typeCode
+     * @param type
      */
-    public Praticien(int numero, String nom, String prenom, String adresse, int codePostal, String ville, float coefficientNotoriete, String typeCode) {
+    public Praticien(int numero, String nom, String prenom, String adresse, int codePostal, String ville, float coefficientNotoriete, TypePraticien type) {
         this.numero = numero;
         this.nom = nom;
         this.prenom = prenom;
@@ -37,7 +37,7 @@ public class Praticien {
         this.codePostal = codePostal;
         this.ville = ville;
         this.coefficientNotoriete = coefficientNotoriete;
-        this.typeCode = typeCode;
+        this.type = type;
     }
 
     /**
@@ -156,16 +156,16 @@ public class Praticien {
      *
      * @return
      */
-    public String getTypeCode() {
-        return typeCode;
+    public TypePraticien getType() {
+        return type;
     }
 
     /**
      *
-     * @param typeCode
+     * @param type
      */
-    public void setTypeCode(String typeCode) {
-        this.typeCode = typeCode;
+    public void setType(TypePraticien type) {
+        this.type = type;
     }
 
     /**
@@ -174,8 +174,6 @@ public class Praticien {
      */
     @Override
     public String toString() {
-        return "Praticien{" + "numero=" + numero + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", codePostal=" + codePostal + ", ville=" + ville + ", coefficientNotoriete=" + coefficientNotoriete + ", typeCode=" + typeCode + '}';
+        return "Praticien{" + "numero=" + numero + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", codePostal=" + codePostal + ", ville=" + ville + ", coefficientNotoriete=" + coefficientNotoriete + ", typeCode=" + type.getTypeCode() + '}';
     }
-
-
 }

@@ -43,9 +43,13 @@ public class CtrlPrincipal {
     public void afficherConnexion() {
         if (this.ctrlMenuGeneral != null) {
             this.ctrlMenuGeneral.getVue().setVisible(false);
+            this.ctrlConnexion.getVue().setBounds(this.ctrlMenuGeneral.getVue().getBounds());
+        } else {
+
         }
         this.identification();
         this.ctrlConnexion.getVue().setVisible(true);
+        this.ctrlConnexion.getVue().setLocationRelativeTo(null);
         setCurrentView(this.ctrlConnexion.getVue());
     }
 
@@ -60,6 +64,7 @@ public class CtrlPrincipal {
             this.menuGeneral();
         }
         this.ctrlMenuGeneral.getVue().setVisible(true);
+        this.ctrlMenuGeneral.getVue().setBounds(laVue.getBounds());
         setCurrentView(this.ctrlMenuGeneral.getVue());
     }
 
@@ -72,6 +77,7 @@ public class CtrlPrincipal {
             this.visiteur();
         }
         this.ctrlVisiteur.getVue().setVisible(true);
+        this.ctrlVisiteur.getVue().setBounds(this.ctrlMenuGeneral.getVue().getBounds());
         setCurrentView(this.ctrlVisiteur.getVue());
     }
 
@@ -84,6 +90,7 @@ public class CtrlPrincipal {
             this.rapportVisite();
         }
         this.ctrlRapportVisite.getVue().setVisible(true);
+        this.ctrlRapportVisite.getVue().setBounds(this.ctrlMenuGeneral.getVue().getBounds());
         setCurrentView(this.ctrlRapportVisite.getVue());
     }
 
@@ -98,7 +105,15 @@ public class CtrlPrincipal {
         }
         if (numPraticien != -1) {
             ctrlPraticien.detailPraticien(numPraticien);
+            this.ctrlPraticien.getVue().setBounds(this.ctrlRapportVisite.getVue().getBounds());
+        } else {
+            this.ctrlPraticien.getVue().setBounds(this.ctrlMenuGeneral.getVue().getBounds());
+            if (this.ctrlPraticien.isDetailMode()) {
+                this.ctrlPraticien.setDetailMode(false);
+                this.ctrlPraticien.detailMode(false);
+            }
         }
+
         this.ctrlPraticien.getVue().setVisible(true);
         setCurrentView(this.ctrlPraticien.getVue());
     }
@@ -114,6 +129,9 @@ public class CtrlPrincipal {
         }
         if (depotLegal != null) {
             ctrlMedicament.detailMedicament(depotLegal);
+            this.ctrlMedicament.getVue().setBounds(this.ctrlRapportVisite.getVue().getBounds());
+        } else {
+            this.ctrlMedicament.getVue().setBounds(this.ctrlMenuGeneral.getVue().getBounds());
         }
         this.ctrlMedicament.getVue().setVisible(true);
         setCurrentView(this.ctrlMedicament.getVue());

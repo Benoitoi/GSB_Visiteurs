@@ -1,7 +1,11 @@
 package test.modele.metier;
 
-import java.util.Date;
+import java.sql.Date;
+import java.text.ParseException;
+import modele.metier.Laboratoire;
+import modele.metier.Secteur;
 import modele.metier.Visiteur;
+import util.DateConvertion;
 
 /**
  * Classe de test unitaire pour la classe Visiteur
@@ -21,7 +25,9 @@ public class TestVisiteur {
         Visiteur visiteur = null;
         // Test n°1 : instanciation et accesseurs
         System.out.println("\nTest n°1 : instanciation et accesseurs");
-        visiteur = new Visiteur("a0", "testnom", "testprenom", "1 rue du test", "00000", "testville", new Date("01-jan-00"), "S", "SW");
+        Secteur secteur = new Secteur("N", "Nord");
+        Laboratoire laboratoire = new Laboratoire("TL", "TESTLABO", "chef test");
+        visiteur = new Visiteur("a0", "testnom", "testprenom", "1 rue du test", "00000", "testville", doDate("01-jan-2000"), secteur, laboratoire);
 
         System.out.println("Etat du visiteur : " + visiteur.toString());
 
@@ -34,9 +40,11 @@ public class TestVisiteur {
         visiteur.setAdresse("2 nouvelle rue");
         visiteur.setCodePostal("11111");
         visiteur.setVille("nouvelleville");
-        visiteur.setDateEmbauche(new Date("31-dec-99"));
-        visiteur.setCodeSecteur("P");
-        visiteur.setCodeLaboratoire("GY");
+        visiteur.setDateEmbauche(doDate("31-dec-1999"));
+        Secteur secteur2 = new Secteur("E", "Est");
+        visiteur.setSecteur(secteur2);
+        Laboratoire laboratoire2 = new Laboratoire("LT", "LABTEST", "test chef");
+        visiteur.setLaboratoire(laboratoire2);
 
         //accesseurs
         System.out.println("Etat du visiteur : ");
@@ -47,7 +55,17 @@ public class TestVisiteur {
         System.out.println("code postal : " + visiteur.getCodePostal());
         System.out.println("ville : " + visiteur.getVille());
         System.out.println("date embauche : " + visiteur.getDateEmbauche());
-        System.out.println("code secteur : " + visiteur.getCodeSecteur());
-        System.out.println("code laboratoire : " + visiteur.getCodeLaboratoire());
+        System.out.println("code secteur : " + visiteur.getSecteur().getCodeSecteur());
+        System.out.println("code laboratoire : " + visiteur.getLaboratoire().getCodeLaboratoire());
+    }
+
+    private static Date doDate(String aDate) {
+        Date sqlDate = null;
+        try {
+            sqlDate = DateConvertion.convert(aDate);
+        } catch (ParseException ex) {
+            System.out.println("Mauvaise date.");
+        }
+        return sqlDate;
     }
 }

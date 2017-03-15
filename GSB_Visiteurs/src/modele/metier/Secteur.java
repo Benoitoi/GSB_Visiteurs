@@ -1,5 +1,7 @@
 package modele.metier;
 
+import java.io.Serializable;
+
 /**
  * Classe représentant les secteurs
  *
@@ -7,7 +9,7 @@ package modele.metier;
  * @version 1.0 :
  *
  */
-public class Secteur {
+public class Secteur implements Serializable {
 
     private String codeSecteur;
     private String libelleSecteur;

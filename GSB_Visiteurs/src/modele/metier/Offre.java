@@ -11,7 +11,7 @@ package modele.metier;
 public class Offre {
     Visiteur visiteur;
     RapportVisite rapport;
-    String medicament;
+    Medicament medicament;
     int quantiteOffre;
 
     /**
@@ -21,7 +21,7 @@ public class Offre {
      * @param medicament
      * @param quantiteOffre
      */
-    public Offre(Visiteur visiteur, RapportVisite rapport, String medicament, int quantiteOffre) {
+    public Offre(Visiteur visiteur, RapportVisite rapport, Medicament medicament, int quantiteOffre) {
         this.visiteur = visiteur;
         this.rapport = rapport;
         this.medicament = medicament;
@@ -56,7 +56,7 @@ public class Offre {
      *
      * @param rapportVisite
      */
-    public void setNumeroRapport(RapportVisite rapportVisite) {
+    public void setRapport(RapportVisite rapportVisite) {
         this.rapport = rapportVisite;
     }
 
@@ -64,7 +64,7 @@ public class Offre {
      *
      * @return
      */
-    public String getMedicament() {
+    public Medicament getMedicament() {
         return medicament;
     }
 
@@ -72,7 +72,7 @@ public class Offre {
      *
      * @param medicament
      */
-    public void setMedicament(String medicament) {
+    public void setMedicament(Medicament medicament) {
         this.medicament = medicament;
     }
 
@@ -98,6 +98,6 @@ public class Offre {
      */
     @Override
     public String toString() {
-        return "Offre{" + "matricule visiteur=" + visiteur.getMatricule() + ", numeroRapport=" + rapport.getNumeroRapport() + ", medicament=" + medicament + ", quantiteOffre=" + quantiteOffre + '}';
+        return "Offre{" + "matricule visiteur=" + visiteur.getMatricule() + ", numeroRapport=" + rapport.getNumeroRapport() + ", medicament=" + medicament.getDepotLegal()+ ", quantiteOffre=" + quantiteOffre + '}';
     }
 }

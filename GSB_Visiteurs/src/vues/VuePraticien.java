@@ -91,7 +91,7 @@ public class VuePraticien extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButtonFermer);
-        jButtonFermer.setBounds(630, 420, 100, 23);
+        jButtonFermer.setBounds(530, 430, 100, 23);
 
         jButtonOk.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonOk.setForeground(new java.awt.Color(0, 0, 153));

@@ -1,7 +1,7 @@
 package modele.metier;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Classe représentant les visiteurs
@@ -21,8 +21,8 @@ public class Visiteur implements Serializable {
     private String codePostal;
     private String ville;
     private Date dateEmbauche;
-    private String codeSecteur;
-    private String codeLaboratoire;
+    private Secteur secteur;
+    private Laboratoire laboratoire;
     
     /**
      * Constructeur avec les 9 attributs
@@ -33,10 +33,10 @@ public class Visiteur implements Serializable {
      * @param codePostal
      * @param ville
      * @param dateEmbauche
-     * @param codeSecteur
-     * @param codeLaboratoire
+     * @param secteur
+     * @param laboratoire
      */
-    public Visiteur(String matricule, String nom, String prenom, String adresse, String codePostal, String ville, Date dateEmbauche, String codeSecteur, String codeLaboratoire) {
+    public Visiteur(String matricule, String nom, String prenom, String adresse, String codePostal, String ville, Date dateEmbauche, Secteur secteur, Laboratoire laboratoire) {
         this.matricule = matricule;
         this.nom = nom;
         this.prenom = prenom;
@@ -44,80 +44,152 @@ public class Visiteur implements Serializable {
         this.codePostal = codePostal;
         this.ville = ville;
         this.dateEmbauche = dateEmbauche;
-        this.codeSecteur = codeSecteur;
-        this.codeLaboratoire = codeLaboratoire;
+        this.secteur = secteur;
+        this.laboratoire = laboratoire;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getMatricule() {
         return matricule;
     }
 
+    /**
+     *
+     * @param matricule
+     */
     public void setMatricule(String matricule) {
         this.matricule = matricule;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNom() {
         return nom;
     }
 
+    /**
+     *
+     * @param nom
+     */
     public void setNom(String nom) {
         this.nom = nom;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPrenom() {
         return prenom;
     }
 
+    /**
+     *
+     * @param prenom
+     */
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAdresse() {
         return adresse;
     }
 
+    /**
+     *
+     * @param adresse
+     */
     public void setAdresse(String adresse) {
         this.adresse = adresse;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCodePostal() {
         return codePostal;
     }
 
+    /**
+     *
+     * @param codePostal
+     */
     public void setCodePostal(String codePostal) {
         this.codePostal = codePostal;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getVille() {
         return ville;
     }
 
+    /**
+     *
+     * @param ville
+     */
     public void setVille(String ville) {
         this.ville = ville;
     }
     
+    /**
+     *
+     * @return
+     */
     public Date getDateEmbauche() {
         return dateEmbauche;
     }
 
+    /**
+     *
+     * @param dateEmbauche
+     */
     public void setDateEmbauche(Date dateEmbauche) {
         this.dateEmbauche = dateEmbauche;
     }
 
-    public String getCodeSecteur() {
-        return codeSecteur;
+    /**
+     *
+     * @return
+     */
+    public Secteur getSecteur() {
+        return secteur;
     }
 
-    public void setCodeSecteur(String codeSecteur) {
-        this.codeSecteur = codeSecteur;
+    /**
+     *
+     * @param secteur
+     */
+    public void setSecteur(Secteur secteur) {
+        this.secteur = secteur;
     }
 
-    public String getCodeLaboratoire() {
-        return codeLaboratoire;
+    /**
+     *
+     * @return
+     */
+    public Laboratoire getLaboratoire() {
+        return laboratoire;
     }
 
-    public void setCodeLaboratoire(String codeLaboratoire) {
-        this.codeLaboratoire = codeLaboratoire;
+    /**
+     *
+     * @param laboratoire
+     */
+    public void setLaboratoire(Laboratoire laboratoire) {
+        this.laboratoire = laboratoire;
     }
     
     /**
@@ -126,6 +198,6 @@ public class Visiteur implements Serializable {
      */
     @Override
     public String toString() {
-        return "Visiteur{" + "matricule=" + matricule + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", codePostal=" + codePostal + ", ville=" + ville + ", dateEmbauche=" + dateEmbauche + ", codeSecteur=" + codeSecteur + ", codeLaboratoire=" + codeLaboratoire + '}';
+        return "Visiteur{" + "matricule=" + matricule + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", codePostal=" + codePostal + ", ville=" + ville + ", dateEmbauche=" + dateEmbauche + ", code secteur=" + secteur.getCodeSecteur() + ", code laboratoire=" + laboratoire.getCodeLaboratoire() + '}';
     }
 }
