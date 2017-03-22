@@ -10,11 +10,10 @@ import java.sql.Date;
  * @version 1.0 :
  *
  */
-
 public class Visiteur implements Serializable {
 
     //touts les éléments de la table sont de type NVARCHAR2 sauf la date embauche
-    private String matricule; 
+    private String matricule;
     private String nom;
     private String prenom;
     private String adresse;
@@ -23,9 +22,10 @@ public class Visiteur implements Serializable {
     private Date dateEmbauche;
     private Secteur secteur;
     private Laboratoire laboratoire;
-    
+
     /**
      * Constructeur avec les 9 attributs
+     *
      * @param matricule : matricule du visiteur
      * @param nom
      * @param prenom
@@ -143,7 +143,7 @@ public class Visiteur implements Serializable {
     public void setVille(String ville) {
         this.ville = ville;
     }
-    
+
     /**
      *
      * @return
@@ -191,13 +191,17 @@ public class Visiteur implements Serializable {
     public void setLaboratoire(Laboratoire laboratoire) {
         this.laboratoire = laboratoire;
     }
-    
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
-        return "Visiteur{" + "matricule=" + matricule + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", codePostal=" + codePostal + ", ville=" + ville + ", dateEmbauche=" + dateEmbauche + ", code secteur=" + secteur.getCodeSecteur() + ", code laboratoire=" + laboratoire.getCodeLaboratoire() + '}';
+        if (secteur == null) {
+            return "Visiteur{" + "matricule=" + matricule + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", codePostal=" + codePostal + ", ville=" + ville + ", dateEmbauche=" + dateEmbauche + ", code secteur=" + "Pas de secteur" + ", code laboratoire=" + laboratoire.getCodeLaboratoire() + '}';
+        } else {
+            return "Visiteur{" + "matricule=" + matricule + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", codePostal=" + codePostal + ", ville=" + ville + ", dateEmbauche=" + dateEmbauche + ", code secteur=" + secteur.getCodeSecteur() + ", code laboratoire=" + laboratoire.getCodeLaboratoire() + '}';
+        }
     }
 }
