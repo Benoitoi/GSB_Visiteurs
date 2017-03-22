@@ -29,9 +29,9 @@ public class Connexion {
         try {
             Jdbc.getInstance().connecter();
         } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Main - classe JDBC non trouvée " + ex);
+            JOptionPane.showMessageDialog(null, ex, "Main - classe JDBC non trouvée " , JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Main - échec de connexion " + ex);
+            JOptionPane.showMessageDialog(null, ex, "Main - échec de connexion " , JOptionPane.ERROR_MESSAGE);
         }
     }
 }

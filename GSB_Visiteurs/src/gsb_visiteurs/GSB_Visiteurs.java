@@ -6,8 +6,10 @@
 package gsb_visiteurs;
 
 import controleurs.*;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -22,13 +24,13 @@ public class GSB_Visiteurs {
      */
     public static void main(String[] args) {
         CtrlPrincipal leControleurPrincipal = new CtrlPrincipal();
-        // afficher la vue
-        leControleurPrincipal.afficherConnexion();
         try {
-            // Paramétrage de l'apparance système
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());//getCrossPlatformLookAndFeelClassName
+            // Paramétrage de l'apparance
+            UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(GSB_Visiteurs.class.getName()).log(Level.SEVERE, null, ex);
         }
+        // afficher la vue
+        leControleurPrincipal.afficherConnexion();
     }
 }
