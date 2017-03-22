@@ -29,8 +29,8 @@ public class VueMenuGeneral extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jPanelMenuGeneral = new javax.swing.JPanel();
+        jLabelMenuGeneral = new javax.swing.JLabel();
         jCheckBoxComptesRendus = new javax.swing.JCheckBox();
         jCheckBoxVisiteurs = new javax.swing.JCheckBox();
         jCheckBoxPraticiens = new javax.swing.JCheckBox();
@@ -43,24 +43,24 @@ public class VueMenuGeneral extends javax.swing.JFrame {
         setTitle("Gestion des comptes rendus");
         setResizable(false);
 
-        jPanel1.setLayout(null);
+        jPanelMenuGeneral.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 153));
-        jLabel1.setText("Gestion des comptes rendus");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(40, 60, 530, 44);
+        jLabelMenuGeneral.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
+        jLabelMenuGeneral.setForeground(new java.awt.Color(0, 0, 153));
+        jLabelMenuGeneral.setText("Gestion des comptes rendus");
+        jPanelMenuGeneral.add(jLabelMenuGeneral);
+        jLabelMenuGeneral.setBounds(40, 60, 530, 44);
 
         jCheckBoxComptesRendus.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCheckBoxComptesRendus.setForeground(new java.awt.Color(0, 0, 153));
         jCheckBoxComptesRendus.setText("Comptes-Rendus");
-        jPanel1.add(jCheckBoxComptesRendus);
+        jPanelMenuGeneral.add(jCheckBoxComptesRendus);
         jCheckBoxComptesRendus.setBounds(220, 160, 130, 23);
 
         jCheckBoxVisiteurs.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCheckBoxVisiteurs.setForeground(new java.awt.Color(0, 0, 153));
         jCheckBoxVisiteurs.setText("Visiteurs");
-        jPanel1.add(jCheckBoxVisiteurs);
+        jPanelMenuGeneral.add(jCheckBoxVisiteurs);
         jCheckBoxVisiteurs.setBounds(220, 200, 90, 23);
 
         jCheckBoxPraticiens.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -71,40 +71,40 @@ public class VueMenuGeneral extends javax.swing.JFrame {
                 jCheckBoxPraticiensActionPerformed(evt);
             }
         });
-        jPanel1.add(jCheckBoxPraticiens);
+        jPanelMenuGeneral.add(jCheckBoxPraticiens);
         jCheckBoxPraticiens.setBounds(220, 240, 100, 23);
 
         jCheckBoxMedicaments.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCheckBoxMedicaments.setForeground(new java.awt.Color(0, 0, 153));
         jCheckBoxMedicaments.setText("Médicaments");
-        jPanel1.add(jCheckBoxMedicaments);
+        jPanelMenuGeneral.add(jCheckBoxMedicaments);
         jCheckBoxMedicaments.setBounds(220, 280, 110, 23);
 
         jCheckBoxQuitter.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCheckBoxQuitter.setForeground(new java.awt.Color(0, 0, 153));
         jCheckBoxQuitter.setText("Quitter");
-        jPanel1.add(jCheckBoxQuitter);
+        jPanelMenuGeneral.add(jCheckBoxQuitter);
         jCheckBoxQuitter.setBounds(220, 360, 90, 23);
 
         jCheckBoxDeconnection.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCheckBoxDeconnection.setForeground(new java.awt.Color(0, 0, 153));
         jCheckBoxDeconnection.setText("Déconnection");
-        jPanel1.add(jCheckBoxDeconnection);
+        jPanelMenuGeneral.add(jCheckBoxDeconnection);
         jCheckBoxDeconnection.setBounds(220, 320, 110, 23);
 
-        jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Documents\\NetBeansProjects\\GSB_Visiteurs\\GSB_Visiteurs\\images\\gsb_background.png")); // NOI18N
-        jPanel1.add(jLabelBackground);
+        jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_background.png"))); // NOI18N
+        jPanelMenuGeneral.add(jLabelBackground);
         jLabelBackground.setBounds(0, 0, 740, 450);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
+            .addComponent(jPanelMenuGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanelMenuGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -205,8 +205,8 @@ public class VueMenuGeneral extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBoxPraticiens;
     private javax.swing.JCheckBox jCheckBoxQuitter;
     private javax.swing.JCheckBox jCheckBoxVisiteurs;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelBackground;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabelMenuGeneral;
+    private javax.swing.JPanel jPanelMenuGeneral;
     // End of variables declaration//GEN-END:variables
 }

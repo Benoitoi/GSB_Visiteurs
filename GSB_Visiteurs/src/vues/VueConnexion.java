@@ -33,8 +33,8 @@ public class VueConnexion extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jPanelConnexion = new javax.swing.JPanel();
+        jLabelConnexion = new javax.swing.JLabel();
         jTextFieldLogin = new javax.swing.JTextField();
         jButtonOk = new javax.swing.JButton();
         jButtonQuitter = new javax.swing.JButton();
@@ -54,20 +54,20 @@ public class VueConnexion extends javax.swing.JFrame {
         setTitle("Identifiez-vous");
         setResizable(false);
 
-        jPanel1.setLayout(null);
+        jPanelConnexion.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 153));
-        jLabel1.setText("Identifiez-vous");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(250, 20, 290, 44);
-        jPanel1.add(jTextFieldLogin);
+        jLabelConnexion.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
+        jLabelConnexion.setForeground(new java.awt.Color(0, 0, 153));
+        jLabelConnexion.setText("Identifiez-vous");
+        jPanelConnexion.add(jLabelConnexion);
+        jLabelConnexion.setBounds(250, 20, 290, 44);
+        jPanelConnexion.add(jTextFieldLogin);
         jTextFieldLogin.setBounds(270, 140, 140, 30);
 
         jButtonOk.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonOk.setForeground(new java.awt.Color(0, 0, 153));
         jButtonOk.setText("OK");
-        jPanel1.add(jButtonOk);
+        jPanelConnexion.add(jButtonOk);
         jButtonOk.setBounds(440, 180, 90, 30);
 
         jButtonQuitter.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -78,58 +78,58 @@ public class VueConnexion extends javax.swing.JFrame {
                 jButtonQuitterActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonQuitter);
+        jPanelConnexion.add(jButtonQuitter);
         jButtonQuitter.setBounds(580, 430, 90, 23);
-        jPanel1.add(jPasswordMdp);
+        jPanelConnexion.add(jPasswordMdp);
         jPasswordMdp.setBounds(271, 180, 140, 30);
 
         jButtonAfficherMdp.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonAfficherMdp.setForeground(new java.awt.Color(0, 51, 153));
         jButtonAfficherMdp.setText("Afficher");
-        jPanel1.add(jButtonAfficherMdp);
+        jPanelConnexion.add(jButtonAfficherMdp);
         jButtonAfficherMdp.setBounds(140, 180, 90, 30);
-        jPanel1.add(jLabelCheckLogin);
+        jPanelConnexion.add(jLabelCheckLogin);
         jLabelCheckLogin.setBounds(420, 140, 50, 40);
-        jPanel1.add(jLabelCheckMdp);
+        jPanelConnexion.add(jLabelCheckMdp);
         jLabelCheckMdp.setBounds(420, 180, 40, 40);
 
         jButtonChangeBdd.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonChangeBdd.setForeground(new java.awt.Color(0, 51, 153));
         jButtonChangeBdd.setText("Changer de base de donnée");
-        jPanel1.add(jButtonChangeBdd);
+        jPanelConnexion.add(jButtonChangeBdd);
         jButtonChangeBdd.setBounds(20, 420, 190, 23);
 
         jCheckBoxSouvenirId.setText("Se souvenir");
-        jPanel1.add(jCheckBoxSouvenirId);
+        jPanelConnexion.add(jCheckBoxSouvenirId);
         jCheckBoxSouvenirId.setBounds(540, 140, 130, 30);
 
         jCheckBoxSouvenirMdp.setText("Se souvenir");
-        jPanel1.add(jCheckBoxSouvenirMdp);
+        jPanelConnexion.add(jCheckBoxSouvenirMdp);
         jCheckBoxSouvenirMdp.setBounds(540, 180, 130, 30);
-        jPanel1.add(jCheckBoxAfficher);
+        jPanelConnexion.add(jCheckBoxAfficher);
         jCheckBoxAfficher.setBounds(240, 190, 20, 20);
 
         jLabelBaseDeDonnee.setForeground(new java.awt.Color(255, 0, 51));
-        jPanel1.add(jLabelBaseDeDonnee);
+        jPanelConnexion.add(jLabelBaseDeDonnee);
         jLabelBaseDeDonnee.setBounds(230, 420, 160, 20);
 
         jLabelBdd.setText("Base de données utilisée :");
-        jPanel1.add(jLabelBdd);
+        jPanelConnexion.add(jLabelBdd);
         jLabelBdd.setBounds(230, 400, 170, 14);
 
-        jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Documents\\NetBeansProjects\\GSB_Visiteurs\\GSB_Visiteurs\\images\\gsb_background.png")); // NOI18N
-        jPanel1.add(jLabelBackground);
+        jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_background.png"))); // NOI18N
+        jPanelConnexion.add(jLabelBackground);
         jLabelBackground.setBounds(0, 0, 700, 480);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+            .addComponent(jPanelConnexion, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+            .addComponent(jPanelConnexion, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
         );
 
         pack();
@@ -280,13 +280,13 @@ public class VueConnexion extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBoxAfficher;
     private javax.swing.JCheckBox jCheckBoxSouvenirId;
     private javax.swing.JCheckBox jCheckBoxSouvenirMdp;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelBackground;
     private javax.swing.JLabel jLabelBaseDeDonnee;
     private javax.swing.JLabel jLabelBdd;
     private javax.swing.JLabel jLabelCheckLogin;
     private javax.swing.JLabel jLabelCheckMdp;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabelConnexion;
+    private javax.swing.JPanel jPanelConnexion;
     private javax.swing.JPasswordField jPasswordMdp;
     private javax.swing.JTextField jTextFieldLogin;
     // End of variables declaration//GEN-END:variables

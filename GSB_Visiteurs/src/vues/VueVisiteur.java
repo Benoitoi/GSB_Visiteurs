@@ -5,6 +5,7 @@
  */
 package vues;
 
+import com.toedter.calendar.JDateChooser;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -31,7 +32,7 @@ public class VueVisiteur extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanelVisiteur = new javax.swing.JPanel();
         jComboBoxChercher = new javax.swing.JComboBox();
         jButtonSuivant = new javax.swing.JButton();
         jButtonPrecedent = new javax.swing.JButton();
@@ -55,30 +56,33 @@ public class VueVisiteur extends javax.swing.JFrame {
         jTextFieldVille = new javax.swing.JTextField();
         jButtonMenuGeneral = new javax.swing.JButton();
         jTextFieldRechercher = new javax.swing.JTextField();
-        jLabelChercher1 = new javax.swing.JLabel();
+        jLabelChercher = new javax.swing.JLabel();
+        jLabelDateEmbauche = new javax.swing.JLabel();
+        jDateChooserDateEmbauche = new com.toedter.calendar.JDateChooser();
         jLabelBackground = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Visiteurs");
+        setIconImages(null);
         setResizable(false);
 
-        jPanel1.setLayout(null);
+        jPanelVisiteur.setLayout(null);
 
         jComboBoxChercher.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBoxChercher);
+        jPanelVisiteur.add(jComboBoxChercher);
         jComboBoxChercher.setBounds(330, 130, 160, 20);
 
         jButtonSuivant.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonSuivant.setForeground(new java.awt.Color(0, 0, 153));
         jButtonSuivant.setText("Suivant");
-        jPanel1.add(jButtonSuivant);
-        jButtonSuivant.setBounds(390, 430, 90, 23);
+        jPanelVisiteur.add(jButtonSuivant);
+        jButtonSuivant.setBounds(390, 450, 90, 23);
 
         jButtonPrecedent.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonPrecedent.setForeground(new java.awt.Color(0, 0, 153));
         jButtonPrecedent.setText("Précédent");
-        jPanel1.add(jButtonPrecedent);
-        jButtonPrecedent.setBounds(250, 430, 100, 23);
+        jPanelVisiteur.add(jButtonPrecedent);
+        jButtonPrecedent.setBounds(250, 450, 100, 23);
 
         jButtonQuitter.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonQuitter.setForeground(new java.awt.Color(0, 0, 153));
@@ -88,8 +92,8 @@ public class VueVisiteur extends javax.swing.JFrame {
                 jButtonQuitterActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonQuitter);
-        jButtonQuitter.setBounds(617, 420, 80, 23);
+        jPanelVisiteur.add(jButtonQuitter);
+        jButtonQuitter.setBounds(620, 450, 80, 23);
 
         jButtonOk.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonOk.setForeground(new java.awt.Color(0, 0, 153));
@@ -99,78 +103,78 @@ public class VueVisiteur extends javax.swing.JFrame {
                 jButtonOkActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonOk);
+        jPanelVisiteur.add(jButtonOk);
         jButtonOk.setBounds(510, 123, 60, 30);
 
         jSeparator.setBackground(new java.awt.Color(51, 51, 255));
         jSeparator.setForeground(new java.awt.Color(0, 0, 153));
-        jPanel1.add(jSeparator);
+        jPanelVisiteur.add(jSeparator);
         jSeparator.setBounds(150, 162, 480, 10);
 
         jLabelNom.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelNom.setForeground(new java.awt.Color(0, 0, 153));
         jLabelNom.setText("NOM");
-        jPanel1.add(jLabelNom);
-        jLabelNom.setBounds(180, 180, 80, 14);
+        jPanelVisiteur.add(jLabelNom);
+        jLabelNom.setBounds(160, 180, 80, 14);
 
         jLabelPrenom.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelPrenom.setForeground(new java.awt.Color(0, 0, 153));
         jLabelPrenom.setText("PRENOM");
-        jPanel1.add(jLabelPrenom);
-        jLabelPrenom.setBounds(180, 220, 50, 14);
+        jPanelVisiteur.add(jLabelPrenom);
+        jLabelPrenom.setBounds(160, 220, 50, 14);
 
         jLabelChercherVisiteurs.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
         jLabelChercherVisiteurs.setForeground(new java.awt.Color(0, 0, 153));
         jLabelChercherVisiteurs.setText("Visiteurs");
-        jPanel1.add(jLabelChercherVisiteurs);
+        jPanelVisiteur.add(jLabelChercherVisiteurs);
         jLabelChercherVisiteurs.setBounds(300, 10, 230, 50);
 
         jLabelRechercher.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelRechercher.setForeground(new java.awt.Color(0, 0, 153));
         jLabelRechercher.setText("Rechercher");
-        jPanel1.add(jLabelRechercher);
+        jPanelVisiteur.add(jLabelRechercher);
         jLabelRechercher.setBounds(250, 100, 70, 14);
 
         jLabelAdresse.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelAdresse.setForeground(new java.awt.Color(0, 0, 153));
         jLabelAdresse.setText("ADRESSE");
-        jPanel1.add(jLabelAdresse);
-        jLabelAdresse.setBounds(180, 260, 60, 14);
+        jPanelVisiteur.add(jLabelAdresse);
+        jLabelAdresse.setBounds(160, 260, 60, 14);
 
         jLabelVille.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelVille.setForeground(new java.awt.Color(0, 0, 153));
         jLabelVille.setText("VILLE");
-        jPanel1.add(jLabelVille);
-        jLabelVille.setBounds(180, 300, 30, 14);
+        jPanelVisiteur.add(jLabelVille);
+        jLabelVille.setBounds(160, 300, 30, 14);
 
         jLabelSecteur.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelSecteur.setForeground(new java.awt.Color(0, 0, 153));
-        jLabelSecteur.setText("SECTEUR");
-        jPanel1.add(jLabelSecteur);
-        jLabelSecteur.setBounds(180, 340, 60, 14);
+        jLabelSecteur.setText("DATE EMBAUCHE");
+        jPanelVisiteur.add(jLabelSecteur);
+        jLabelSecteur.setBounds(160, 330, 100, 14);
 
         jLabelLabo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelLabo.setForeground(new java.awt.Color(0, 0, 153));
         jLabelLabo.setText("LABO");
-        jPanel1.add(jLabelLabo);
-        jLabelLabo.setBounds(180, 380, 29, 14);
+        jPanelVisiteur.add(jLabelLabo);
+        jLabelLabo.setBounds(160, 400, 29, 14);
 
         jComboBoxSecteur.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBoxSecteur);
-        jComboBoxSecteur.setBounds(270, 340, 100, 20);
+        jPanelVisiteur.add(jComboBoxSecteur);
+        jComboBoxSecteur.setBounds(270, 360, 100, 20);
 
         jComboBoxLabo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBoxLabo);
-        jComboBoxLabo.setBounds(270, 380, 100, 20);
+        jPanelVisiteur.add(jComboBoxLabo);
+        jComboBoxLabo.setBounds(270, 400, 100, 20);
 
         jTextFieldNom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldNomActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldNom);
+        jPanelVisiteur.add(jTextFieldNom);
         jTextFieldNom.setBounds(270, 170, 110, 20);
-        jPanel1.add(jTextFieldPrenom);
+        jPanelVisiteur.add(jTextFieldPrenom);
         jTextFieldPrenom.setBounds(270, 210, 110, 20);
 
         jTextFieldAdresse.addActionListener(new java.awt.event.ActionListener() {
@@ -178,7 +182,7 @@ public class VueVisiteur extends javax.swing.JFrame {
                 jTextFieldAdresseActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldAdresse);
+        jPanelVisiteur.add(jTextFieldAdresse);
         jTextFieldAdresse.setBounds(270, 260, 170, 20);
 
         jTextFieldCodePostal.addActionListener(new java.awt.event.ActionListener() {
@@ -186,7 +190,7 @@ public class VueVisiteur extends javax.swing.JFrame {
                 jTextFieldCodePostalActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldCodePostal);
+        jPanelVisiteur.add(jTextFieldCodePostal);
         jTextFieldCodePostal.setBounds(270, 300, 50, 20);
 
         jTextFieldVille.addActionListener(new java.awt.event.ActionListener() {
@@ -194,38 +198,46 @@ public class VueVisiteur extends javax.swing.JFrame {
                 jTextFieldVilleActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldVille);
+        jPanelVisiteur.add(jTextFieldVille);
         jTextFieldVille.setBounds(330, 300, 110, 20);
 
         jButtonMenuGeneral.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonMenuGeneral.setForeground(new java.awt.Color(0, 0, 153));
         jButtonMenuGeneral.setText("Menu général");
-        jPanel1.add(jButtonMenuGeneral);
+        jPanelVisiteur.add(jButtonMenuGeneral);
         jButtonMenuGeneral.setBounds(50, 30, 130, 40);
 
         jTextFieldRechercher.setText("Nom Prénom");
-        jPanel1.add(jTextFieldRechercher);
+        jPanelVisiteur.add(jTextFieldRechercher);
         jTextFieldRechercher.setBounds(330, 100, 160, 20);
 
-        jLabelChercher1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabelChercher1.setForeground(new java.awt.Color(0, 0, 153));
-        jLabelChercher1.setText("Chercher");
-        jPanel1.add(jLabelChercher1);
-        jLabelChercher1.setBounds(250, 130, 60, 14);
+        jLabelChercher.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabelChercher.setForeground(new java.awt.Color(0, 0, 153));
+        jLabelChercher.setText("Chercher");
+        jPanelVisiteur.add(jLabelChercher);
+        jLabelChercher.setBounds(250, 130, 60, 14);
 
-        jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Documents\\NetBeansProjects\\GSB_Visiteurs\\GSB_Visiteurs\\images\\gsb_background.png")); // NOI18N
-        jPanel1.add(jLabelBackground);
+        jLabelDateEmbauche.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabelDateEmbauche.setForeground(new java.awt.Color(0, 0, 153));
+        jLabelDateEmbauche.setText("SECTEUR");
+        jPanelVisiteur.add(jLabelDateEmbauche);
+        jLabelDateEmbauche.setBounds(160, 360, 60, 14);
+        jPanelVisiteur.add(jDateChooserDateEmbauche);
+        jDateChooserDateEmbauche.setBounds(270, 330, 100, 20);
+
+        jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_background.png"))); // NOI18N
+        jPanelVisiteur.add(jLabelBackground);
         jLabelBackground.setBounds(0, 0, 760, 490);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanelVisiteur, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanelVisiteur, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -296,6 +308,14 @@ public class VueVisiteur extends javax.swing.JFrame {
      */
     public JButton getjButtonQuitter() {
         return jButtonQuitter;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public JDateChooser getjDateChooserDateEmbauche() {
+        return jDateChooserDateEmbauche;
     }
 
     /**
@@ -411,17 +431,19 @@ public class VueVisiteur extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBoxChercher;
     private javax.swing.JComboBox jComboBoxLabo;
     private javax.swing.JComboBox jComboBoxSecteur;
+    private com.toedter.calendar.JDateChooser jDateChooserDateEmbauche;
     private javax.swing.JLabel jLabelAdresse;
     private javax.swing.JLabel jLabelBackground;
-    private javax.swing.JLabel jLabelChercher1;
+    private javax.swing.JLabel jLabelChercher;
     private javax.swing.JLabel jLabelChercherVisiteurs;
+    private javax.swing.JLabel jLabelDateEmbauche;
     private javax.swing.JLabel jLabelLabo;
     private javax.swing.JLabel jLabelNom;
     private javax.swing.JLabel jLabelPrenom;
     private javax.swing.JLabel jLabelRechercher;
     private javax.swing.JLabel jLabelSecteur;
     private javax.swing.JLabel jLabelVille;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelVisiteur;
     private javax.swing.JSeparator jSeparator;
     private javax.swing.JTextField jTextFieldAdresse;
     private javax.swing.JTextField jTextFieldCodePostal;

@@ -8,6 +8,7 @@ package vues;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -34,106 +35,107 @@ public class VueRapportVisite extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanelRapportVisite = new javax.swing.JPanel();
         jLabelRapportVisite = new javax.swing.JLabel();
-        jLabelNuméroRapport = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        jLabelNumeroRapport = new javax.swing.JLabel();
+        jScrollPaneBilan = new javax.swing.JScrollPane();
         jTextAreaBilan = new javax.swing.JTextArea();
         jTextFieldNumeroRapport = new javax.swing.JTextField();
         jLabelPraticien = new javax.swing.JLabel();
         jComboBoxPraticien = new javax.swing.JComboBox();
         jButtonDetailsPraticien = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        jLabelDateRapport = new javax.swing.JLabel();
         jLabelMotifVisite = new javax.swing.JLabel();
         jTextFieldMotifVisite = new javax.swing.JTextField();
         jLabelBilan = new javax.swing.JLabel();
         jDateChooserDateRapport = new com.toedter.calendar.JDateChooser();
         jLabelOffreEchantillons = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPaneOffreEchantillons = new javax.swing.JScrollPane();
         jTableOffreEchantillons = new javax.swing.JTable();
         jButtonPrecedent = new javax.swing.JButton();
         jButtonSuivant = new javax.swing.JButton();
         jButtonValider = new javax.swing.JButton();
-        jButtonFermer = new javax.swing.JButton();
+        jButtonQuitter = new javax.swing.JButton();
         jButtonMenuGeneral = new javax.swing.JButton();
         jButtonNouveau = new javax.swing.JButton();
         jButtonPlus = new javax.swing.JButton();
         jButtonMoins = new javax.swing.JButton();
         jButtonToutSupprimer = new javax.swing.JButton();
         jButtonSupprimer = new javax.swing.JButton();
+        jButtonEffacer = new javax.swing.JButton();
         jLabelBackground = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Rapport de visite");
         setResizable(false);
 
-        jPanel1.setLayout(null);
+        jPanelRapportVisite.setLayout(null);
 
         jLabelRapportVisite.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
         jLabelRapportVisite.setForeground(new java.awt.Color(0, 0, 153));
         jLabelRapportVisite.setText("Rapport de visite");
-        jPanel1.add(jLabelRapportVisite);
+        jPanelRapportVisite.add(jLabelRapportVisite);
         jLabelRapportVisite.setBounds(210, 0, 330, 44);
 
-        jLabelNuméroRapport.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabelNuméroRapport.setForeground(new java.awt.Color(153, 153, 153));
-        jLabelNuméroRapport.setText("Numéro rapport :");
-        jPanel1.add(jLabelNuméroRapport);
-        jLabelNuméroRapport.setBounds(80, 60, 120, 14);
+        jLabelNumeroRapport.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabelNumeroRapport.setForeground(new java.awt.Color(153, 153, 153));
+        jLabelNumeroRapport.setText("Numéro rapport :");
+        jPanelRapportVisite.add(jLabelNumeroRapport);
+        jLabelNumeroRapport.setBounds(80, 60, 120, 14);
 
         jTextAreaBilan.setColumns(20);
         jTextAreaBilan.setRows(5);
-        jScrollPane3.setViewportView(jTextAreaBilan);
+        jScrollPaneBilan.setViewportView(jTextAreaBilan);
 
-        jPanel1.add(jScrollPane3);
-        jScrollPane3.setBounds(250, 240, 440, 80);
+        jPanelRapportVisite.add(jScrollPaneBilan);
+        jScrollPaneBilan.setBounds(250, 240, 440, 80);
 
         jTextFieldNumeroRapport.setEditable(false);
-        jPanel1.add(jTextFieldNumeroRapport);
+        jPanelRapportVisite.add(jTextFieldNumeroRapport);
         jTextFieldNumeroRapport.setBounds(250, 60, 90, 20);
 
         jLabelPraticien.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelPraticien.setForeground(new java.awt.Color(0, 0, 153));
         jLabelPraticien.setText("Praticien :");
-        jPanel1.add(jLabelPraticien);
+        jPanelRapportVisite.add(jLabelPraticien);
         jLabelPraticien.setBounds(80, 110, 90, 14);
 
         jComboBoxPraticien.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBoxPraticien);
+        jPanelRapportVisite.add(jComboBoxPraticien);
         jComboBoxPraticien.setBounds(250, 110, 150, 20);
 
         jButtonDetailsPraticien.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonDetailsPraticien.setForeground(new java.awt.Color(0, 0, 153));
         jButtonDetailsPraticien.setText("Détails");
-        jPanel1.add(jButtonDetailsPraticien);
+        jPanelRapportVisite.add(jButtonDetailsPraticien);
         jButtonDetailsPraticien.setBounds(420, 110, 100, 23);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 153));
-        jLabel4.setText("Date rapport :");
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(80, 160, 100, 14);
+        jLabelDateRapport.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabelDateRapport.setForeground(new java.awt.Color(0, 0, 153));
+        jLabelDateRapport.setText("Date rapport :");
+        jPanelRapportVisite.add(jLabelDateRapport);
+        jLabelDateRapport.setBounds(80, 160, 100, 14);
 
         jLabelMotifVisite.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelMotifVisite.setForeground(new java.awt.Color(0, 0, 153));
         jLabelMotifVisite.setText("Motif visite :");
-        jPanel1.add(jLabelMotifVisite);
+        jPanelRapportVisite.add(jLabelMotifVisite);
         jLabelMotifVisite.setBounds(80, 210, 90, 14);
-        jPanel1.add(jTextFieldMotifVisite);
+        jPanelRapportVisite.add(jTextFieldMotifVisite);
         jTextFieldMotifVisite.setBounds(250, 210, 210, 20);
 
         jLabelBilan.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBilan.setForeground(new java.awt.Color(0, 0, 153));
         jLabelBilan.setText("Bilan");
-        jPanel1.add(jLabelBilan);
+        jPanelRapportVisite.add(jLabelBilan);
         jLabelBilan.setBounds(80, 260, 70, 14);
-        jPanel1.add(jDateChooserDateRapport);
+        jPanelRapportVisite.add(jDateChooserDateRapport);
         jDateChooserDateRapport.setBounds(250, 160, 120, 30);
 
         jLabelOffreEchantillons.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelOffreEchantillons.setForeground(new java.awt.Color(0, 0, 153));
         jLabelOffreEchantillons.setText("Offre d'échantillons :");
-        jPanel1.add(jLabelOffreEchantillons);
+        jPanelRapportVisite.add(jLabelOffreEchantillons);
         jLabelOffreEchantillons.setBounds(130, 320, 130, 14);
 
         jTableOffreEchantillons.setModel(new javax.swing.table.DefaultTableModel(
@@ -155,15 +157,15 @@ public class VueRapportVisite extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTableOffreEchantillons);
+        jScrollPaneOffreEchantillons.setViewportView(jTableOffreEchantillons);
 
-        jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(80, 340, 440, 90);
+        jPanelRapportVisite.add(jScrollPaneOffreEchantillons);
+        jScrollPaneOffreEchantillons.setBounds(80, 340, 440, 90);
 
         jButtonPrecedent.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonPrecedent.setForeground(new java.awt.Color(0, 0, 153));
         jButtonPrecedent.setText("Précédent");
-        jPanel1.add(jButtonPrecedent);
+        jPanelRapportVisite.add(jButtonPrecedent);
         jButtonPrecedent.setBounds(370, 60, 120, 23);
 
         jButtonSuivant.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -174,20 +176,20 @@ public class VueRapportVisite extends javax.swing.JFrame {
                 jButtonSuivantActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonSuivant);
+        jPanelRapportVisite.add(jButtonSuivant);
         jButtonSuivant.setBounds(520, 60, 100, 23);
 
         jButtonValider.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonValider.setForeground(new java.awt.Color(0, 0, 153));
         jButtonValider.setText("Valider");
-        jPanel1.add(jButtonValider);
+        jPanelRapportVisite.add(jButtonValider);
         jButtonValider.setBounds(390, 440, 110, 23);
 
-        jButtonFermer.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButtonFermer.setForeground(new java.awt.Color(0, 0, 153));
-        jButtonFermer.setText("Fermer");
-        jPanel1.add(jButtonFermer);
-        jButtonFermer.setBounds(570, 440, 100, 23);
+        jButtonQuitter.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonQuitter.setForeground(new java.awt.Color(0, 0, 153));
+        jButtonQuitter.setText("Quitter");
+        jPanelRapportVisite.add(jButtonQuitter);
+        jButtonQuitter.setBounds(570, 440, 100, 23);
 
         jButtonMenuGeneral.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonMenuGeneral.setForeground(new java.awt.Color(0, 0, 153));
@@ -197,48 +199,54 @@ public class VueRapportVisite extends javax.swing.JFrame {
                 jButtonMenuGeneralActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonMenuGeneral);
+        jPanelRapportVisite.add(jButtonMenuGeneral);
         jButtonMenuGeneral.setBounds(10, 10, 130, 40);
 
         jButtonNouveau.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonNouveau.setForeground(new java.awt.Color(0, 0, 153));
         jButtonNouveau.setText("Nouveau");
-        jPanel1.add(jButtonNouveau);
+        jPanelRapportVisite.add(jButtonNouveau);
         jButtonNouveau.setBounds(50, 440, 110, 23);
 
         jButtonPlus.setText("+");
-        jPanel1.add(jButtonPlus);
+        jPanelRapportVisite.add(jButtonPlus);
         jButtonPlus.setBounds(530, 360, 40, 23);
 
         jButtonMoins.setText("-");
-        jPanel1.add(jButtonMoins);
+        jPanelRapportVisite.add(jButtonMoins);
         jButtonMoins.setBounds(530, 390, 40, 23);
 
         jButtonToutSupprimer.setText("Tout supprimer");
-        jPanel1.add(jButtonToutSupprimer);
+        jPanelRapportVisite.add(jButtonToutSupprimer);
         jButtonToutSupprimer.setBounds(580, 390, 110, 23);
 
         jButtonSupprimer.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonSupprimer.setForeground(new java.awt.Color(0, 0, 153));
         jButtonSupprimer.setText("Supprimer");
-        jPanel1.add(jButtonSupprimer);
+        jPanelRapportVisite.add(jButtonSupprimer);
         jButtonSupprimer.setBounds(220, 440, 110, 23);
+
+        jButtonEffacer.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonEffacer.setForeground(new java.awt.Color(0, 0, 204));
+        jButtonEffacer.setText("Effacer");
+        jPanelRapportVisite.add(jButtonEffacer);
+        jButtonEffacer.setBounds(380, 160, 71, 23);
 
         jLabelBackground.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBackground.setForeground(new java.awt.Color(0, 0, 153));
-        jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Documents\\NetBeansProjects\\GSB_Visiteurs\\GSB_Visiteurs\\images\\gsb_background.png")); // NOI18N
-        jPanel1.add(jLabelBackground);
+        jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_background.png"))); // NOI18N
+        jPanelRapportVisite.add(jLabelBackground);
         jLabelBackground.setBounds(0, 0, 1070, 480);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 749, Short.MAX_VALUE)
+            .addComponent(jPanelRapportVisite, javax.swing.GroupLayout.DEFAULT_SIZE, 749, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanelRapportVisite, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -300,8 +308,8 @@ public class VueRapportVisite extends javax.swing.JFrame {
      *
      * @return
      */
-    public JButton getjButtonFermer() {
-        return jButtonFermer;
+    public JButton getjButtonQuitter() {
+        return jButtonQuitter;
     }
 
     /**
@@ -380,6 +388,14 @@ public class VueRapportVisite extends javax.swing.JFrame {
      *
      * @return
      */
+    public JLabel getjLabelNumeroRapport() {
+        return jLabelNumeroRapport;
+    }
+
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonMenuGeneral() {
         return jButtonMenuGeneral;
     }
@@ -416,37 +432,50 @@ public class VueRapportVisite extends javax.swing.JFrame {
         return jButtonToutSupprimer;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonSupprimer() {
         return jButtonSupprimer;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public JButton getjButtonEffacer() {
+        return jButtonEffacer;
     }
     
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDetailsPraticien;
-    private javax.swing.JButton jButtonFermer;
+    private javax.swing.JButton jButtonEffacer;
     private javax.swing.JButton jButtonMenuGeneral;
     private javax.swing.JButton jButtonMoins;
     private javax.swing.JButton jButtonNouveau;
     private javax.swing.JButton jButtonPlus;
     private javax.swing.JButton jButtonPrecedent;
+    private javax.swing.JButton jButtonQuitter;
     private javax.swing.JButton jButtonSuivant;
     private javax.swing.JButton jButtonSupprimer;
     private javax.swing.JButton jButtonToutSupprimer;
     private javax.swing.JButton jButtonValider;
     private javax.swing.JComboBox jComboBoxPraticien;
     private com.toedter.calendar.JDateChooser jDateChooserDateRapport;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelBackground;
     private javax.swing.JLabel jLabelBilan;
+    private javax.swing.JLabel jLabelDateRapport;
     private javax.swing.JLabel jLabelMotifVisite;
-    private javax.swing.JLabel jLabelNuméroRapport;
+    private javax.swing.JLabel jLabelNumeroRapport;
     private javax.swing.JLabel jLabelOffreEchantillons;
     private javax.swing.JLabel jLabelPraticien;
     private javax.swing.JLabel jLabelRapportVisite;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPanel jPanelRapportVisite;
+    private javax.swing.JScrollPane jScrollPaneBilan;
+    private javax.swing.JScrollPane jScrollPaneOffreEchantillons;
     private javax.swing.JTable jTableOffreEchantillons;
     private javax.swing.JTextArea jTextAreaBilan;
     private javax.swing.JTextField jTextFieldMotifVisite;

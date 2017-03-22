@@ -7,6 +7,7 @@ package vues;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -32,8 +33,8 @@ public class VueMedicament extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jPanelMedicament = new javax.swing.JPanel();
+        jLabelMedicament = new javax.swing.JLabel();
         jLabelCode = new javax.swing.JLabel();
         jLabelNomCommercial = new javax.swing.JLabel();
         jLabelFamille = new javax.swing.JLabel();
@@ -43,13 +44,13 @@ public class VueMedicament extends javax.swing.JFrame {
         jLabelPrixEchantillon = new javax.swing.JLabel();
         jButtonPrecedent = new javax.swing.JButton();
         jButtonSuivant = new javax.swing.JButton();
-        jButtonFermer = new javax.swing.JButton();
+        jButtonQuitter = new javax.swing.JButton();
         jTextFieldCode = new javax.swing.JTextField();
         jTextFieldNomCommercial = new javax.swing.JTextField();
         jComboBoxFamille = new javax.swing.JComboBox();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPaneContreIndications = new javax.swing.JScrollPane();
         jTextAreaContreIndications = new javax.swing.JTextArea();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPaneEffetsIndesirables = new javax.swing.JScrollPane();
         jTextAreaEffetsIndesirables = new javax.swing.JTextArea();
         jTextFieldPrixEchantillon = new javax.swing.JTextField();
         jTextFieldComposition = new javax.swing.JTextField();
@@ -59,113 +60,113 @@ public class VueMedicament extends javax.swing.JFrame {
         jLabelChercher = new javax.swing.JLabel();
         jComboBoxChercher = new javax.swing.JComboBox();
         jButtonOk = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator = new javax.swing.JSeparator();
         jLabelBackground = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Médicament");
         setResizable(false);
 
-        jPanel1.setLayout(null);
+        jPanelMedicament.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 153));
-        jLabel1.setText("Médicament");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(220, 0, 235, 44);
+        jLabelMedicament.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
+        jLabelMedicament.setForeground(new java.awt.Color(0, 0, 153));
+        jLabelMedicament.setText("Médicament");
+        jPanelMedicament.add(jLabelMedicament);
+        jLabelMedicament.setBounds(220, 0, 235, 44);
 
         jLabelCode.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelCode.setForeground(new java.awt.Color(0, 0, 153));
         jLabelCode.setText("Code");
-        jPanel1.add(jLabelCode);
-        jLabelCode.setBounds(150, 130, 50, 20);
+        jPanelMedicament.add(jLabelCode);
+        jLabelCode.setBounds(150, 120, 50, 20);
 
         jLabelNomCommercial.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelNomCommercial.setForeground(new java.awt.Color(0, 0, 153));
         jLabelNomCommercial.setText("Nom commercial");
-        jPanel1.add(jLabelNomCommercial);
-        jLabelNomCommercial.setBounds(150, 160, 100, 14);
+        jPanelMedicament.add(jLabelNomCommercial);
+        jLabelNomCommercial.setBounds(150, 150, 100, 14);
 
         jLabelFamille.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelFamille.setForeground(new java.awt.Color(0, 0, 153));
         jLabelFamille.setText("Famille");
-        jPanel1.add(jLabelFamille);
-        jLabelFamille.setBounds(150, 190, 60, 14);
+        jPanelMedicament.add(jLabelFamille);
+        jLabelFamille.setBounds(150, 180, 60, 14);
 
         jLabelComposition.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelComposition.setForeground(new java.awt.Color(0, 0, 153));
         jLabelComposition.setText("Composition");
-        jPanel1.add(jLabelComposition);
-        jLabelComposition.setBounds(150, 220, 80, 14);
+        jPanelMedicament.add(jLabelComposition);
+        jLabelComposition.setBounds(150, 210, 80, 14);
 
         jLabelEffetIndesirables.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelEffetIndesirables.setForeground(new java.awt.Color(0, 0, 153));
         jLabelEffetIndesirables.setText("Effets indésirables");
-        jPanel1.add(jLabelEffetIndesirables);
-        jLabelEffetIndesirables.setBounds(150, 280, 110, 14);
+        jPanelMedicament.add(jLabelEffetIndesirables);
+        jLabelEffetIndesirables.setBounds(150, 270, 110, 14);
 
         jLabelContreIndications.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelContreIndications.setForeground(new java.awt.Color(0, 0, 153));
         jLabelContreIndications.setText("Contre indications");
-        jPanel1.add(jLabelContreIndications);
-        jLabelContreIndications.setBounds(150, 360, 110, 14);
+        jPanelMedicament.add(jLabelContreIndications);
+        jLabelContreIndications.setBounds(150, 350, 110, 14);
 
         jLabelPrixEchantillon.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelPrixEchantillon.setForeground(new java.awt.Color(0, 0, 153));
         jLabelPrixEchantillon.setText("Prix échantillon");
-        jPanel1.add(jLabelPrixEchantillon);
-        jLabelPrixEchantillon.setBounds(150, 420, 100, 14);
+        jPanelMedicament.add(jLabelPrixEchantillon);
+        jLabelPrixEchantillon.setBounds(150, 410, 100, 14);
 
         jButtonPrecedent.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonPrecedent.setForeground(new java.awt.Color(0, 0, 153));
         jButtonPrecedent.setText("Précédent");
-        jPanel1.add(jButtonPrecedent);
+        jPanelMedicament.add(jButtonPrecedent);
         jButtonPrecedent.setBounds(150, 450, 100, 23);
 
         jButtonSuivant.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonSuivant.setForeground(new java.awt.Color(0, 0, 153));
         jButtonSuivant.setText("Suivant");
-        jPanel1.add(jButtonSuivant);
-        jButtonSuivant.setBounds(260, 450, 90, 23);
+        jPanelMedicament.add(jButtonSuivant);
+        jButtonSuivant.setBounds(290, 450, 90, 23);
 
-        jButtonFermer.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButtonFermer.setForeground(new java.awt.Color(0, 0, 153));
-        jButtonFermer.setText("Fermer");
-        jPanel1.add(jButtonFermer);
-        jButtonFermer.setBounds(590, 450, 90, 23);
-        jPanel1.add(jTextFieldCode);
-        jTextFieldCode.setBounds(260, 130, 190, 20);
-        jPanel1.add(jTextFieldNomCommercial);
-        jTextFieldNomCommercial.setBounds(260, 160, 190, 20);
+        jButtonQuitter.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonQuitter.setForeground(new java.awt.Color(0, 0, 153));
+        jButtonQuitter.setText("Quitter");
+        jPanelMedicament.add(jButtonQuitter);
+        jButtonQuitter.setBounds(590, 450, 90, 23);
+        jPanelMedicament.add(jTextFieldCode);
+        jTextFieldCode.setBounds(260, 120, 190, 20);
+        jPanelMedicament.add(jTextFieldNomCommercial);
+        jTextFieldNomCommercial.setBounds(260, 150, 190, 20);
 
         jComboBoxFamille.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBoxFamille);
-        jComboBoxFamille.setBounds(260, 190, 190, 20);
+        jPanelMedicament.add(jComboBoxFamille);
+        jComboBoxFamille.setBounds(260, 180, 190, 20);
 
         jTextAreaContreIndications.setColumns(20);
         jTextAreaContreIndications.setLineWrap(true);
         jTextAreaContreIndications.setRows(5);
-        jScrollPane1.setViewportView(jTextAreaContreIndications);
+        jScrollPaneContreIndications.setViewportView(jTextAreaContreIndications);
 
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(260, 331, 430, 80);
+        jPanelMedicament.add(jScrollPaneContreIndications);
+        jScrollPaneContreIndications.setBounds(260, 330, 430, 80);
 
         jTextAreaEffetsIndesirables.setColumns(20);
         jTextAreaEffetsIndesirables.setLineWrap(true);
         jTextAreaEffetsIndesirables.setRows(5);
-        jScrollPane2.setViewportView(jTextAreaEffetsIndesirables);
+        jScrollPaneEffetsIndesirables.setViewportView(jTextAreaEffetsIndesirables);
 
-        jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(260, 250, 430, 70);
-        jPanel1.add(jTextFieldPrixEchantillon);
-        jTextFieldPrixEchantillon.setBounds(260, 420, 88, 20);
-        jPanel1.add(jTextFieldComposition);
-        jTextFieldComposition.setBounds(260, 220, 190, 20);
+        jPanelMedicament.add(jScrollPaneEffetsIndesirables);
+        jScrollPaneEffetsIndesirables.setBounds(260, 240, 430, 70);
+        jPanelMedicament.add(jTextFieldPrixEchantillon);
+        jTextFieldPrixEchantillon.setBounds(260, 410, 88, 20);
+        jPanelMedicament.add(jTextFieldComposition);
+        jTextFieldComposition.setBounds(260, 210, 190, 20);
 
         jButtonMenuGeneral.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonMenuGeneral.setForeground(new java.awt.Color(0, 0, 153));
         jButtonMenuGeneral.setText("Menu général");
-        jPanel1.add(jButtonMenuGeneral);
+        jPanelMedicament.add(jButtonMenuGeneral);
         jButtonMenuGeneral.setBounds(10, 10, 130, 40);
 
         jTextFieldRechercher.setText("Nom commerical");
@@ -174,24 +175,24 @@ public class VueMedicament extends javax.swing.JFrame {
                 jTextFieldRechercherActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldRechercher);
-        jTextFieldRechercher.setBounds(260, 60, 190, 20);
+        jPanelMedicament.add(jTextFieldRechercher);
+        jTextFieldRechercher.setBounds(260, 50, 190, 20);
 
         jLabelRechercher.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelRechercher.setForeground(new java.awt.Color(0, 0, 153));
         jLabelRechercher.setText("Rechercher");
-        jPanel1.add(jLabelRechercher);
-        jLabelRechercher.setBounds(150, 60, 70, 14);
+        jPanelMedicament.add(jLabelRechercher);
+        jLabelRechercher.setBounds(150, 50, 70, 14);
 
         jLabelChercher.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelChercher.setForeground(new java.awt.Color(0, 0, 153));
         jLabelChercher.setText("Chercher");
-        jPanel1.add(jLabelChercher);
-        jLabelChercher.setBounds(150, 90, 70, 14);
+        jPanelMedicament.add(jLabelChercher);
+        jLabelChercher.setBounds(150, 80, 70, 14);
 
         jComboBoxChercher.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBoxChercher);
-        jComboBoxChercher.setBounds(260, 90, 190, 20);
+        jPanelMedicament.add(jComboBoxChercher);
+        jComboBoxChercher.setBounds(260, 80, 190, 20);
 
         jButtonOk.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonOk.setForeground(new java.awt.Color(0, 0, 153));
@@ -201,27 +202,27 @@ public class VueMedicament extends javax.swing.JFrame {
                 jButtonOkActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonOk);
-        jButtonOk.setBounds(460, 90, 80, 23);
+        jPanelMedicament.add(jButtonOk);
+        jButtonOk.setBounds(460, 80, 80, 23);
 
-        jSeparator1.setBackground(new java.awt.Color(0, 0, 153));
-        jSeparator1.setForeground(new java.awt.Color(0, 0, 153));
-        jPanel1.add(jSeparator1);
-        jSeparator1.setBounds(100, 120, 540, 20);
+        jSeparator.setBackground(new java.awt.Color(0, 0, 153));
+        jSeparator.setForeground(new java.awt.Color(0, 0, 153));
+        jPanelMedicament.add(jSeparator);
+        jSeparator.setBounds(100, 110, 540, 20);
 
-        jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Documents\\NetBeansProjects\\GSB_Visiteurs\\GSB_Visiteurs\\images\\gsb_background.png")); // NOI18N
-        jPanel1.add(jLabelBackground);
+        jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_background.png"))); // NOI18N
+        jPanelMedicament.add(jLabelBackground);
         jLabelBackground.setBounds(0, 0, 700, 490);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 699, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanelMedicament, javax.swing.GroupLayout.PREFERRED_SIZE, 699, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanelMedicament, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -283,8 +284,24 @@ public class VueMedicament extends javax.swing.JFrame {
      *
      * @return
      */
-    public JButton getjButtonFermer() {
-        return jButtonFermer;
+    public JButton getjButtonQuitter() {
+        return jButtonQuitter;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public JLabel getjLabelChercher() {
+        return jLabelChercher;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public JLabel getjLabelRechercher() {
+        return jLabelRechercher;
     }
 
     /**
@@ -385,14 +402,13 @@ public class VueMedicament extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonFermer;
     private javax.swing.JButton jButtonMenuGeneral;
     private javax.swing.JButton jButtonOk;
     private javax.swing.JButton jButtonPrecedent;
+    private javax.swing.JButton jButtonQuitter;
     private javax.swing.JButton jButtonSuivant;
     private javax.swing.JComboBox jComboBoxChercher;
     private javax.swing.JComboBox jComboBoxFamille;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelBackground;
     private javax.swing.JLabel jLabelChercher;
     private javax.swing.JLabel jLabelCode;
@@ -400,13 +416,14 @@ public class VueMedicament extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelContreIndications;
     private javax.swing.JLabel jLabelEffetIndesirables;
     private javax.swing.JLabel jLabelFamille;
+    private javax.swing.JLabel jLabelMedicament;
     private javax.swing.JLabel jLabelNomCommercial;
     private javax.swing.JLabel jLabelPrixEchantillon;
     private javax.swing.JLabel jLabelRechercher;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel jPanelMedicament;
+    private javax.swing.JScrollPane jScrollPaneContreIndications;
+    private javax.swing.JScrollPane jScrollPaneEffetsIndesirables;
+    private javax.swing.JSeparator jSeparator;
     private javax.swing.JTextArea jTextAreaContreIndications;
     private javax.swing.JTextArea jTextAreaEffetsIndesirables;
     private javax.swing.JTextField jTextFieldCode;

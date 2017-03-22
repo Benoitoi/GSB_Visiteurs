@@ -25,23 +25,23 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" pref="740" max="32767" attributes="0"/>
+          <Component id="jPanelMenuGeneral" alignment="0" pref="740" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" min="-2" pref="446" max="-2" attributes="0"/>
+          <Component id="jPanelMenuGeneral" min="-2" pref="446" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="jPanelMenuGeneral">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="jLabelMenuGeneral">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="36" style="3"/>
@@ -159,7 +159,7 @@
         <Component class="javax.swing.JLabel" name="jLabelBackground">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Benoit\Documents\NetBeansProjects\GSB_Visiteurs\GSB_Visiteurs\images\gsb_background.png"/>
+              <Image iconType="3" name="/images/gsb_background.png"/>
             </Property>
           </Properties>
           <Constraints>

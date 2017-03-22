@@ -7,6 +7,7 @@ package vues;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 /**
@@ -31,17 +32,17 @@ public class VuePraticien extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanelPraticien = new javax.swing.JPanel();
         jComboBoxChercher = new javax.swing.JComboBox();
         jTextFieldCoefNotoriete = new javax.swing.JTextField();
         jButtonSuivant = new javax.swing.JButton();
         jButtonPrecedent = new javax.swing.JButton();
-        jButtonFermer = new javax.swing.JButton();
+        jButtonQuitter = new javax.swing.JButton();
         jButtonOk = new javax.swing.JButton();
         jSeparator = new javax.swing.JSeparator();
         jLabelNom = new javax.swing.JLabel();
         jLabelPrenom = new javax.swing.JLabel();
-        jLabelChercherPracticien = new javax.swing.JLabel();
+        jLabelPracticien = new javax.swing.JLabel();
         jLabelChercher = new javax.swing.JLabel();
         jLabelAdresse = new javax.swing.JLabel();
         jLabelVille = new javax.swing.JLabel();
@@ -62,36 +63,36 @@ public class VuePraticien extends javax.swing.JFrame {
         setTitle("Practicien");
         setResizable(false);
 
-        jPanel1.setLayout(null);
+        jPanelPraticien.setLayout(null);
 
         jComboBoxChercher.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBoxChercher);
-        jComboBoxChercher.setBounds(330, 130, 190, 20);
-        jPanel1.add(jTextFieldCoefNotoriete);
-        jTextFieldCoefNotoriete.setBounds(270, 340, 90, 20);
+        jPanelPraticien.add(jComboBoxChercher);
+        jComboBoxChercher.setBounds(330, 90, 190, 20);
+        jPanelPraticien.add(jTextFieldCoefNotoriete);
+        jTextFieldCoefNotoriete.setBounds(270, 300, 90, 20);
 
         jButtonSuivant.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonSuivant.setForeground(new java.awt.Color(0, 0, 153));
         jButtonSuivant.setText("Suivant");
-        jPanel1.add(jButtonSuivant);
-        jButtonSuivant.setBounds(390, 430, 100, 23);
+        jPanelPraticien.add(jButtonSuivant);
+        jButtonSuivant.setBounds(340, 410, 100, 23);
 
         jButtonPrecedent.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonPrecedent.setForeground(new java.awt.Color(0, 0, 153));
         jButtonPrecedent.setText("Précédent");
-        jPanel1.add(jButtonPrecedent);
-        jButtonPrecedent.setBounds(250, 430, 110, 23);
+        jPanelPraticien.add(jButtonPrecedent);
+        jButtonPrecedent.setBounds(140, 410, 110, 23);
 
-        jButtonFermer.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButtonFermer.setForeground(new java.awt.Color(0, 0, 153));
-        jButtonFermer.setText("Fermer");
-        jButtonFermer.addActionListener(new java.awt.event.ActionListener() {
+        jButtonQuitter.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonQuitter.setForeground(new java.awt.Color(0, 0, 153));
+        jButtonQuitter.setText("Quitter");
+        jButtonQuitter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonFermerActionPerformed(evt);
+                jButtonQuitterActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonFermer);
-        jButtonFermer.setBounds(530, 430, 100, 23);
+        jPanelPraticien.add(jButtonQuitter);
+        jButtonQuitter.setBounds(530, 410, 100, 23);
 
         jButtonOk.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonOk.setForeground(new java.awt.Color(0, 0, 153));
@@ -101,129 +102,129 @@ public class VuePraticien extends javax.swing.JFrame {
                 jButtonOkActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonOk);
-        jButtonOk.setBounds(530, 130, 80, 23);
+        jPanelPraticien.add(jButtonOk);
+        jButtonOk.setBounds(530, 90, 80, 23);
 
         jSeparator.setBackground(new java.awt.Color(51, 51, 255));
         jSeparator.setForeground(new java.awt.Color(0, 0, 153));
-        jPanel1.add(jSeparator);
-        jSeparator.setBounds(150, 162, 480, 10);
+        jPanelPraticien.add(jSeparator);
+        jSeparator.setBounds(150, 120, 480, 10);
 
         jLabelNom.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelNom.setForeground(new java.awt.Color(0, 0, 153));
         jLabelNom.setText("NOM");
-        jPanel1.add(jLabelNom);
-        jLabelNom.setBounds(160, 180, 30, 14);
+        jPanelPraticien.add(jLabelNom);
+        jLabelNom.setBounds(160, 140, 30, 14);
 
         jLabelPrenom.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelPrenom.setForeground(new java.awt.Color(0, 0, 153));
         jLabelPrenom.setText("PRENOM");
-        jPanel1.add(jLabelPrenom);
-        jLabelPrenom.setBounds(160, 220, 60, 14);
+        jPanelPraticien.add(jLabelPrenom);
+        jLabelPrenom.setBounds(160, 180, 60, 14);
 
-        jLabelChercherPracticien.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
-        jLabelChercherPracticien.setForeground(new java.awt.Color(0, 0, 153));
-        jLabelChercherPracticien.setText("Praticien");
-        jPanel1.add(jLabelChercherPracticien);
-        jLabelChercherPracticien.setBounds(300, 10, 230, 50);
+        jLabelPracticien.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
+        jLabelPracticien.setForeground(new java.awt.Color(0, 0, 153));
+        jLabelPracticien.setText("Praticien");
+        jPanelPraticien.add(jLabelPracticien);
+        jLabelPracticien.setBounds(300, 10, 230, 50);
 
         jLabelChercher.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelChercher.setForeground(new java.awt.Color(0, 0, 153));
         jLabelChercher.setText("Chercher");
-        jPanel1.add(jLabelChercher);
-        jLabelChercher.setBounds(250, 130, 70, 14);
+        jPanelPraticien.add(jLabelChercher);
+        jLabelChercher.setBounds(250, 90, 70, 14);
 
         jLabelAdresse.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelAdresse.setForeground(new java.awt.Color(0, 0, 153));
         jLabelAdresse.setText("ADRESSE");
-        jPanel1.add(jLabelAdresse);
-        jLabelAdresse.setBounds(160, 260, 70, 14);
+        jPanelPraticien.add(jLabelAdresse);
+        jLabelAdresse.setBounds(160, 220, 70, 14);
 
         jLabelVille.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelVille.setForeground(new java.awt.Color(0, 0, 153));
         jLabelVille.setText("VILLE");
-        jPanel1.add(jLabelVille);
-        jLabelVille.setBounds(160, 300, 40, 14);
+        jPanelPraticien.add(jLabelVille);
+        jLabelVille.setBounds(160, 260, 40, 14);
 
         jLabelSecteur.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelSecteur.setForeground(new java.awt.Color(0, 0, 153));
         jLabelSecteur.setText("COEF NOTORIETE");
-        jPanel1.add(jLabelSecteur);
-        jLabelSecteur.setBounds(160, 340, 100, 14);
+        jPanelPraticien.add(jLabelSecteur);
+        jLabelSecteur.setBounds(160, 300, 100, 14);
 
         jLabelLieuExercice.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelLieuExercice.setForeground(new java.awt.Color(0, 0, 153));
         jLabelLieuExercice.setText("LIEU D'EXERCICE");
-        jPanel1.add(jLabelLieuExercice);
-        jLabelLieuExercice.setBounds(160, 380, 100, 14);
+        jPanelPraticien.add(jLabelLieuExercice);
+        jLabelLieuExercice.setBounds(160, 340, 100, 14);
 
         jComboBoxLieuExercice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBoxLieuExercice);
-        jComboBoxLieuExercice.setBounds(270, 380, 240, 20);
+        jPanelPraticien.add(jComboBoxLieuExercice);
+        jComboBoxLieuExercice.setBounds(270, 340, 240, 20);
 
         jTextFieldNom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldNomActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldNom);
-        jTextFieldNom.setBounds(270, 170, 250, 20);
-        jPanel1.add(jTextFieldPrenom);
-        jTextFieldPrenom.setBounds(270, 210, 250, 20);
+        jPanelPraticien.add(jTextFieldNom);
+        jTextFieldNom.setBounds(270, 130, 250, 20);
+        jPanelPraticien.add(jTextFieldPrenom);
+        jTextFieldPrenom.setBounds(270, 170, 250, 20);
 
         jTextFieldAdresse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldAdresseActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldAdresse);
-        jTextFieldAdresse.setBounds(270, 260, 250, 20);
+        jPanelPraticien.add(jTextFieldAdresse);
+        jTextFieldAdresse.setBounds(270, 220, 250, 20);
 
         jTextFieldCodePostal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldCodePostalActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldCodePostal);
-        jTextFieldCodePostal.setBounds(270, 300, 50, 20);
+        jPanelPraticien.add(jTextFieldCodePostal);
+        jTextFieldCodePostal.setBounds(270, 260, 50, 20);
 
         jTextFieldVille.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldVilleActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldVille);
-        jTextFieldVille.setBounds(330, 300, 190, 20);
+        jPanelPraticien.add(jTextFieldVille);
+        jTextFieldVille.setBounds(330, 260, 190, 20);
 
         jLabelRechercher.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelRechercher.setForeground(new java.awt.Color(0, 0, 153));
         jLabelRechercher.setText("Rechercher");
-        jPanel1.add(jLabelRechercher);
-        jLabelRechercher.setBounds(250, 100, 70, 14);
+        jPanelPraticien.add(jLabelRechercher);
+        jLabelRechercher.setBounds(250, 60, 70, 14);
 
         jTextFieldRechercher.setText("Nom Prénom");
-        jPanel1.add(jTextFieldRechercher);
-        jTextFieldRechercher.setBounds(330, 100, 190, 20);
+        jPanelPraticien.add(jTextFieldRechercher);
+        jTextFieldRechercher.setBounds(330, 60, 190, 20);
 
         jButtonMenuGeneral.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonMenuGeneral.setForeground(new java.awt.Color(0, 0, 153));
         jButtonMenuGeneral.setText("Menu général");
-        jPanel1.add(jButtonMenuGeneral);
+        jPanelPraticien.add(jButtonMenuGeneral);
         jButtonMenuGeneral.setBounds(50, 30, 130, 40);
 
-        jLabelBackground.setIcon(new javax.swing.ImageIcon("C:\\Users\\Benoit\\Pictures\\gsb_background.png")); // NOI18N
-        jPanel1.add(jLabelBackground);
+        jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_background.png"))); // NOI18N
+        jPanelPraticien.add(jLabelBackground);
         jLabelBackground.setBounds(0, 0, 750, 480);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanelPraticien, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanelPraticien, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -233,9 +234,9 @@ public class VuePraticien extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonOkActionPerformed
 
-    private void jButtonFermerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFermerActionPerformed
+    private void jButtonQuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitterActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonFermerActionPerformed
+    }//GEN-LAST:event_jButtonQuitterActionPerformed
 
     private void jTextFieldCodePostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCodePostalActionPerformed
         // TODO add your handling code here:
@@ -310,13 +311,29 @@ public class VuePraticien extends javax.swing.JFrame {
     public JTextField getjTextFieldRechercher() {
         return jTextFieldRechercher;
     }
+
+    /**
+     *
+     * @return
+     */
+    public JLabel getjLabelChercher() {
+        return jLabelChercher;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public JLabel getjLabelRechercher() {
+        return jLabelRechercher;
+    }
     
     /**
      *
      * @return
      */
-    public JButton getjButtonFermer() {
-        return jButtonFermer;
+    public JButton getjButtonQuitter() {
+        return jButtonQuitter;
     }
 
     /**
@@ -408,24 +425,24 @@ public class VuePraticien extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonFermer;
     private javax.swing.JButton jButtonMenuGeneral;
     private javax.swing.JButton jButtonOk;
     private javax.swing.JButton jButtonPrecedent;
+    private javax.swing.JButton jButtonQuitter;
     private javax.swing.JButton jButtonSuivant;
     private javax.swing.JComboBox jComboBoxChercher;
     private javax.swing.JComboBox jComboBoxLieuExercice;
     private javax.swing.JLabel jLabelAdresse;
     private javax.swing.JLabel jLabelBackground;
     private javax.swing.JLabel jLabelChercher;
-    private javax.swing.JLabel jLabelChercherPracticien;
     private javax.swing.JLabel jLabelLieuExercice;
     private javax.swing.JLabel jLabelNom;
+    private javax.swing.JLabel jLabelPracticien;
     private javax.swing.JLabel jLabelPrenom;
     private javax.swing.JLabel jLabelRechercher;
     private javax.swing.JLabel jLabelSecteur;
     private javax.swing.JLabel jLabelVille;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelPraticien;
     private javax.swing.JSeparator jSeparator;
     private javax.swing.JTextField jTextFieldAdresse;
     private javax.swing.JTextField jTextFieldCodePostal;
