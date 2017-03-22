@@ -45,7 +45,7 @@ public class CtrlPrincipal {
         if (wait) {
             getCurrentView().getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         } else {
-            getCurrentView().getContentPane().setCursor(cursor);
+            getCurrentView().getContentPane().setCursor(null);
         }
     }
 
@@ -62,7 +62,7 @@ public class CtrlPrincipal {
         if (this.ctrlConnexion == null) {
             this.identification();
             this.ctrlConnexion.getVue().setLocationRelativeTo(null);
-            this.ctrlConnexion.getVue().getContentPane().setCursor(cursor);
+            //this.ctrlConnexion.getVue().getContentPane().setCursor(cursor);
         }
         this.ctrlConnexion.getVue().setVisible(true);
         setCurrentView(this.ctrlConnexion.getVue());
@@ -79,7 +79,7 @@ public class CtrlPrincipal {
         if (this.ctrlMenuGeneral == null) {
             first = true;
             this.menuGeneral();
-            this.ctrlMenuGeneral.getVue().getContentPane().setCursor(cursor);
+            //this.ctrlMenuGeneral.getVue().getContentPane().setCursor(cursor);
         }
         this.ctrlMenuGeneral.getVue().setVisible(true);
         this.ctrlMenuGeneral.getVue().setBounds(laVue.getBounds());
@@ -97,7 +97,7 @@ public class CtrlPrincipal {
         this.ctrlMenuGeneral.getVue().setVisible(false);
         if (this.ctrlVisiteur == null) {
             this.visiteur();
-            this.ctrlVisiteur.getVue().getContentPane().setCursor(cursor);
+            //this.ctrlVisiteur.getVue().getContentPane().setCursor(cursor);
         }
         this.ctrlVisiteur.getVue().setVisible(true);
         this.ctrlVisiteur.getVue().setBounds(this.ctrlMenuGeneral.getVue().getBounds());
@@ -111,7 +111,7 @@ public class CtrlPrincipal {
         this.ctrlMenuGeneral.getVue().setVisible(false);
         if (this.ctrlRapportVisite == null) {
             this.rapportVisite();
-            this.ctrlRapportVisite.getVue().getContentPane().setCursor(cursor);
+            //this.ctrlRapportVisite.getVue().getContentPane().setCursor(cursor);
         }
         this.ctrlRapportVisite.getVue().setVisible(true);
         this.ctrlRapportVisite.getVue().setBounds(this.ctrlMenuGeneral.getVue().getBounds());
@@ -126,7 +126,7 @@ public class CtrlPrincipal {
         this.ctrlMenuGeneral.getVue().setVisible(false);
         if (this.ctrlPraticien == null) {
             this.praticien();
-            this.ctrlPraticien.getVue().getContentPane().setCursor(cursor);
+            //this.ctrlPraticien.getVue().getContentPane().setCursor(cursor);
         }
         if (numPraticien != -1) {
             ctrlPraticien.detailPraticien(numPraticien);
@@ -151,7 +151,7 @@ public class CtrlPrincipal {
         this.ctrlMenuGeneral.getVue().setVisible(false);
         if (this.ctrlMedicament == null) {
             this.medicament();
-            this.ctrlMedicament.getVue().getContentPane().setCursor(cursor);
+            //this.ctrlMedicament.getVue().getContentPane().setCursor(cursor);
         }
         if (depotLegal != null) {
             ctrlMedicament.detailMedicament(depotLegal);
