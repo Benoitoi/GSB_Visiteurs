@@ -24,6 +24,7 @@ public class CtrlMenuGeneral implements WindowListener {
      */
     public CtrlMenuGeneral(VueMenuGeneral vue, CtrlPrincipal ctrl) {
         this.vue = vue;
+        this.vue.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_logo.png")).getImage());
         this.ctrlPrincipal = ctrl;
         // le contrôleur écoute la vue
         this.vue.addWindowListener(this);
@@ -63,7 +64,8 @@ public class CtrlMenuGeneral implements WindowListener {
             if (evenement.getSource() == vue.getjCheckBoxDeconnection()) {
                 vue.getjCheckBoxDeconnection().setSelected(false);
                 // Confirmer avant de se déconnecter
-                int rep = JOptionPane.showConfirmDialog(getVue(), "Se déconnecter\nEtes-vous sûr(e) ?", "GSB - Visiteurs", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                String ObjButtons[] = new String[]{"Oui", "Non"};
+                int rep = JOptionPane.showOptionDialog(getVue(), "Se déconnecter\nEtes-vous sûr(e) ?", "GSB - Visiteur", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, ObjButtons, ObjButtons);
                 if (rep == JOptionPane.YES_OPTION) {
                     // se déconnecter
                     ctrlPrincipal.afficherConnexion();

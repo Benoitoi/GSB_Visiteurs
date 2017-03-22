@@ -56,9 +56,11 @@ public class CtrlVisiteur implements WindowListener {
     public CtrlVisiteur(final VueVisiteur vue, CtrlPrincipal ctrl) {
         this.ecouteur = new Ecouteur();
         this.vue = vue;
+        this.vue.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_logo.png")).getImage());
         this.ctrlPrincipal = ctrl;
 
         this.vue.addWindowListener(this);
+        vue.getjButtonOk().setVisible(false);
 
         init();
         remplirJComboBoxs();
@@ -204,6 +206,7 @@ public class CtrlVisiteur implements WindowListener {
             vue.getjTextFieldAdresse().setText(visiteurAffiche.getAdresse());
             vue.getjTextFieldCodePostal().setText(visiteurAffiche.getCodePostal());
             vue.getjTextFieldVille().setText(visiteurAffiche.getVille());
+            vue.getjDateChooserDateEmbauche().setDate(visiteurAffiche.getDateEmbauche());
         }
     }
 
@@ -309,6 +312,7 @@ public class CtrlVisiteur implements WindowListener {
         vue.getjTextFieldVille().setEditable(b);
         vue.getjComboBoxLabo().setEnabled(b);
         vue.getjComboBoxSecteur().setEnabled(b);
+        vue.getjDateChooserDateEmbauche().setEnabled(b);
     }
 
     /**

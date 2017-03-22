@@ -46,17 +46,19 @@ public class CtrlPraticien implements WindowListener {
      * @param vue
      * @param ctrl
      */
-    public CtrlPraticien(VuePraticien vue, CtrlPrincipal ctrl) {
+    public CtrlPraticien(final VuePraticien vue, CtrlPrincipal ctrl) {
         this.ecouteur = new Ecouteur();
         this.vue = vue;
+        this.vue.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_logo.png")).getImage());
         this.ctrlPrincipal = ctrl;
         // le contrôleur écoute la vue
         this.vue.addWindowListener(this);
+        vue.getjButtonOk().setVisible(false);
 
         vue.getjComboBoxLieuExercice().setModel(modeleJComboBoxLieux);
         vue.getjComboBoxChercher().setModel(modeleJComboBoxNomsPrenomsPraticiens);
 
-        vue.getjButtonFermer().addActionListener(ecouteur);
+        vue.getjButtonQuitter().addActionListener(ecouteur);
         vue.getjButtonOk().addActionListener(ecouteur);
         vue.getjButtonPrecedent().addActionListener(ecouteur);
         vue.getjButtonSuivant().addActionListener(ecouteur);
@@ -164,13 +166,13 @@ public class CtrlPraticien implements WindowListener {
 
         @Override
         public void actionPerformed(ActionEvent evenement) {
-            if (evenement.getSource() == vue.getjButtonFermer()) {
+            if (evenement.getSource() == vue.getjButtonQuitter()) {
                 if (detailMode) {
                     getVue().dispose();
                     detailMode = false;
                     detailMode(detailMode);
                 } else {
-                    ctrlPrincipal.fermer(getVue());
+                    ctrlPrincipal.quitterApplication();
                 }
             } else if (evenement.getSource() == vue.getjButtonOk()) {
                 afficherLePraticien(vue.getjComboBoxChercher().getSelectedIndex());
@@ -273,13 +275,24 @@ public class CtrlPraticien implements WindowListener {
         detailMode(detailMode);
     }
 
+    /**
+     *
+     * @param b
+     */
     public void detailMode(boolean b) {
+        if (b) {
+            vue.getjButtonQuitter().setText("Fermer");
+        } else {
+            vue.getjButtonQuitter().setText("Quitter");
+        }
+        vue.getjLabelChercher().setVisible(!b);
+        vue.getjLabelRechercher().setVisible(!b);
         vue.getjButtonMenuGeneral().setVisible(!b);
-        vue.getjTextFieldRechercher().setEnabled(!b);
-        vue.getjComboBoxChercher().setEnabled(!b);
-        vue.getjButtonOk().setEnabled(!b);
-        vue.getjButtonPrecedent().setEnabled(!b);
-        vue.getjButtonSuivant().setEnabled(!b);
+        vue.getjTextFieldRechercher().setVisible(!b);
+        vue.getjComboBoxChercher().setVisible(!b);
+        vue.getjButtonOk().setVisible(!b);
+        vue.getjButtonPrecedent().setVisible(!b);
+        vue.getjButtonSuivant().setVisible(!b);
     }
 
     /**
@@ -357,15 +370,22 @@ public class CtrlPraticien implements WindowListener {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isDetailMode() {
         return detailMode;
     }
 
+    /**
+     *
+     * @param detailMode
+     */
     public void setDetailMode(boolean detailMode) {
         this.detailMode = detailMode;
     }
 
-    
     /**
      *
      * @param e

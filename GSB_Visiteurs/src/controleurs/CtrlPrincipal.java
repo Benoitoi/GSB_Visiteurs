@@ -1,8 +1,12 @@
 package controleurs;
 
 import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import modele.metier.Visiteur;
+import util.FileReader;
 import vues.VueConnexion;
 import vues.VueMenuGeneral;
 import vues.VueVisiteur;
@@ -23,17 +27,25 @@ public class CtrlPrincipal {
     CtrlPraticien ctrlPraticien;
     CtrlMedicament ctrlMedicament;
     JFrame currentView;
+    Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(
+            new javax.swing.ImageIcon(getClass().getResource("/images/cursor.png")).getImage(),
+            new Point(0, 0), "custom cursor");
+
+    /**
+     *
+     */
+    public CtrlPrincipal() {
+    }
 
     /**
      *
      * @param wait
-     * @param laVue
      */
-    public void doWait(boolean wait, JFrame laVue) {
+    public void doWait(boolean wait) {
         if (wait) {
-            laVue.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            getCurrentView().getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         } else {
-            laVue.setCursor(Cursor.getDefaultCursor());
+            getCurrentView().getContentPane().setCursor(cursor);
         }
     }
 
@@ -47,9 +59,12 @@ public class CtrlPrincipal {
         } else {
 
         }
-        this.identification();
+        if (this.ctrlConnexion == null) {
+            this.identification();
+            this.ctrlConnexion.getVue().setLocationRelativeTo(null);
+            this.ctrlConnexion.getVue().getContentPane().setCursor(cursor);
+        }
         this.ctrlConnexion.getVue().setVisible(true);
-        this.ctrlConnexion.getVue().setLocationRelativeTo(null);
         setCurrentView(this.ctrlConnexion.getVue());
     }
 
@@ -60,12 +75,19 @@ public class CtrlPrincipal {
     public void afficherMenuGeneral(JFrame laVue) {
         //toutes les vues qui font appel au menu general se ferme
         laVue.dispose();
+        boolean first = false;
         if (this.ctrlMenuGeneral == null) {
+            first = true;
             this.menuGeneral();
+            this.ctrlMenuGeneral.getVue().getContentPane().setCursor(cursor);
         }
         this.ctrlMenuGeneral.getVue().setVisible(true);
         this.ctrlMenuGeneral.getVue().setBounds(laVue.getBounds());
         setCurrentView(this.ctrlMenuGeneral.getVue());
+        if (first) {
+            Visiteur visiteurLu = FileReader.getConnectedVisiteur(this.ctrlMenuGeneral.getVue());
+            JOptionPane.showMessageDialog(this.ctrlMenuGeneral.getVue(), "Bienvenue sur l'application GSB Visiteur Monsieur " + visiteurLu.getNom(), "Bienvenue", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     /**
@@ -75,6 +97,7 @@ public class CtrlPrincipal {
         this.ctrlMenuGeneral.getVue().setVisible(false);
         if (this.ctrlVisiteur == null) {
             this.visiteur();
+            this.ctrlVisiteur.getVue().getContentPane().setCursor(cursor);
         }
         this.ctrlVisiteur.getVue().setVisible(true);
         this.ctrlVisiteur.getVue().setBounds(this.ctrlMenuGeneral.getVue().getBounds());
@@ -88,6 +111,7 @@ public class CtrlPrincipal {
         this.ctrlMenuGeneral.getVue().setVisible(false);
         if (this.ctrlRapportVisite == null) {
             this.rapportVisite();
+            this.ctrlRapportVisite.getVue().getContentPane().setCursor(cursor);
         }
         this.ctrlRapportVisite.getVue().setVisible(true);
         this.ctrlRapportVisite.getVue().setBounds(this.ctrlMenuGeneral.getVue().getBounds());
@@ -102,6 +126,7 @@ public class CtrlPrincipal {
         this.ctrlMenuGeneral.getVue().setVisible(false);
         if (this.ctrlPraticien == null) {
             this.praticien();
+            this.ctrlPraticien.getVue().getContentPane().setCursor(cursor);
         }
         if (numPraticien != -1) {
             ctrlPraticien.detailPraticien(numPraticien);
@@ -126,6 +151,7 @@ public class CtrlPrincipal {
         this.ctrlMenuGeneral.getVue().setVisible(false);
         if (this.ctrlMedicament == null) {
             this.medicament();
+            this.ctrlMedicament.getVue().getContentPane().setCursor(cursor);
         }
         if (depotLegal != null) {
             ctrlMedicament.detailMedicament(depotLegal);
@@ -151,7 +177,8 @@ public class CtrlPrincipal {
      */
     public void quitterApplication() {
         // Confirmer avant de quitter
-        int rep = JOptionPane.showConfirmDialog(getCurrentView(), "Quitter l'application\nEtes-vous sûr(e) ?", "GSB - Visiteur", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        String ObjButtons[] = new String[]{"Oui", "Non"};
+        int rep = JOptionPane.showOptionDialog(getCurrentView(), "Quitter l'application\nEtes-vous sûr(e) ?", "GSB - Visiteur", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, ObjButtons, ObjButtons);
         if (rep == JOptionPane.YES_OPTION) {
             // mettre fin à l'application
             System.exit(0);

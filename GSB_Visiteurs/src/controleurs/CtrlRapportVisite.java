@@ -21,14 +21,11 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.RowSorter;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import javax.swing.text.PlainDocument;
 import modele.dao.DaoMedicament;
 import modele.dao.DaoOffre;
@@ -53,6 +50,7 @@ public class CtrlRapportVisite implements WindowListener {
     private CtrlPrincipal ctrlPrincipal;
     private final Ecouteur ecouteur = new Ecouteur();
     private DefaultComboBoxModel modeleJComboBoxPraticiens = new DefaultComboBoxModel();
+    private DefaultComboBoxModel modeleJComboBoxPraticiensEdit = new DefaultComboBoxModel();
     private DefaultComboBoxModel modeleJComboBoxMedicament = new DefaultComboBoxModel();
     private DefaultTableModel modeleJTableOffreEchantillons = new DefaultTableModel();
     private ArrayList<RapportVisite> lesRapportsVisite = new ArrayList<>();
@@ -66,20 +64,21 @@ public class CtrlRapportVisite implements WindowListener {
     private int maxNum = 0;
     private final TableCellEditor editor;
     private boolean hasValidate = false;
-    private JTextField offreEchantillon;
     private JComboBox JComboBoxLesMedicaments = new JComboBox();
     private final TableCellEditor cellEditor;
     private final TableCellRenderer cellRenderer;
     private final TableCellRenderer renderer;
     private final Visiteur connectedVisiteur;
+    private int nbExistingOffres;
 
     /**
      *
      * @param vue
      * @param ctrl
      */
-    public CtrlRapportVisite(VueRapportVisite vue, CtrlPrincipal ctrl) {
+    public CtrlRapportVisite(final VueRapportVisite vue, CtrlPrincipal ctrl) {
         this.vue = vue;
+        this.vue.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_logo.png")).getImage());
         // le contrôleur écoute la vue
         this.vue.addWindowListener(this);
         this.ctrlPrincipal = ctrl;
@@ -101,8 +100,10 @@ public class CtrlRapportVisite implements WindowListener {
         editor = vue.getjTableOffreEchantillons().getDefaultEditor(Object.class);
         renderer = vue.getjTableOffreEchantillons().getDefaultRenderer(Object.class);
 
-        vue.getjComboBoxPraticien().setModel(modeleJComboBoxPraticiens);
+        JComboBoxLesMedicaments.setModel(modeleJComboBoxMedicament);
+
         vue.getjTableOffreEchantillons().setModel(modeleJTableOffreEchantillons);
+        vue.getjTableOffreEchantillons().getTableHeader().setReorderingAllowed(false);
         vue.getjTableOffreEchantillons().putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
         modeleJTableOffreEchantillons.addColumn("Médicaments");
@@ -111,11 +112,8 @@ public class CtrlRapportVisite implements WindowListener {
         TableColumn column = vue.getjTableOffreEchantillons().getColumnModel().getColumn(0);
         cellEditor = column.getCellEditor();
         cellRenderer = column.getCellRenderer();
-        TableRowSorter <TableModel> sorter = new TableRowSorter<>(vue.getjTableOffreEchantillons().getModel());
-        sorter.setSortable(0, false); 
-        sorter.setSortable(1, false); 
-        
-        vue.getjButtonFermer().addActionListener(ecouteur);
+
+        vue.getjButtonQuitter().addActionListener(ecouteur);
         vue.getjButtonDetailsPraticien().addActionListener(ecouteur);
         vue.getjButtonPrecedent().addActionListener(ecouteur);
         vue.getjButtonSuivant().addActionListener(ecouteur);
@@ -126,6 +124,7 @@ public class CtrlRapportVisite implements WindowListener {
         vue.getjButtonMenuGeneral().addActionListener(ecouteur);
         vue.getjButtonToutSupprimer().addActionListener(ecouteur);
         vue.getjButtonSupprimer().addActionListener(ecouteur);
+        vue.getjButtonEffacer().addActionListener(ecouteur);
         JComboBoxLesMedicaments.addActionListener(ecouteur);
 
         JTextFieldDateEditor jDateChooserEditor = (JTextFieldDateEditor) vue.getjDateChooserDateRapport().getDateEditor();
@@ -145,8 +144,8 @@ public class CtrlRapportVisite implements WindowListener {
         });
         init();
         // préparer l'état iniitial de la vue
-        rechercherIndexVisiteurConnecte();
         isEditing(creationMode);
+        rechercherIndexVisiteurConnecte();
     }
 
     private void init() {
@@ -172,7 +171,6 @@ public class CtrlRapportVisite implements WindowListener {
         if (vue.getjTableOffreEchantillons().getRowCount() != 0) {
             getAllOffres();
         }
-        getAllRapports();
         int i = 0;
         for (RapportVisite unRapportVisite : lesRapportsVisite) {
             if (unRapportVisite.getNumeroRapport() == numeroRapport) {
@@ -209,7 +207,9 @@ public class CtrlRapportVisite implements WindowListener {
         tousPraticiens = DaoPraticien.getAllPraticiens();
         modeleJComboBoxPraticiens.removeAllElements();
         modeleJComboBoxPraticiens.addElement("Choisissez un praticien");
+        modeleJComboBoxPraticiensEdit.removeAllElements();
         for (Praticien unPraticien : tousPraticiens) {
+            modeleJComboBoxPraticiensEdit.addElement(unPraticien.getNom());
             modeleJComboBoxPraticiens.addElement(unPraticien.getNom());
         }
     }
@@ -227,21 +227,29 @@ public class CtrlRapportVisite implements WindowListener {
         vue.getjDateChooserDateRapport().setEnabled(b);
         vue.getjTextFieldMotifVisite().setEditable(b);
         vue.getjTextAreaBilan().setEditable(b);
+        vue.getjButtonEffacer().setVisible(b);
         vue.getjComboBoxPraticien().setEnabled(b);
         vue.getjButtonPrecedent().setEnabled(!b);
         vue.getjButtonSuivant().setEnabled(!b);
         vue.getjButtonPlus().setVisible(b);
         vue.getjButtonMoins().setVisible(b);
+        vue.getjTextFieldNumeroRapport().setVisible(!creationMode);
+        vue.getjLabelNumeroRapport().setVisible(!creationMode);
         if (b) {
             vue.getjButtonNouveau().setText("Annuler");
             vue.getjButtonValider().setText("Valider");
             vue.getjTableOffreEchantillons().setDefaultEditor(Object.class, editor);
             if (creationMode) {
                 formulaire();
-            } else {
-
+            } else if (editMode) {
+                int index = vue.getjComboBoxPraticien().getSelectedIndex();
+                vue.getjComboBoxPraticien().setModel(modeleJComboBoxPraticiensEdit);
+                vue.getjComboBoxPraticien().setSelectedIndex(index - 1);
+                nbExistingOffres = vue.getjTableOffreEchantillons().getRowCount();
+                System.out.println(offresEchantillons.size());
             }
         } else {
+            vue.getjComboBoxPraticien().setModel(modeleJComboBoxPraticiens);
             vue.getjButtonNouveau().setText("Nouveau");
             vue.getjButtonValider().setText("Editer");
             vue.getjTableOffreEchantillons().setDefaultRenderer(Object.class, renderer);
@@ -265,7 +273,6 @@ public class CtrlRapportVisite implements WindowListener {
         vue.getjDateChooserDateRapport().setCalendar(null);
         vue.getjTextFieldMotifVisite().setText("");
         vue.getjTextAreaBilan().setText("");
-        offresEchantillons = lesOffresEchantillons;
         modeleJTableOffreEchantillons.setRowCount(0);
     }
 
@@ -278,14 +285,23 @@ public class CtrlRapportVisite implements WindowListener {
 
         @Override
         public void actionPerformed(ActionEvent evenement) {
+            if (evenement.getSource() == vue.getjButtonEffacer()) {
+                vue.getjDateChooserDateRapport().setDate(null);
+            }
             if (evenement.getSource() == JComboBoxLesMedicaments) {
 
             }
             if (evenement.getSource() == vue.getjButtonSupprimer()) {
                 int numeroRapport = Integer.valueOf(vue.getjTextFieldNumeroRapport().getText());
-                int rep = JOptionPane.showConfirmDialog(getVue(), "Voulez vous vraiment supprimer le rapport n°" + numeroRapport + "?", "Supprimer?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                String ObjButtons[] = new String[]{"Oui", "Non"};
+                int rep = JOptionPane.showOptionDialog(getVue(), "Voulez vous vraiment supprimer le rapport n°" + numeroRapport + "?", "Supprimer?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, ObjButtons, ObjButtons);
                 if (rep == JOptionPane.YES_OPTION) {
                     try {
+                        for (Offre uneOffre : lesOffresEchantillons) {
+                            if (uneOffre.getRapport().getNumeroRapport() == numeroRapport) {
+                                DaoOffre.delete(uneOffre);
+                            }
+                        }
                         DaoRapportVisite.delete(numeroRapport);
                         showPrevious();
                         JOptionPane.showMessageDialog(vue, "Succès");
@@ -306,41 +322,66 @@ public class CtrlRapportVisite implements WindowListener {
             if (evenement.getSource() == vue.getjButtonValider()) {
                 if (creationMode) {
                     String message = "Veuillez préciser :\n";
+                    String facultatifMessage = "Vous n'avez pas précisé :\n";
                     boolean erreur = false;
+                    boolean facultatif = false;
                     if (vue.getjTableOffreEchantillons().getRowCount() == 0) {
-                        /*message += "-l'offre échantillon du rapport\n";
-                         erreur = true;*/
+                        facultatifMessage += "-l'offre échantillon du rapport\n";
+                        facultatif = true;
                     } else {
                         int rowCount = vue.getjTableOffreEchantillons().getRowCount();
                         int columnCount = vue.getjTableOffreEchantillons().getColumnCount();
-                        for (int row = 0; row < rowCount; row++) {
+                        int row = 0;
+                        TableModel tableModel = vue.getjTableOffreEchantillons().getModel();
+                        for (row = 0; row < rowCount; row++) {
+                            TableCellRenderer tableCellRenderer = vue.getjTableOffreEchantillons().getCellRenderer(row, 0);
+                            Component c = vue.getjTableOffreEchantillons().prepareRenderer(tableCellRenderer, row, 0);
                             if (JComboBoxLesMedicaments.getSelectedIndex() == 0) {
-                                message += "-le médicament\n";
+                                message += "-le médicament de l'offre\n";
                                 JComboBoxLesMedicaments.requestFocus();
-                                JComboBoxLesMedicaments.showPopup();
+                                //JComboBoxLesMedicaments.showPopup();
                                 erreur = true;
+                            } else {
+                                String offreEchantillon = (String) vue.getjTableOffreEchantillons().getValueAt(row, 1);
+                                //String medoc = (String) modeleJComboBoxMedicament.getElementAt(JComboBoxLesMedicaments.getSelectedIndex());
+                                String medoc = vue.getjTableOffreEchantillons().getValueAt(row, 0).toString();
+                                if (offreEchantillon == null) {
+                                    facultatifMessage += "-le nombre d'échantillons du médicament " + medoc + "\n";
+                                    facultatif = true;
+                                } else {
+                                    if (offreEchantillon.equals("")) {
+                                        facultatifMessage += "-le nombre d'échantillons du médicament " + medoc + "\n";
+                                        facultatif = true;
+                                    }
+                                }
+                                for (int i = row + 1; i < vue.getjTableOffreEchantillons().getRowCount(); i++) {
+                                    if (medoc.equals(vue.getjTableOffreEchantillons().getValueAt(row, 0))) {
+                                        message += "-le médicament " + medoc + " ne doit pas être sélectionné deux fois";
+                                        erreur = true;
+                                    }
+                                }
                             }
-                            if (offreEchantillon.getText().equals("")) {
-                                message += "-le nombre d'échantillons\n";
-                                //erreur = true; //nullable
-                            }
+                        }
+                        if (row == 0) {
+                            facultatifMessage += "-une offre d'échantillons\n";
+                            facultatif = true;
                         }
                     }
                     if (vue.getjTextFieldMotifVisite().getText().equals("")) {
                         vue.getjTextFieldMotifVisite().requestFocus();
-                        message += "-le motif du rapport\n";
-                        //erreur = true;//nullable
+                        facultatifMessage += "-le motif du rapport\n";
+                        facultatif = true;
                     }
-                    if (!(vue.getjTextAreaBilan().getText().equals(""))) {
+                    if (vue.getjTextAreaBilan().getText().equals("")) {
                         vue.getjTextAreaBilan().requestFocus();
-                        message += "-le bilan du rapport\n";
-                        //erreur = true;//nullable
+                        facultatifMessage += "-le bilan du rapport\n";
+                        facultatif = true;
                     }
                     if (vue.getjDateChooserDateRapport().getDate() == null) {
                         vue.getjDateChooserDateRapport().requestFocus();
                         //ouvrir popup
-                        message += "-La date du rapport\n";
-                        //erreur = true;//nullable
+                        facultatifMessage += "-La date du rapport\n";
+                        facultatif = true;
                     }
                     if (vue.getjComboBoxPraticien().getSelectedIndex() == 0) {
                         message += "-le praticien du rapport\n";
@@ -349,7 +390,8 @@ public class CtrlRapportVisite implements WindowListener {
                         erreur = true;
                     }
                     if (erreur) {
-                        int rep = JOptionPane.showConfirmDialog(getVue(), "Il y a des erreurs dans le formulaire, recommencer ?\n" + message, "Erreur de saisie", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        String ObjButtons[] = new String[]{"Oui", "Non"};
+                        int rep = JOptionPane.showOptionDialog(getVue(), "Il y a des erreurs dans le formulaire, recommencer ?\n" + message, "Erreur de saisie", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons);
                         if (rep == JOptionPane.YES_OPTION) {
 
                         } else if (rep == JOptionPane.NO_OPTION) {
@@ -358,65 +400,21 @@ public class CtrlRapportVisite implements WindowListener {
                             afficherLeRapport();
                         }
                     } else {
+                        if (facultatif) {
+                            String ObjButtons[] = new String[]{"Oui", "Non"};
+                            int rep = JOptionPane.showOptionDialog(getVue(), facultatifMessage + "\nContinuer ?", "Ajout rapport", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, ObjButtons, ObjButtons);
+                            if (rep == JOptionPane.YES_OPTION) {
+                                createNewRapport();
+                            } else if (rep == JOptionPane.NO_OPTION) {
 
-                        //creer le nouveau rapport
-                        Praticien lePraticien = tousPraticiens.get(vue.getjComboBoxPraticien().getSelectedIndex() - 1);
-                        int numeroRapport = Integer.valueOf(vue.getjTextFieldNumeroRapport().getText());
-                        int numeroPraticien = lePraticien.getNumero();
-                        Date dateRapport = null;
-                        if (vue.getjDateChooserDateRapport().getDate() != null) {
-                            dateRapport = new Date(vue.getjDateChooserDateRapport().getDate().getTime());
-                        }
-                        String motifRapport = vue.getjTextFieldMotifVisite().getText();
-                        String bilanRapport = vue.getjTextAreaBilan().getText();
-                        Praticien praticien = null;
-                        try {
-                            praticien = DaoPraticien.getOneByNum(numeroPraticien);
-                        } catch (SQLException ex) {
-                            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        RapportVisite nouveauRapportVisite = new RapportVisite(connectedVisiteur, numeroRapport, praticien, dateRapport, motifRapport, bilanRapport);
-                        System.out.println(nouveauRapportVisite);
-                        try {
-                            DaoRapportVisite.insert(nouveauRapportVisite);
-                        } catch (SQLException ex) {
-                            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                        SwingUtilities.invokeLater(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                //creer la nouvelle offre
-                                for (int i = 0; i < vue.getjTableOffreEchantillons().getRowCount(); i++) {
-                                    Medicament medicament = tousMedicaments.get(JComboBoxLesMedicaments.getSelectedIndex() - 1);
-                                    int nbEchantillons = -1;
-                                    if (modeleJTableOffreEchantillons.getValueAt(i, 1) != null) {
-                                        nbEchantillons = Integer.valueOf((String) modeleJTableOffreEchantillons.getValueAt(i, 1));
-                                    }
-                                    Offre nouvelleOffre = new Offre(connectedVisiteur, nouveauRapportVisite, medicament, nbEchantillons);
-                                    System.out.println(nouvelleOffre);
-                                    try {
-                                        DaoOffre.insert(nouvelleOffre);
-                                    } catch (SQLException ex) {
-                                        Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                }
                             }
-                        });
-
-                        creationMode = false;
-                        isEditing(creationMode);
-                        try {
-                            showNew(numeroRapport);
-                        } catch (SQLException ex) {
-                            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+                        } else {
+                            createNewRapport();
                         }
                     }
                 } else {
                     if (editMode) {
-                        editMode = false;
-                        isEditing(editMode);
+                        updateRapport();
                     } else {
                         editMode = true;
                         isEditing(editMode);
@@ -424,10 +422,15 @@ public class CtrlRapportVisite implements WindowListener {
                 }
             } else if (evenement.getSource() == vue.getjButtonPlus()) {
                 Object[] rowData = new Object[2];
-                JComboBoxLesMedicaments.addItem("Sélectionnez un médicament");
+                modeleJComboBoxMedicament.removeAllElements();
+                modeleJComboBoxMedicament.addElement("Sélectionnez un médicament");
                 for (Medicament unMedicament : tousMedicaments) {
-                    JComboBoxLesMedicaments.addItem(unMedicament.getDepotLegal());
+                    modeleJComboBoxMedicament.addElement(unMedicament.getDepotLegal());
                 }
+                /*JComboBoxLesMedicaments.addItem("Sélectionnez un médicament");
+                 for (Medicament unMedicament : tousMedicaments) {
+                 JComboBoxLesMedicaments.addItem(unMedicament.getDepotLegal());
+                 }*/
 
                 TableColumn medicaments = vue.getjTableOffreEchantillons().getColumnModel().getColumn(0);
                 rowData[0] = medicaments;
@@ -435,7 +438,7 @@ public class CtrlRapportVisite implements WindowListener {
                 medicaments.setCellRenderer(new CheckBoxCellRenderer(JComboBoxLesMedicaments));
                 vue.getjTableOffreEchantillons().repaint();
 
-                offreEchantillon = new JTextField();
+                JTextField offreEchantillon = new JTextField();
                 TableColumn nbEchantillons = vue.getjTableOffreEchantillons().getColumnModel().getColumn(1);
                 nbEchantillons.setCellEditor(new DefaultCellEditor(offreEchantillon));
                 PlainDocument doc = (PlainDocument) offreEchantillon.getDocument();
@@ -469,15 +472,16 @@ public class CtrlRapportVisite implements WindowListener {
                 } else {
                     JOptionPane.showMessageDialog(vue, "Veuillez sélectionner au moins une ligne du tableau à retirer");
                 }
-            } else if (evenement.getSource() == vue.getjButtonFermer()) {
+            } else if (evenement.getSource() == vue.getjButtonQuitter()) {
                 if (creationMode) {
-                    int rep = JOptionPane.showConfirmDialog(getVue(), "Vous êtes toujours mode édition, êtes vous sur ?", "Mode édition", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    String ObjButtons[] = new String[]{"Oui", "Non"};
+                    int rep = JOptionPane.showOptionDialog(getVue(), "Vous êtes toujours mode édition, êtes vous sur ?", "Mode édition", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, ObjButtons, ObjButtons);
                     if (rep == JOptionPane.YES_OPTION) {
                         // fermer
-                        ctrlPrincipal.fermer(getVue());
+                        System.exit(0);
                     }
                 } else {
-                    ctrlPrincipal.fermer(getVue());
+                    ctrlPrincipal.quitterApplication();
                 }
             } else if (evenement.getSource() == vue.getjButtonDetailsPraticien()) {
                 if (!creationMode) {
@@ -512,7 +516,8 @@ public class CtrlRapportVisite implements WindowListener {
                 }
             } else if (evenement.getSource() == vue.getjButtonNouveau()) {
                 if (creationMode || editMode) {
-                    int rep = JOptionPane.showConfirmDialog(getVue(), "Êtes vous sûr ?", "Annuler", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    String ObjButtons[] = new String[]{"Oui", "Non"};
+                    int rep = JOptionPane.showOptionDialog(getVue(), "Êtes vous sûr ?", "Annuler", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, ObjButtons, ObjButtons);
                     if (rep == JOptionPane.YES_OPTION) {
                         creationMode = false;
                         editMode = false;
@@ -525,7 +530,8 @@ public class CtrlRapportVisite implements WindowListener {
                 }
             } else if (evenement.getSource() == vue.getjButtonMenuGeneral()) {
                 if (creationMode) {
-                    int rep = JOptionPane.showConfirmDialog(getVue(), "Vous êtes toujours mode édition, êtes vous sur ?", "Mode édition", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    String ObjButtons[] = new String[]{"Oui", "Non"};
+                    int rep = JOptionPane.showOptionDialog(getVue(), "Vous êtes toujours mode édition, êtes vous sur ?", "Mode édition", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, ObjButtons, ObjButtons);
                     if (rep == JOptionPane.YES_OPTION) {
                         // afficher menu général
                         ctrlPrincipal.afficherMenuGeneral(vue);
@@ -534,6 +540,147 @@ public class CtrlRapportVisite implements WindowListener {
                     ctrlPrincipal.afficherMenuGeneral(vue);
                 }
             }
+        }
+    }
+
+    private RapportVisite getNewRapport(Praticien lePraticien) {
+        //int numeroRapport = Integer.valueOf(vue.getjTextFieldNumeroRapport().getText());
+        int numeroPraticien = lePraticien.getNumero();
+        Date dateRapport = null;
+        if (vue.getjDateChooserDateRapport().getDate() != null) {
+            dateRapport = new Date(vue.getjDateChooserDateRapport().getDate().getTime());
+        }
+        String motifRapport = vue.getjTextFieldMotifVisite().getText();
+        String bilanRapport = vue.getjTextAreaBilan().getText();
+        Praticien praticien = null;
+        for (Praticien unPraticien : tousPraticiens) {
+            if (unPraticien.getNumero() == numeroPraticien) {
+                praticien = unPraticien;
+            }
+        }
+        return new RapportVisite(connectedVisiteur, -1, praticien, dateRapport, motifRapport, bilanRapport);
+    }
+
+    private Offre getNewOffre(RapportVisite nouveauRapportVisite, int i) {
+        String depotLegal = (String) vue.getjTableOffreEchantillons().getValueAt(i, 0);
+        Medicament medicament = null;
+        for (Medicament unMedicament : tousMedicaments) {
+            if (unMedicament.getDepotLegal().equals(depotLegal)) {
+                medicament = unMedicament;
+            }
+        }
+        //Medicament medicament = tousMedicaments.get(JComboBoxLesMedicaments.getSelectedIndex() - 1);
+        int nbEchantillons = -1;
+        if (modeleJTableOffreEchantillons.getValueAt(i, 1) != null) {
+            if (!modeleJTableOffreEchantillons.getValueAt(i, 1).equals("")) {
+                nbEchantillons = Integer.valueOf(modeleJTableOffreEchantillons.getValueAt(i, 1).toString());
+            }
+        }
+        return new Offre(connectedVisiteur, nouveauRapportVisite, medicament, nbEchantillons);
+    }
+
+    private void updateRapport() {
+        //mettre à jour le rapport
+        RapportVisite nouveauRapportVisite = getNewRapport(tousPraticiens.get(vue.getjComboBoxPraticien().getSelectedIndex()));
+        int numeroRapport = Integer.valueOf(vue.getjTextFieldNumeroRapport().getText());
+        nouveauRapportVisite.setNumeroRapport(numeroRapport);
+        try {
+            DaoRapportVisite.update(nouveauRapportVisite);
+        } catch (SQLException ex) {
+            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            getAllRapports();
+        } catch (SQLException ex) {
+            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (vue.getjTableOffreEchantillons().getRowCount() < nbExistingOffres) {
+            //mettre à jour les offres existantes
+            for (int i = 0; i < vue.getjTableOffreEchantillons().getRowCount(); i++) {
+                Offre nouvelleOffre = getNewOffre(nouveauRapportVisite, i);
+                try {
+                    DaoOffre.update(nouvelleOffre);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            //supprimer les offres
+            for (int i = vue.getjTableOffreEchantillons().getRowCount(); i < nbExistingOffres; i++) {
+                try {
+                    DaoOffre.delete(offresEchantillons.get(i));
+                } catch (SQLException ex) {
+                    Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            //mettre à jour les offres<existantes
+            for (int i = 0; i < nbExistingOffres; i++) {
+                Offre nouvelleOffre = getNewOffre(nouveauRapportVisite, i);
+                try {
+                    DaoOffre.update(nouvelleOffre);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            //creer les nouvelles offres
+            for (int i = nbExistingOffres; i < vue.getjTableOffreEchantillons().getRowCount(); i++) {
+                Offre nouvelleOffre = getNewOffre(nouveauRapportVisite, i);
+                try {
+                    DaoOffre.insert(nouvelleOffre);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        editMode = false;
+        isEditing(editMode);
+        try {
+            showNew(numeroRapport);
+        } catch (SQLException ex) {
+            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void createNewRapport() {
+        //creer le nouveau rapport
+        RapportVisite nouveauRapportVisite = getNewRapport(tousPraticiens.get(vue.getjComboBoxPraticien().getSelectedIndex() - 1));
+        try {
+            DaoRapportVisite.insert(nouveauRapportVisite);
+        } catch (SQLException ex) {
+            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            getAllRapports();
+        } catch (SQLException ex) {
+            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //le numéro de rapport est autoincrémenté, pour le trouvé ca sera le numéro le plus élevé présent dans la base
+        int numeroRapport = -1;
+        for (RapportVisite unRapportVisite : lesRapportsVisite) {
+            if (unRapportVisite.getNumeroRapport() > numeroRapport) {
+                numeroRapport = unRapportVisite.getNumeroRapport();
+            }
+        }
+        nouveauRapportVisite.setNumeroRapport(numeroRapport);
+
+        //creer la nouvelle offre
+        for (int i = 0; i < vue.getjTableOffreEchantillons().getRowCount(); i++) {
+            Offre nouvelleOffre = getNewOffre(nouveauRapportVisite, i);
+
+            try {
+                DaoOffre.insert(nouvelleOffre);
+            } catch (SQLException ex) {
+                Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        creationMode = false;
+        isEditing(creationMode);
+        try {
+            showNew(numeroRapport);
+        } catch (SQLException ex) {
+            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -11,7 +11,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -52,19 +51,21 @@ public class CtrlMedicament implements WindowListener {
      * @param vue
      * @param ctrl
      */
-    public CtrlMedicament(VueMedicament vue, CtrlPrincipal ctrl) {
+    public CtrlMedicament(final VueMedicament vue, CtrlPrincipal ctrl) {
         this.nomPrenomTrouve = new ArrayList<>();
         this.ecouteur = new Ecouteur();
         this.vue = vue;
+        this.vue.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_logo.png")).getImage());
         this.ctrlPrincipal = ctrl;
         // le contrôleur écoute la vue
         this.vue.addWindowListener(this);
+        vue.getjButtonOk().setVisible(false);
 
         vue.getjComboBoxFamille().setModel(modeleJComboBoxFamille);
         vue.getjComboBoxChercher().setModel(modeleJComboBoxNomsPrenomsMedicaments);
         remplirJComboBoxs();
 
-        vue.getjButtonFermer().addActionListener(ecouteur);
+        vue.getjButtonQuitter().addActionListener(ecouteur);
         vue.getjButtonOk().addActionListener(ecouteur);
         vue.getjButtonPrecedent().addActionListener(ecouteur);
         vue.getjButtonSuivant().addActionListener(ecouteur);
@@ -159,13 +160,13 @@ public class CtrlMedicament implements WindowListener {
 
         @Override
         public void actionPerformed(ActionEvent evenement) {
-            if (evenement.getSource() == vue.getjButtonFermer()) {
+            if (evenement.getSource() == vue.getjButtonQuitter()) {
                 if (detailMode) {
                     getVue().dispose();
                     detailMode = false;
                     detailMode(detailMode);
                 } else {
-                    ctrlPrincipal.fermer(getVue());
+                    ctrlPrincipal.quitterApplication();
                 }
             } else if (evenement.getSource() == vue.getjButtonOk()) {
                 afficherLeMedicament(vue.getjComboBoxChercher().getSelectedIndex());
@@ -196,13 +197,24 @@ public class CtrlMedicament implements WindowListener {
         }
     }
 
+    /**
+     *
+     * @param b
+     */
     public void detailMode(boolean b) {
+        if (b) {
+            vue.getjButtonQuitter().setText("Fermer");
+        } else {
+            vue.getjButtonQuitter().setText("Quitter");
+        }
+        vue.getjLabelChercher().setVisible(!b);
+        vue.getjLabelRechercher().setVisible(!b);
         vue.getjButtonMenuGeneral().setVisible(!b);
-        vue.getjTextFieldRechercher().setEnabled(!b);
-        vue.getjComboBoxChercher().setEnabled(!b);
-        vue.getjButtonOk().setEnabled(!b);
-        vue.getjButtonPrecedent().setEnabled(!b);
-        vue.getjButtonSuivant().setEnabled(!b);
+        vue.getjTextFieldRechercher().setVisible(!b);
+        vue.getjComboBoxChercher().setVisible(!b);
+        vue.getjButtonOk().setVisible(!b);
+        vue.getjButtonPrecedent().setVisible(!b);
+        vue.getjButtonSuivant().setVisible(!b);
     }
 
     // contrôle de la vue
@@ -236,8 +248,6 @@ public class CtrlMedicament implements WindowListener {
             vue.getjTextFieldNomCommercial().setText(medicamentAffiche.getNomCommercial());
             vue.getjTextFieldComposition().setText(medicamentAffiche.getComposition());
             width = (int) (FONT.getStringBounds(medicamentAffiche.getComposition(), frc).getWidth()) + 10;
-            System.out.println(vue.getjTextFieldComposition().getWidth());
-            System.out.println(width);
             vue.getjTextFieldComposition().setSize(width, vue.getjTextFieldComposition().getHeight());
             vue.getjTextAreaEffetsIndesirables().setText(medicamentAffiche.getEffets());
             vue.getjTextAreaEffetsIndesirables().setCaretPosition(0);
