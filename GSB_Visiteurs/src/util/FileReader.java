@@ -35,7 +35,7 @@ public class FileReader {
             ois = new ObjectInputStream(new FileInputStream("OracleBDD.data"));
             bdd = (String) ois.readObject();
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erreur impossible de trouver le fichier des propriétés de la connection à la base de données Oracle\n" + ex, "Erreur ouverture", JOptionPane.ERROR_MESSAGE);
         }
 
         Properties propertiesJdbc = new Properties();// objet de propriétés pour JDBC
@@ -44,12 +44,14 @@ public class FileReader {
         try {
             propertiesJdbc.load(input);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Erreur impossible de charger le fichier des propriétés de la connection à la base de données Oracle\n" + ex);
+            JOptionPane.showMessageDialog(null, "Erreur impossible de charger le fichier des propriétés de la connection à la base de données Oracle\n" + ex, "Erreur chargement", JOptionPane.ERROR_MESSAGE);
         }
         try {
-            input.close();
+            if (input != null) {
+                input.close();
+            }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Erreur impossible fermer le fichier des propriétés de la connection à la base de données Oracle\n" + ex);
+            JOptionPane.showMessageDialog(null, "Erreur impossible fermer le fichier des propriétés de la connection à la base de données Oracle\n" + ex, "Erreur fermeture", JOptionPane.ERROR_MESSAGE);
         }
         return propertiesJdbc;
     }
@@ -65,10 +67,20 @@ public class FileReader {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("visiteur.data"));
             visiteurLu = (Visiteur) ois.readObject();
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(laVue, "Impossible de lire le fichier contenant l'état de l'objet visiteur." + ex);
+            JOptionPane.showMessageDialog(laVue, "Impossible de lire le fichier contenant l'état de l'objet visiteur." + ex, "Erreur lecture", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(laVue, "Erreur impossible de charger le fichier contenant l'état de l'objet du visiteur\n" + ex);
+            JOptionPane.showMessageDialog(laVue, "Erreur impossible de charger le fichier contenant l'état de l'objet du visiteur\n" + ex, "Erreur chargement", JOptionPane.ERROR_MESSAGE);
         }
         return visiteurLu;
+    }
+
+    private void close(ObjectInputStream ois, JFrame laVue) {
+        try {
+            if (ois != null) {
+                ois.close();
+            }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(laVue, "Erreur impossible de fermer le fichier contenant l'état de l'objet du visiteur\n" + ex, "Erreur fermeture", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

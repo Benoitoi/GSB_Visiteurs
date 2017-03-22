@@ -15,6 +15,12 @@ import java.text.SimpleDateFormat;
  */
 public class DateConvertion {
 
+    /**
+     *
+     * @param aDate
+     * @return
+     * @throws ParseException
+     */
     public static Date convert(String aDate) throws ParseException {
         Date sqlDate = null;
         java.util.Date date = new java.util.Date(aDate);
