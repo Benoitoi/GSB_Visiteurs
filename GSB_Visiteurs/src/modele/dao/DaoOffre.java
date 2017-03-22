@@ -51,10 +51,10 @@ public class DaoOffre {
      * @throws SQLException
      */
     public static ArrayList<Offre> getAllByRapport(int numeroRapportVisite) throws SQLException {
-        ArrayList<Offre> lesOffresEchantillons = null;
+        ArrayList<Offre> lesOffresEchantillons = new ArrayList<>();
         Jdbc jdbc = Jdbc.getInstance();
         //préparer la requête
-        String requete = "SELECT * FROM OFFRE WHERE RAP_NUM = ?";
+        String requete = "SELECT * FROM OFFRIR WHERE RAP_NUM= ?";
         PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);
         pstmt.setInt(1, numeroRapportVisite);
         ResultSet rs = pstmt.executeQuery();
@@ -74,19 +74,21 @@ public class DaoOffre {
     /**
      * Extraction de toutes les offres d'un rapport
      *
-     * @param numeroRapportVisite
+     * @param uneOffre
      * @return lesOffresEchantillons toute les offre du rapport de visite donné
      * @throws SQLException
      */
-    public static ArrayList<Offre> getOne(int numeroRapportVisite) throws SQLException {
-        ArrayList<Offre> lesOffresEchantillons = null;
+    public static Offre getOne(Offre uneOffre) throws SQLException {
+        Offre offreEchantillon = null;
         Jdbc jdbc = Jdbc.getInstance();
         //préparer la requête
-        String requete = "SELECT * FROM OFFRE WHERE RAP_NUM = ?";
+        String requete = "SELECT * FROM OFFRIR WHERE VIS_MATRICULE= ? AND RAP_NUM = ? AND MED_DEPOTLEGAL= ?";
         PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);
-        pstmt.setInt(1, numeroRapportVisite);
+        pstmt.setString(1, uneOffre.getVisiteur().getMatricule());
+        pstmt.setInt(2, uneOffre.getRapport().getNumeroRapport());
+        pstmt.setString(3, uneOffre.getMedicament().getDepotLegal());
         ResultSet rs = pstmt.executeQuery();
-        while (rs.next()) {
+        if (rs.next()) {
             String matriculeVisiteur = rs.getString("VIS_MATRICULE");
             int numeroRapport = rs.getInt("RAP_NUM");
             String depotLegal = rs.getString("MED_DEPOTLEGAL");
@@ -94,9 +96,9 @@ public class DaoOffre {
             Visiteur visiteur = DaoVisiteur.getOneByMatricule(matriculeVisiteur);
             RapportVisite rapport = DaoRapportVisite.getOneByNum(numeroRapport);
             Medicament medicament = DaoMedicament.getOneByDepotLegal(depotLegal);
-            lesOffresEchantillons.add(new Offre(visiteur, rapport, medicament, quantiteOffre));
+            offreEchantillon = new Offre(visiteur, rapport, medicament, quantiteOffre);
         }
-        return lesOffresEchantillons;
+        return offreEchantillon;
     }
 
     /**
@@ -132,12 +134,11 @@ public class DaoOffre {
     public static int delete(Offre uneOffre) throws SQLException {
         int nb;
         Jdbc jdbc = Jdbc.getInstance();
-        String requete = "DELETE FROM OFFRIR WHERE VIS_MATRICULE= ? AND RAP_NUM= ? AND MED_DEPOTLEGAL= ? AND OFF_QTE= ?";
+        String requete = "DELETE FROM OFFRIR WHERE VIS_MATRICULE= ? AND RAP_NUM= ? AND MED_DEPOTLEGAL= ?";
         PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);
         pstmt.setString(1, uneOffre.getVisiteur().getMatricule());
         pstmt.setInt(2, uneOffre.getRapport().getNumeroRapport());
         pstmt.setString(3, uneOffre.getMedicament().getDepotLegal());
-        pstmt.setInt(4, uneOffre.getQuantiteOffre());
         nb = pstmt.executeUpdate();
         return nb;
     }
@@ -157,7 +158,11 @@ public class DaoOffre {
         pstmt.setString(1, uneOffre.getVisiteur().getMatricule());
         pstmt.setInt(2, uneOffre.getRapport().getNumeroRapport());
         pstmt.setString(3, uneOffre.getMedicament().getDepotLegal());
-        pstmt.setInt(4, uneOffre.getQuantiteOffre());
+        if (uneOffre.getQuantiteOffre() == -1) {
+             pstmt.setNull(4, java.sql.Types.INTEGER);
+        } else {
+            pstmt.setInt(4, uneOffre.getQuantiteOffre());
+        }
         nb = pstmt.executeUpdate();
         pstmt.close();
         return nb;

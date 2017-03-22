@@ -68,7 +68,7 @@ public class DaoRapportVisite {
             String motifRapport = rs.getString("RAP_MOTIF");
             Visiteur visiteur = DaoVisiteur.getOneByMatricule(matriculeVisiteur);
             Praticien praticien = DaoPraticien.getOneByNum(numeroPraticien);
-            leRapportVisite = new RapportVisite(visiteur, numRapport, praticien, dateRapport, bilanRapport, motifRapport);
+            leRapportVisite = new RapportVisite(visiteur, numeroRapport, praticien, dateRapport, bilanRapport, motifRapport);
         }
         rs.close();
         pstmt.close();
@@ -85,14 +85,13 @@ public class DaoRapportVisite {
     public static int insert(RapportVisite unRapportVisite) throws SQLException {
         int nb;
         Jdbc jdbc = Jdbc.getInstance();
-        String requete = "INSERT INTO RAPPORT_VISITE (VIS_MATRICULE, RAP_NUM, PRA_NUM , RAP_DATE, RAP_BILAN, RAP_MOTIF) VALUES (?, ?, ?, ?, ?, ?)";
+        String requete = "INSERT INTO RAPPORT_VISITE (VIS_MATRICULE, PRA_NUM , RAP_DATE, RAP_BILAN, RAP_MOTIF) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement pstmt = jdbc.getConnexion().prepareStatement(requete);
         pstmt.setString(1, unRapportVisite.getVisiteur().getMatricule());
-        pstmt.setInt(2, unRapportVisite.getNumeroRapport());
-        pstmt.setInt(3, unRapportVisite.getPraticien().getNumero());
-        pstmt.setDate(4, unRapportVisite.getDateRapport());
-        pstmt.setString(5, unRapportVisite.getMotifRapport());
-        pstmt.setString(6, unRapportVisite.getBilanRapport());
+        pstmt.setInt(2, unRapportVisite.getPraticien().getNumero());
+        pstmt.setDate(3, unRapportVisite.getDateRapport());
+        pstmt.setString(4, unRapportVisite.getMotifRapport());
+        pstmt.setString(5, unRapportVisite.getBilanRapport());
         nb = pstmt.executeUpdate();
         pstmt.close();
         return nb;
