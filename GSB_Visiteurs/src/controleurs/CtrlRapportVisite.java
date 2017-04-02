@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
@@ -52,6 +54,7 @@ public class CtrlRapportVisite implements WindowListener {
     private DefaultComboBoxModel modeleJComboBoxPraticiens = new DefaultComboBoxModel();
     private DefaultComboBoxModel modeleJComboBoxPraticiensEdit = new DefaultComboBoxModel();
     private DefaultComboBoxModel modeleJComboBoxMedicament = new DefaultComboBoxModel();
+    private DefaultComboBoxModel modeleJComboBoxMedicamentBis = new DefaultComboBoxModel();
     private DefaultTableModel modeleJTableOffreEchantillons = new DefaultTableModel();
     private ArrayList<RapportVisite> lesRapportsVisite = new ArrayList<>();
     private ArrayList<Praticien> tousPraticiens = new ArrayList<>();
@@ -64,7 +67,6 @@ public class CtrlRapportVisite implements WindowListener {
     private int maxNum = 0;
     private final TableCellEditor editor;
     private boolean hasValidate = false;
-    private JComboBox JComboBoxLesMedicaments = new JComboBox();
     private final TableCellEditor cellEditor;
     private final TableCellRenderer cellRenderer;
     private final TableCellRenderer renderer;
@@ -100,8 +102,6 @@ public class CtrlRapportVisite implements WindowListener {
         editor = vue.getjTableOffreEchantillons().getDefaultEditor(Object.class);
         renderer = vue.getjTableOffreEchantillons().getDefaultRenderer(Object.class);
 
-        JComboBoxLesMedicaments.setModel(modeleJComboBoxMedicament);
-
         vue.getjTableOffreEchantillons().setModel(modeleJTableOffreEchantillons);
         vue.getjTableOffreEchantillons().getTableHeader().setReorderingAllowed(false);
         vue.getjTableOffreEchantillons().putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
@@ -125,7 +125,6 @@ public class CtrlRapportVisite implements WindowListener {
         vue.getjButtonToutSupprimer().addActionListener(ecouteur);
         vue.getjButtonSupprimer().addActionListener(ecouteur);
         vue.getjButtonEffacer().addActionListener(ecouteur);
-        JComboBoxLesMedicaments.addActionListener(ecouteur);
 
         JTextFieldDateEditor jDateChooserEditor = (JTextFieldDateEditor) vue.getjDateChooserDateRapport().getDateEditor();
         jDateChooserEditor.setEditable(false);
@@ -133,7 +132,7 @@ public class CtrlRapportVisite implements WindowListener {
         vue.getjTableOffreEchantillons().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
-                if (!creationMode) {
+                if (!creationMode && !editMode) {
                     if (evt.getClickCount() == 2 && modeleJTableOffreEchantillons.getRowCount() != 0) {
                         ctrlPrincipal.afficherMedicament((String) modeleJTableOffreEchantillons.getValueAt(vue.getjTableOffreEchantillons().getSelectedRow(), 0));
                     }
@@ -142,9 +141,29 @@ public class CtrlRapportVisite implements WindowListener {
                 }
             }
         });
+
+        vue.getjTableOffreEchantillons().addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+
         init();
+
         // préparer l'état iniitial de la vue
         isEditing(creationMode);
+
         rechercherIndexVisiteurConnecte();
     }
 
@@ -154,8 +173,10 @@ public class CtrlRapportVisite implements WindowListener {
             getAllOffres();
             getAllMedicaments();
             getAllPraticiens();
+
         } catch (SQLException ex) {
-            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CtrlRapportVisite.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         maxNum();
 
@@ -168,9 +189,6 @@ public class CtrlRapportVisite implements WindowListener {
     }
 
     private void showNew(int numeroRapport) throws SQLException {
-        if (vue.getjTableOffreEchantillons().getRowCount() != 0) {
-            getAllOffres();
-        }
         int i = 0;
         for (RapportVisite unRapportVisite : lesRapportsVisite) {
             if (unRapportVisite.getNumeroRapport() == numeroRapport) {
@@ -229,6 +247,7 @@ public class CtrlRapportVisite implements WindowListener {
         vue.getjTextAreaBilan().setEditable(b);
         vue.getjButtonEffacer().setVisible(b);
         vue.getjComboBoxPraticien().setEnabled(b);
+        vue.getjButtonSupprimer().setEnabled(!b);
         vue.getjButtonPrecedent().setEnabled(!b);
         vue.getjButtonSuivant().setEnabled(!b);
         vue.getjButtonPlus().setVisible(b);
@@ -238,7 +257,8 @@ public class CtrlRapportVisite implements WindowListener {
         if (b) {
             vue.getjButtonNouveau().setText("Annuler");
             vue.getjButtonValider().setText("Valider");
-            vue.getjTableOffreEchantillons().setDefaultEditor(Object.class, editor);
+            vue
+                    .getjTableOffreEchantillons().setDefaultEditor(Object.class, editor);
             if (creationMode) {
                 formulaire();
             } else if (editMode) {
@@ -247,21 +267,35 @@ public class CtrlRapportVisite implements WindowListener {
                 vue.getjComboBoxPraticien().setSelectedIndex(index - 1);
                 nbExistingOffres = vue.getjTableOffreEchantillons().getRowCount();
                 System.out.println(offresEchantillons.size());
+                System.out.println(vue.getjTableOffreEchantillons().getRowCount());
+                if (vue.getjTableOffreEchantillons().getRowCount() == 0) {
+                    vue.getjButtonMoins().setVisible(false);
+                } else {
+                    vue.getjButtonMoins().setVisible(b);
+                }
             }
         } else {
             vue.getjComboBoxPraticien().setModel(modeleJComboBoxPraticiens);
             vue.getjButtonNouveau().setText("Nouveau");
             vue.getjButtonValider().setText("Editer");
-            vue.getjTableOffreEchantillons().setDefaultRenderer(Object.class, renderer);
-            vue.getjTableOffreEchantillons().setDefaultEditor(Object.class, null);
+            vue
+                    .getjTableOffreEchantillons().setDefaultRenderer(Object.class, renderer);
+            vue.getjTableOffreEchantillons()
+                    .setDefaultEditor(Object.class, null);
             TableColumn medicaments = vue.getjTableOffreEchantillons().getColumnModel().getColumn(0);
-            medicaments.setCellEditor(null);
+
+            medicaments.setCellEditor(
+                    null);
             medicaments.setCellRenderer(renderer);
             TableColumn echantillons = vue.getjTableOffreEchantillons().getColumnModel().getColumn(1);
-            echantillons.setCellEditor(null);
+
+            echantillons.setCellEditor(
+                    null);
             echantillons.setCellRenderer(renderer);
         }
-        if (vue.getjTableOffreEchantillons().getRowCount() < 6) {
+
+        if (vue.getjTableOffreEchantillons()
+                .getRowCount() < 6) {
             vue.getjButtonToutSupprimer().setVisible(false);
         }
     }
@@ -274,11 +308,13 @@ public class CtrlRapportVisite implements WindowListener {
         vue.getjTextFieldMotifVisite().setText("");
         vue.getjTextAreaBilan().setText("");
         modeleJTableOffreEchantillons.setRowCount(0);
+        vue.getjButtonMoins().setVisible(false);
     }
 
     private void guidage() {
         vue.getjDateChooserDateRapport().setToolTipText("Date du rapport");
         vue.getjTextAreaBilan().setToolTipText("Bilan du rapport");
+
     }
 
     private class Ecouteur implements ActionListener {
@@ -287,9 +323,6 @@ public class CtrlRapportVisite implements WindowListener {
         public void actionPerformed(ActionEvent evenement) {
             if (evenement.getSource() == vue.getjButtonEffacer()) {
                 vue.getjDateChooserDateRapport().setDate(null);
-            }
-            if (evenement.getSource() == JComboBoxLesMedicaments) {
-
             }
             if (evenement.getSource() == vue.getjButtonSupprimer()) {
                 int numeroRapport = Integer.valueOf(vue.getjTextFieldNumeroRapport().getText());
@@ -336,9 +369,9 @@ public class CtrlRapportVisite implements WindowListener {
                         for (row = 0; row < rowCount; row++) {
                             TableCellRenderer tableCellRenderer = vue.getjTableOffreEchantillons().getCellRenderer(row, 0);
                             Component c = vue.getjTableOffreEchantillons().prepareRenderer(tableCellRenderer, row, 0);
-                            if (JComboBoxLesMedicaments.getSelectedIndex() == 0) {
-                                message += "-le médicament de l'offre\n";
-                                JComboBoxLesMedicaments.requestFocus();
+                            if (vue.getjTableOffreEchantillons().getValueAt(row, 0).equals("Sélectionnez un médicament")) {
+                                message += "-le médicament de l'offre n°" + (row + 1) + "\n";
+                                //JComboBoxLesMedicaments.requestFocus();
                                 //JComboBoxLesMedicaments.showPopup();
                                 erreur = true;
                             } else {
@@ -355,8 +388,8 @@ public class CtrlRapportVisite implements WindowListener {
                                     }
                                 }
                                 for (int i = row + 1; i < vue.getjTableOffreEchantillons().getRowCount(); i++) {
-                                    if (medoc.equals(vue.getjTableOffreEchantillons().getValueAt(row, 0))) {
-                                        message += "-le médicament " + medoc + " ne doit pas être sélectionné deux fois";
+                                    if (medoc.equals(vue.getjTableOffreEchantillons().getValueAt(i, 0))) {
+                                        message += "-le médicament " + medoc + " ne doit pas être sélectionné deux fois\n";
                                         erreur = true;
                                     }
                                 }
@@ -422,6 +455,8 @@ public class CtrlRapportVisite implements WindowListener {
                 }
             } else if (evenement.getSource() == vue.getjButtonPlus()) {
                 Object[] rowData = new Object[2];
+                JComboBox JComboBoxLesMedicaments = new JComboBox();
+                JComboBoxLesMedicaments.setModel(modeleJComboBoxMedicament);
                 modeleJComboBoxMedicament.removeAllElements();
                 modeleJComboBoxMedicament.addElement("Sélectionnez un médicament");
                 for (Medicament unMedicament : tousMedicaments) {
@@ -454,6 +489,9 @@ public class CtrlRapportVisite implements WindowListener {
                  DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
                  medicaments.setCellRenderer(renderer);
                  renderer.setToolTipText("Cliquez pour dérouler la liste");*/
+                if (vue.getjTableOffreEchantillons().getRowCount() > 0) {
+                    vue.getjButtonMoins().setVisible(true);
+                }
             } else if (evenement.getSource() == vue.getjButtonMoins()) {
                 int[] selectedRows = vue.getjTableOffreEchantillons().getSelectedRows();
                 if (selectedRows.length != 0) {
@@ -468,6 +506,9 @@ public class CtrlRapportVisite implements WindowListener {
                     }
                     if (vue.getjTableOffreEchantillons().getRowCount() < 6) {
                         vue.getjButtonToutSupprimer().setVisible(false);
+                    }
+                    if (vue.getjTableOffreEchantillons().getRowCount() == 0) {
+                        vue.getjButtonMoins().setVisible(false);
                     }
                 } else {
                     JOptionPane.showMessageDialog(vue, "Veuillez sélectionner au moins une ligne du tableau à retirer");
@@ -562,7 +603,7 @@ public class CtrlRapportVisite implements WindowListener {
     }
 
     private Offre getNewOffre(RapportVisite nouveauRapportVisite, int i) {
-        String depotLegal = (String) vue.getjTableOffreEchantillons().getValueAt(i, 0);
+        String depotLegal = vue.getjTableOffreEchantillons().getValueAt(i, 0).toString();
         Medicament medicament = null;
         for (Medicament unMedicament : tousMedicaments) {
             if (unMedicament.getDepotLegal().equals(depotLegal)) {
@@ -586,30 +627,41 @@ public class CtrlRapportVisite implements WindowListener {
         nouveauRapportVisite.setNumeroRapport(numeroRapport);
         try {
             DaoRapportVisite.update(nouveauRapportVisite);
+
         } catch (SQLException ex) {
-            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CtrlRapportVisite.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         try {
             getAllRapports();
+
         } catch (SQLException ex) {
-            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CtrlRapportVisite.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
+
+        boolean update = false;
+
         if (vue.getjTableOffreEchantillons().getRowCount() < nbExistingOffres) {
             //mettre à jour les offres existantes
             for (int i = 0; i < vue.getjTableOffreEchantillons().getRowCount(); i++) {
                 Offre nouvelleOffre = getNewOffre(nouveauRapportVisite, i);
                 try {
                     DaoOffre.update(nouvelleOffre);
+                    update = true;
                 } catch (SQLException ex) {
-                    Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CtrlRapportVisite.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
             //supprimer les offres
             for (int i = vue.getjTableOffreEchantillons().getRowCount(); i < nbExistingOffres; i++) {
                 try {
                     DaoOffre.delete(offresEchantillons.get(i));
+                    update = true;
                 } catch (SQLException ex) {
-                    Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CtrlRapportVisite.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         } else {
@@ -618,8 +670,10 @@ public class CtrlRapportVisite implements WindowListener {
                 Offre nouvelleOffre = getNewOffre(nouveauRapportVisite, i);
                 try {
                     DaoOffre.update(nouvelleOffre);
+                    update = true;
                 } catch (SQLException ex) {
-                    Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CtrlRapportVisite.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
             //creer les nouvelles offres
@@ -627,8 +681,10 @@ public class CtrlRapportVisite implements WindowListener {
                 Offre nouvelleOffre = getNewOffre(nouveauRapportVisite, i);
                 try {
                     DaoOffre.insert(nouvelleOffre);
+                    update = true;
                 } catch (SQLException ex) {
-                    Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CtrlRapportVisite.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -636,9 +692,14 @@ public class CtrlRapportVisite implements WindowListener {
         editMode = false;
         isEditing(editMode);
         try {
+            if (update) {
+                getAllOffres();
+            }
             showNew(numeroRapport);
+
         } catch (SQLException ex) {
-            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CtrlRapportVisite.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -647,13 +708,17 @@ public class CtrlRapportVisite implements WindowListener {
         RapportVisite nouveauRapportVisite = getNewRapport(tousPraticiens.get(vue.getjComboBoxPraticien().getSelectedIndex() - 1));
         try {
             DaoRapportVisite.insert(nouveauRapportVisite);
+
         } catch (SQLException ex) {
-            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CtrlRapportVisite.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         try {
             getAllRapports();
+
         } catch (SQLException ex) {
-            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CtrlRapportVisite.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         //le numéro de rapport est autoincrémenté, pour le trouvé ca sera le numéro le plus élevé présent dans la base
         int numeroRapport = -1;
@@ -670,18 +735,25 @@ public class CtrlRapportVisite implements WindowListener {
 
             try {
                 DaoOffre.insert(nouvelleOffre);
+
             } catch (SQLException ex) {
-                Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CtrlRapportVisite.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         }
 
         creationMode = false;
         isEditing(creationMode);
         try {
+            if (vue.getjTableOffreEchantillons().getRowCount() != 0) {
+                getAllOffres();
+            }
             showNew(numeroRapport);
         } catch (SQLException ex) {
-            Logger.getLogger(CtrlRapportVisite.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CtrlRapportVisite.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**
@@ -709,7 +781,7 @@ public class CtrlRapportVisite implements WindowListener {
         }
     }
 
-    // contrôle de la vue
+// contrôle de la vue
     /**
      * Afficher la page initiale correspondant à un rapport de visite lié au
      * visiteur

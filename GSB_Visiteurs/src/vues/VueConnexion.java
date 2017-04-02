@@ -272,6 +272,10 @@ public class VueConnexion extends javax.swing.JFrame {
         });
     }
 
+    public JLabel getjLabelBdd() {
+        return jLabelBdd;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAfficherMdp;
     private javax.swing.JButton jButtonChangeBdd;

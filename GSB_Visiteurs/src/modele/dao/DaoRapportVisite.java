@@ -90,8 +90,8 @@ public class DaoRapportVisite {
         pstmt.setString(1, unRapportVisite.getVisiteur().getMatricule());
         pstmt.setInt(2, unRapportVisite.getPraticien().getNumero());
         pstmt.setDate(3, unRapportVisite.getDateRapport());
-        pstmt.setString(4, unRapportVisite.getMotifRapport());
-        pstmt.setString(5, unRapportVisite.getBilanRapport());
+        pstmt.setString(4, unRapportVisite.getBilanRapport());
+        pstmt.setString(5, unRapportVisite.getMotifRapport());
         nb = pstmt.executeUpdate();
         pstmt.close();
         return nb;
@@ -113,8 +113,8 @@ public class DaoRapportVisite {
         pstmt.setInt(2, unRapportVisite.getNumeroRapport());
         pstmt.setInt(3, unRapportVisite.getPraticien().getNumero());
         pstmt.setDate(4, unRapportVisite.getDateRapport());
-        pstmt.setString(5, unRapportVisite.getMotifRapport());
-        pstmt.setString(6, unRapportVisite.getBilanRapport());
+        pstmt.setString(5, unRapportVisite.getBilanRapport());
+        pstmt.setString(6, unRapportVisite.getMotifRapport());
         pstmt.setInt(7, unRapportVisite.getNumeroRapport());
         nb = pstmt.executeUpdate();
         return nb;

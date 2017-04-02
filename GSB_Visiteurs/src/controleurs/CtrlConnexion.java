@@ -1,6 +1,7 @@
 package controleurs;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -33,7 +34,7 @@ import modele.metier.Visiteur;
  * @version 7/12/2016 - 1.0
  */
 public class CtrlConnexion implements WindowListener {
-
+    
     private VueConnexion vue; // LA VUE
     private final CtrlPrincipal ctrlPrincipal;
     private final Ecouteur ecouteur;
@@ -55,7 +56,7 @@ public class CtrlConnexion implements WindowListener {
         this.vue = vue;
         this.ctrlPrincipal = ctrl;
         this.vue.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_logo.png")).getImage());
-
+        
         this.vue.addWindowListener(this);
 
         // ajout des boutons de la vue au listener
@@ -63,7 +64,19 @@ public class CtrlConnexion implements WindowListener {
         vue.getjButtonQuitter().addActionListener(ecouteur);
         vue.getjButtonChangeBdd().addActionListener(ecouteur);
         vue.getjCheckBoxAfficher().addActionListener(ecouteur);
-
+        vue.getjButtonChangeBdd().setVisible(false);
+        vue.getjLabelBaseDeDonnee().setVisible(false);
+        vue.getjLabelBdd().setVisible(false);
+        vue.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        vue.setCursor(null);
+        try {
+            Jdbc.getInstance().connecter();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        vue.setCursor(null);
         //paramétrage des composant a selectionné lors d'une tabulation pour rendre plus rapide la saisie
         vue.getjTextFieldLogin().setNextFocusableComponent(vue.getjPasswordMdp());
         vue.getjPasswordMdp().setNextFocusableComponent(vue.getjButtonOk());
@@ -73,9 +86,9 @@ public class CtrlConnexion implements WindowListener {
         //vue.getjPasswordMdp().setText("18-jun-2003");
         //affichée les données sauvegardées
         displaySavedData();
-
+        
         checkSelectedBdd();
-
+        
         vue.getjTextFieldLogin().addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent ke) {
@@ -84,7 +97,7 @@ public class CtrlConnexion implements WindowListener {
                 }
             }
         });
-
+        
         vue.getjPasswordMdp().addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent ke) {
@@ -124,55 +137,55 @@ public class CtrlConnexion implements WindowListener {
          }
          });*/
         vue.getjTextFieldLogin().addFocusListener(new FocusListener() {
-
+            
             @Override
             public void focusGained(FocusEvent e) {
                 loginFocused = true;
             }
-
+            
             @Override
             public void focusLost(FocusEvent e) {
                 loginFocused = false;
                 checkLogin();
             }
-
+            
         });
-
+        
         vue.getjPasswordMdp().addFocusListener(new FocusListener() {
-
+            
             @Override
             public void focusGained(FocusEvent e) {
                 mdpFocused = true;
             }
-
+            
             @Override
             public void focusLost(FocusEvent e) {
                 mdpFocused = false;
                 checkMdp();
             }
         });
-
+        
         vue.getjButtonAfficherMdp().addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent me) {
             }
-
+            
             @Override
             public void mouseReleased(MouseEvent me) {
                 if (!vue.getjCheckBoxAfficher().isSelected()) {
                     vue.getjPasswordMdp().setEchoChar('•');
                 }
             }
-
+            
             @Override
             public void mousePressed(MouseEvent me) {
                 vue.getjPasswordMdp().setEchoChar((char) 0);
             }
-
+            
             @Override
             public void mouseEntered(MouseEvent me) {
             }
-
+            
             @Override
             public void mouseExited(MouseEvent me) {
             }
@@ -236,7 +249,7 @@ public class CtrlConnexion implements WindowListener {
             doChange(1);
         }
     }
-
+    
     private void doChange(int bdd) {
         String nomBdd = "";
         if (bdd == 1) {
@@ -260,11 +273,11 @@ public class CtrlConnexion implements WindowListener {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(vue, ex, "Main - échec de connexion ", JOptionPane.ERROR_MESSAGE);
         }
-
+        
         ctrlPrincipal.doWait(false);
-
+        
     }
-
+    
     private void write(String oracleBDD) {
         ObjectOutputStream oos = null;
         try {
@@ -282,7 +295,7 @@ public class CtrlConnexion implements WindowListener {
             }
         }
     }
-
+    
     private ObjectInputStream read() {
         ObjectInputStream ois = null;
         try {
@@ -347,7 +360,7 @@ public class CtrlConnexion implements WindowListener {
      *
      */
     private class Ecouteur implements ActionListener {
-
+        
         @Override
         public void actionPerformed(ActionEvent evenement) {
             if (evenement.getSource() == vue.getjButtonOk()) {
@@ -370,7 +383,7 @@ public class CtrlConnexion implements WindowListener {
             }
         }
     }
-
+    
     private void checkSelectedBdd() {
         try {
             String bdd = (String) read().readObject();
@@ -405,7 +418,7 @@ public class CtrlConnexion implements WindowListener {
         } catch (IOException | ClassNotFoundException ex) {
             changeBdd();//si le chargement des infos de la base de donnée n'a pas fonctionné on demande à l'utilisateur de choisir
         }
-
+        
         String login = vue.getjTextFieldLogin().getText().replaceAll("\\s{2,}", "").trim();
         String mdp = vue.getjPasswordMdp().getText().replaceAll("\\s{2,}", "").trim();
         if (mdp.equals("") && login.equals("")) {
@@ -443,7 +456,7 @@ public class CtrlConnexion implements WindowListener {
                 }
                 checkLogin();
                 checkMdp();
-
+                
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(vue, ex, "Erreur de communication avec la base de donnée. ", JOptionPane.ERROR_MESSAGE);
             }

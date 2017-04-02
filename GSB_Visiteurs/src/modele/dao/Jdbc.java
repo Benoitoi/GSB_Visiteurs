@@ -52,6 +52,7 @@ public class Jdbc {
      * @return
      */
     public static Jdbc creer() {
+        String[] identifiants = {"",""};
         Properties propertiesJdbc = FileReader.getBddProperties();
         jdbc = new Jdbc(propertiesJdbc.getProperty("pilote"), propertiesJdbc.getProperty("protocole"), propertiesJdbc.getProperty("url"), propertiesJdbc.getProperty("base"), propertiesJdbc.getProperty("utilisateur"), propertiesJdbc.getProperty("mdp"));
         try {
