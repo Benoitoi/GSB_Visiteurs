@@ -32,5 +32,6 @@ public class GSB_Visiteurs {
         }
         // afficher la vue
         leControleurPrincipal.afficherConnexion();
+        leControleurPrincipal.getCtrlConnexion().connecter();
     }
 }

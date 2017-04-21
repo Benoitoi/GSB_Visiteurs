@@ -8,6 +8,7 @@ package vues;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -36,7 +37,7 @@ public class VueConnexion extends javax.swing.JFrame {
         jPanelConnexion = new javax.swing.JPanel();
         jLabelConnexion = new javax.swing.JLabel();
         jTextFieldLogin = new javax.swing.JTextField();
-        jButtonOk = new javax.swing.JButton();
+        jButtonReconnection = new javax.swing.JButton();
         jButtonQuitter = new javax.swing.JButton();
         jPasswordMdp = new javax.swing.JPasswordField();
         jButtonAfficherMdp = new javax.swing.JButton();
@@ -45,8 +46,10 @@ public class VueConnexion extends javax.swing.JFrame {
         jButtonChangeBdd = new javax.swing.JButton();
         jCheckBoxSouvenirId = new javax.swing.JCheckBox();
         jCheckBoxSouvenirMdp = new javax.swing.JCheckBox();
+        jButtonOk = new javax.swing.JButton();
         jCheckBoxAfficher = new javax.swing.JCheckBox();
         jLabelBaseDeDonnee = new javax.swing.JLabel();
+        jLabelEtat = new javax.swing.JLabel();
         jLabelBdd = new javax.swing.JLabel();
         jLabelBackground = new javax.swing.JLabel();
 
@@ -64,11 +67,11 @@ public class VueConnexion extends javax.swing.JFrame {
         jPanelConnexion.add(jTextFieldLogin);
         jTextFieldLogin.setBounds(270, 140, 140, 30);
 
-        jButtonOk.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButtonOk.setForeground(new java.awt.Color(0, 0, 153));
-        jButtonOk.setText("OK");
-        jPanelConnexion.add(jButtonOk);
-        jButtonOk.setBounds(440, 180, 90, 30);
+        jButtonReconnection.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonReconnection.setForeground(new java.awt.Color(0, 0, 153));
+        jButtonReconnection.setText("Reconnection");
+        jPanelConnexion.add(jButtonReconnection);
+        jButtonReconnection.setBounds(290, 260, 130, 50);
 
         jButtonQuitter.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonQuitter.setForeground(new java.awt.Color(0, 0, 153));
@@ -106,12 +109,25 @@ public class VueConnexion extends javax.swing.JFrame {
         jCheckBoxSouvenirMdp.setText("Se souvenir");
         jPanelConnexion.add(jCheckBoxSouvenirMdp);
         jCheckBoxSouvenirMdp.setBounds(540, 180, 130, 30);
+
+        jButtonOk.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonOk.setForeground(new java.awt.Color(0, 0, 153));
+        jButtonOk.setText("OK");
+        jPanelConnexion.add(jButtonOk);
+        jButtonOk.setBounds(440, 180, 90, 30);
         jPanelConnexion.add(jCheckBoxAfficher);
         jCheckBoxAfficher.setBounds(240, 190, 20, 20);
 
         jLabelBaseDeDonnee.setForeground(new java.awt.Color(255, 0, 51));
         jPanelConnexion.add(jLabelBaseDeDonnee);
         jLabelBaseDeDonnee.setBounds(230, 420, 160, 20);
+
+        jLabelEtat.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabelEtat.setForeground(new java.awt.Color(0, 0, 204));
+        jLabelEtat.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelEtat.setText("Connexion");
+        jPanelConnexion.add(jLabelEtat);
+        jLabelEtat.setBounds(0, 330, 700, 40);
 
         jLabelBdd.setText("Base de données utilisée :");
         jPanelConnexion.add(jLabelBdd);
@@ -162,7 +178,7 @@ public class VueConnexion extends javax.swing.JFrame {
     public JTextField getjTextFieldLogin() {
         return jTextFieldLogin;
     }
-    
+
     /**
      *
      * @return
@@ -234,9 +250,27 @@ public class VueConnexion extends javax.swing.JFrame {
     public JLabel getjLabelBaseDeDonnee() {
         return jLabelBaseDeDonnee;
     }
-    
-    
-    
+
+    public JButton getjButtonReconnection() {
+        return jButtonReconnection;
+    }
+
+    public JLabel getjLabelBackground() {
+        return jLabelBackground;
+    }
+
+    public JLabel getjLabelConnexion() {
+        return jLabelConnexion;
+    }
+
+    public JPanel getjPanelConnexion() {
+        return jPanelConnexion;
+    }
+
+    public JLabel getjLabelEtat() {
+        return jLabelEtat;
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -281,6 +315,7 @@ public class VueConnexion extends javax.swing.JFrame {
     private javax.swing.JButton jButtonChangeBdd;
     private javax.swing.JButton jButtonOk;
     private javax.swing.JButton jButtonQuitter;
+    private javax.swing.JButton jButtonReconnection;
     private javax.swing.JCheckBox jCheckBoxAfficher;
     private javax.swing.JCheckBox jCheckBoxSouvenirId;
     private javax.swing.JCheckBox jCheckBoxSouvenirMdp;
@@ -290,6 +325,7 @@ public class VueConnexion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelCheckLogin;
     private javax.swing.JLabel jLabelCheckMdp;
     private javax.swing.JLabel jLabelConnexion;
+    private javax.swing.JLabel jLabelEtat;
     private javax.swing.JPanel jPanelConnexion;
     private javax.swing.JPasswordField jPasswordMdp;
     private javax.swing.JTextField jTextFieldLogin;

@@ -1,5 +1,6 @@
 package controleurs;
 
+import gsb_visiteurs.Connexion;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
@@ -19,6 +20,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.SQLException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -33,11 +36,13 @@ import modele.metier.Visiteur;
  * @author bjaouen
  * @version 7/12/2016 - 1.0
  */
-public class CtrlConnexion implements WindowListener {
-    
+public class CtrlConnexion implements WindowListener, ActionListener {
+
+    /**
+     * La vue connexion
+     */
     private VueConnexion vue; // LA VUE
     private final CtrlPrincipal ctrlPrincipal;
-    private final Ecouteur ecouteur;
     private boolean loginFocused = false;
     private boolean mdpFocused = false;
     private boolean loginCorrect = false;
@@ -45,38 +50,39 @@ public class CtrlConnexion implements WindowListener {
     private int bddSelected = -1;
     private final String PROD_BDD = "oracleProduction";
     private final String DEV_BDD = "oracleExpress";
+    private boolean isConnected = false;
+    private TimerTask timerTask;
+    private int timerTime;
+    private Timer timer;
+    private boolean up;
+    private String loading = "Connexion";
 
     /**
+     * Constructeur du controlleur connexion
      *
      * @param vue
      * @param ctrl
      */
     public CtrlConnexion(final VueConnexion vue, CtrlPrincipal ctrl) {
-        this.ecouteur = new Ecouteur();
         this.vue = vue;
         this.ctrlPrincipal = ctrl;
         this.vue.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_logo.png")).getImage());
-        
+
         this.vue.addWindowListener(this);
 
         // ajout des boutons de la vue au listener
-        vue.getjButtonOk().addActionListener(ecouteur);
-        vue.getjButtonQuitter().addActionListener(ecouteur);
-        vue.getjButtonChangeBdd().addActionListener(ecouteur);
-        vue.getjCheckBoxAfficher().addActionListener(ecouteur);
+        enable();
+        vue.getjButtonOk().addActionListener(this);
+        vue.getjButtonQuitter().addActionListener(this);
+        vue.getjButtonChangeBdd().addActionListener(this);
+        vue.getjCheckBoxAfficher().addActionListener(this);
+        vue.getjButtonReconnection().addActionListener(this);
+        vue.getjCheckBoxSouvenirId().addActionListener(this);
         vue.getjButtonChangeBdd().setVisible(false);
         vue.getjLabelBaseDeDonnee().setVisible(false);
+        vue.getjCheckBoxSouvenirMdp().setEnabled(false);
         vue.getjLabelBdd().setVisible(false);
-        vue.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        vue.setCursor(null);
-        try {
-            Jdbc.getInstance().connecter();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        vue.setCursor(null);
+        vue.getjButtonReconnection().setVisible(false);
         //paramétrage des composant a selectionné lors d'une tabulation pour rendre plus rapide la saisie
         vue.getjTextFieldLogin().setNextFocusableComponent(vue.getjPasswordMdp());
         vue.getjPasswordMdp().setNextFocusableComponent(vue.getjButtonOk());
@@ -86,9 +92,9 @@ public class CtrlConnexion implements WindowListener {
         //vue.getjPasswordMdp().setText("18-jun-2003");
         //affichée les données sauvegardées
         displaySavedData();
-        
+
         checkSelectedBdd();
-        
+
         vue.getjTextFieldLogin().addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent ke) {
@@ -97,7 +103,7 @@ public class CtrlConnexion implements WindowListener {
                 }
             }
         });
-        
+
         vue.getjPasswordMdp().addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent ke) {
@@ -137,59 +143,132 @@ public class CtrlConnexion implements WindowListener {
          }
          });*/
         vue.getjTextFieldLogin().addFocusListener(new FocusListener() {
-            
+
             @Override
             public void focusGained(FocusEvent e) {
                 loginFocused = true;
+                vue.getjLabelCheckLogin().setVisible(false);
             }
-            
+
             @Override
             public void focusLost(FocusEvent e) {
+                vue.getjLabelCheckLogin().setVisible(true);
                 loginFocused = false;
                 checkLogin();
             }
-            
+
         });
-        
+
         vue.getjPasswordMdp().addFocusListener(new FocusListener() {
-            
+
             @Override
             public void focusGained(FocusEvent e) {
                 mdpFocused = true;
+                vue.getjLabelCheckMdp().setVisible(false);
             }
-            
+
             @Override
             public void focusLost(FocusEvent e) {
+                vue.getjLabelCheckMdp().setVisible(true);
                 mdpFocused = false;
-                checkMdp();
+                if (loginCorrect) {
+                    checkMdp();
+                }
             }
         });
-        
+
         vue.getjButtonAfficherMdp().addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent me) {
             }
-            
+
             @Override
             public void mouseReleased(MouseEvent me) {
                 if (!vue.getjCheckBoxAfficher().isSelected()) {
                     vue.getjPasswordMdp().setEchoChar('•');
                 }
             }
-            
+
             @Override
             public void mousePressed(MouseEvent me) {
                 vue.getjPasswordMdp().setEchoChar((char) 0);
             }
-            
+
             @Override
             public void mouseEntered(MouseEvent me) {
             }
-            
+
             @Override
             public void mouseExited(MouseEvent me) {
             }
         });
+    }
+
+    public void connecter() {
+        loading();
+        try {
+            Jdbc.getInstance().connecter();
+            isConnected = true;
+            enable();
+        } catch (ClassNotFoundException | SQLException ex) {
+            vue.getjButtonReconnection().setVisible(true);
+            vue.getjLabelEtat().setText("Échec de la connexion !");
+            Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        stopLoading();
+    }
+
+    class timerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            doTimer();
+        }
+
+    }
+
+    private void doTimer() {
+        if (timerTime == 0) {
+            up = true;
+        } else if (timerTime == 5) {
+            up = false;
+        }
+        if (up) {
+            timerTime++;
+            loading += ".";
+            vue.getjLabelEtat().setText(loading);
+        } else {
+            timerTime--;
+            loading = loading.substring(0, loading.length() - 1);
+            vue.getjLabelEtat().setText(loading);
+        }
+    }
+
+    private void loading() {
+        vue.getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        timerTime = 0;
+
+        timer = new Timer();
+        timerTask = new timerTask();
+        timer.scheduleAtFixedRate(timerTask, 0, 250);
+    }
+
+    public void stopLoading() {
+        timerTask.cancel();
+        timer.cancel();
+        vue.getContentPane().setCursor(null);
+    }
+
+    private void enable() {
+        vue.getjLabelEtat().setVisible(!isConnected);
+        vue.getjButtonReconnection().setVisible(!isConnected);
+        vue.getjButtonOk().setEnabled(isConnected);
+        vue.getjButtonAfficherMdp().setEnabled(isConnected);
+        vue.getjTextFieldLogin().setEnabled(isConnected);
+        vue.getjCheckBoxAfficher().setEnabled(isConnected);
+        vue.getjCheckBoxSouvenirId().setEnabled(isConnected);
+        vue.getjCheckBoxSouvenirMdp().setEnabled(isConnected);
+        vue.getjPasswordMdp().setEnabled(isConnected);
     }
 
     /**
@@ -202,6 +281,7 @@ public class CtrlConnexion implements WindowListener {
             String login = (String) ois.readObject();
             vue.getjTextFieldLogin().setText(login);
             if (!login.equals("")) {
+                vue.getjCheckBoxSouvenirMdp().setEnabled(isConnected);
                 vue.getjCheckBoxSouvenirId().setSelected(true);
             }
             ois = new ObjectInputStream(new FileInputStream("mdp.data"));
@@ -249,7 +329,7 @@ public class CtrlConnexion implements WindowListener {
             doChange(1);
         }
     }
-    
+
     private void doChange(int bdd) {
         String nomBdd = "";
         if (bdd == 1) {
@@ -273,11 +353,11 @@ public class CtrlConnexion implements WindowListener {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(vue, ex, "Main - échec de connexion ", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         ctrlPrincipal.doWait(false);
-        
+
     }
-    
+
     private void write(String oracleBDD) {
         ObjectOutputStream oos = null;
         try {
@@ -295,7 +375,7 @@ public class CtrlConnexion implements WindowListener {
             }
         }
     }
-    
+
     private ObjectInputStream read() {
         ObjectInputStream ois = null;
         try {
@@ -356,21 +436,28 @@ public class CtrlConnexion implements WindowListener {
         }
     }
 
-    /**
-     *
-     */
-    private class Ecouteur implements ActionListener {
-        
-        @Override
-        public void actionPerformed(ActionEvent evenement) {
+    @Override
+    public void actionPerformed(ActionEvent evenement) {
+        if (evenement.getSource().equals(vue.getjButtonReconnection())) {
+            connecter();
+        }
+        if (evenement.getSource() == vue.getjButtonQuitter()) {
+            ctrlPrincipal.quitterApplication();
+        }
+        if (isConnected) {
             if (evenement.getSource() == vue.getjButtonOk()) {
                 connection();
             }
-            if (evenement.getSource() == vue.getjButtonQuitter()) {
-                ctrlPrincipal.quitterApplication();
-            }
             if (evenement.getSource() == vue.getjButtonChangeBdd()) {
                 changeBdd();
+            }
+            if (evenement.getSource().equals(vue.getjCheckBoxSouvenirId())) {
+                if (vue.getjCheckBoxSouvenirId().isSelected()) {
+                    vue.getjCheckBoxSouvenirMdp().setEnabled(true);
+                } else {
+                    vue.getjCheckBoxSouvenirMdp().setEnabled(false);
+                    vue.getjCheckBoxSouvenirMdp().setSelected(false);
+                }
             }
             if (evenement.getSource() == vue.getjCheckBoxAfficher()) {
                 if (vue.getjCheckBoxAfficher().isSelected()) {
@@ -383,7 +470,7 @@ public class CtrlConnexion implements WindowListener {
             }
         }
     }
-    
+
     private void checkSelectedBdd() {
         try {
             String bdd = (String) read().readObject();
@@ -418,7 +505,7 @@ public class CtrlConnexion implements WindowListener {
         } catch (IOException | ClassNotFoundException ex) {
             changeBdd();//si le chargement des infos de la base de donnée n'a pas fonctionné on demande à l'utilisateur de choisir
         }
-        
+
         String login = vue.getjTextFieldLogin().getText().replaceAll("\\s{2,}", "").trim();
         String mdp = vue.getjPasswordMdp().getText().replaceAll("\\s{2,}", "").trim();
         if (mdp.equals("") && login.equals("")) {
@@ -455,8 +542,10 @@ public class CtrlConnexion implements WindowListener {
                     vue.getjPasswordMdp().selectAll();
                 }
                 checkLogin();
-                checkMdp();
-                
+                if (loginCorrect) {
+                    checkMdp();
+                }
+
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(vue, ex, "Erreur de communication avec la base de donnée. ", JOptionPane.ERROR_MESSAGE);
             }
