@@ -77,7 +77,8 @@ public class CtrlVisiteur implements WindowListener {
         vue.getjComboBoxLabo().addActionListener(ecouteur);
         vue.getjComboBoxSecteur().addActionListener(ecouteur);
         vue.getjButtonMenuGeneral().addActionListener(ecouteur);
-
+        vue.getjDateChooserDateEmbauche().setVisible(false);
+        vue.getjLabelDateEmbauche().setVisible(false);
         vue.getjTextFieldRechercher().addFocusListener(new FocusListener() {
 
             @Override

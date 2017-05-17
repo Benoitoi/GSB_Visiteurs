@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.Font;
+import java.awt.event.KeyListener;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
@@ -30,11 +31,10 @@ import vues.VueMedicament;
  * @author bjaouen
  * @version decembre 2016 - 1
  */
-public class CtrlMedicament implements WindowListener {
+public class CtrlMedicament implements WindowListener, ActionListener, FocusListener, KeyListener {
 
     private VueMedicament vue; // LA VUE
     private final CtrlPrincipal ctrlPrincipal;
-    private final Ecouteur ecouteur;
     private DefaultComboBoxModel modeleJComboBoxNomsPrenomsMedicaments = new DefaultComboBoxModel();
     private ArrayList<Medicament> lesMedicaments = null;
     private final ArrayList<Medicament> lesMedicamentsTrouvee = new ArrayList<>();
@@ -53,7 +53,6 @@ public class CtrlMedicament implements WindowListener {
      */
     public CtrlMedicament(final VueMedicament vue, CtrlPrincipal ctrl) {
         this.nomPrenomTrouve = new ArrayList<>();
-        this.ecouteur = new Ecouteur();
         this.vue = vue;
         this.vue.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/gsb_logo.png")).getImage());
         this.ctrlPrincipal = ctrl;
@@ -65,64 +64,19 @@ public class CtrlMedicament implements WindowListener {
         vue.getjComboBoxChercher().setModel(modeleJComboBoxNomsPrenomsMedicaments);
         remplirJComboBoxs();
 
-        vue.getjButtonQuitter().addActionListener(ecouteur);
-        vue.getjButtonOk().addActionListener(ecouteur);
-        vue.getjButtonPrecedent().addActionListener(ecouteur);
-        vue.getjButtonSuivant().addActionListener(ecouteur);
-        vue.getjComboBoxChercher().addActionListener(ecouteur);
-        vue.getjComboBoxFamille().addActionListener(ecouteur);
-        vue.getjButtonMenuGeneral().addActionListener(ecouteur);
+        vue.getjButtonQuitter().addActionListener(this);
+        vue.getjButtonOk().addActionListener(this);
+        vue.getjButtonPrecedent().addActionListener(this);
+        vue.getjButtonSuivant().addActionListener(this);
+        vue.getjComboBoxChercher().addActionListener(this);
+        vue.getjComboBoxFamille().addActionListener(this);
+        vue.getjButtonMenuGeneral().addActionListener(this);
 
         vue.getjTextFieldRechercher().setText("Nom commercial");
 
-        vue.getjTextFieldRechercher().addFocusListener(new FocusListener() {
+        vue.getjTextFieldRechercher().addFocusListener(this);
 
-            @Override
-            public void focusGained(FocusEvent e) {
-                rechercheFocused = true;
-                afficherRecherche();
-                if (vue.getjTextFieldRechercher().getText().equals("Nom commercial")) {
-                    vue.getjTextFieldRechercher().setText("");
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                rechercheFocused = false;
-                afficherRecherche();
-                if (vue.getjTextFieldRechercher().getText().equals("")) {
-                    vue.getjTextFieldRechercher().setText("Nom commercial");
-                }
-            }
-        });
-
-        vue.getjTextFieldRechercher().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent ke) {
-                if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-                    afficherLeMedicament(vue.getjComboBoxChercher().getSelectedIndex());
-                    vue.getjComboBoxChercher().hidePopup();
-                }
-                if (ke.getKeyCode() == KeyEvent.VK_UP) {
-                    int precedent = vue.getjComboBoxChercher().getSelectedIndex() - 1;
-                    if (precedent < 0) {
-                        vue.getjComboBoxChercher().setSelectedIndex(modeleJComboBoxNomsPrenomsMedicaments.getSize() - 1);
-                    } else {
-                        vue.getjComboBoxChercher().setSelectedIndex(precedent);
-                    }
-                    afficherLeMedicament(vue.getjComboBoxChercher().getSelectedIndex());
-                }
-                if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
-                    int suivant = vue.getjComboBoxChercher().getSelectedIndex() + 1;
-                    if (suivant > modeleJComboBoxNomsPrenomsMedicaments.getSize() - 1) {
-                        vue.getjComboBoxChercher().setSelectedIndex(0);
-                    } else {
-                        vue.getjComboBoxChercher().setSelectedIndex(suivant);
-                    }
-                    afficherLeMedicament(vue.getjComboBoxChercher().getSelectedIndex());
-                }
-            }
-        });
+        vue.getjTextFieldRechercher().addKeyListener(this);
 
         vue.getjTextFieldRechercher().getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -156,44 +110,41 @@ public class CtrlMedicament implements WindowListener {
         vue.getjTextFieldPrixEchantillon().setEditable(b);
     }
 
-    private class Ecouteur implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent evenement) {
-            if (evenement.getSource() == vue.getjButtonQuitter()) {
-                if (detailMode) {
-                    getVue().dispose();
-                    detailMode = false;
-                    detailMode(detailMode);
-                } else {
-                    ctrlPrincipal.quitterApplication();
-                }
-            } else if (evenement.getSource() == vue.getjButtonOk()) {
-                afficherLeMedicament(vue.getjComboBoxChercher().getSelectedIndex());
-            } else if (evenement.getSource() == vue.getjButtonPrecedent()) {
-                int precedent = vue.getjComboBoxChercher().getSelectedIndex() - 1;
-                if (precedent < 0) {
-                    afficherLeMedicament(modeleJComboBoxNomsPrenomsMedicaments.getSize() - 1);
-                } else {
-                    afficherLeMedicament(precedent);
-                }
-            } else if (evenement.getSource() == vue.getjButtonSuivant()) {
-                int suivant = vue.getjComboBoxChercher().getSelectedIndex() + 1;
-                if (suivant > modeleJComboBoxNomsPrenomsMedicaments.getSize() - 1) {
-                    afficherLeMedicament(0);
-                } else {
-                    afficherLeMedicament(suivant);
-                }
-            } else if (evenement.getSource() == vue.getjComboBoxChercher()) {
-                int index = vue.getjComboBoxChercher().getSelectedIndex();
-                if (index != -1) {
-                    afficherLeMedicament(index);
-                }
-            } else if (evenement.getSource() == vue.getjComboBoxFamille()) {
-                //
-            } else if (evenement.getSource() == vue.getjButtonMenuGeneral()) {
-                ctrlPrincipal.afficherMenuGeneral(vue);
+    @Override
+    public void actionPerformed(ActionEvent evenement) {
+        if (evenement.getSource() == vue.getjButtonQuitter()) {
+            if (detailMode) {
+                getVue().dispose();
+                detailMode = false;
+                detailMode(detailMode);
+            } else {
+                ctrlPrincipal.quitterApplication();
             }
+        } else if (evenement.getSource() == vue.getjButtonOk()) {
+            afficherLeMedicament(vue.getjComboBoxChercher().getSelectedIndex());
+        } else if (evenement.getSource() == vue.getjButtonPrecedent()) {
+            int precedent = vue.getjComboBoxChercher().getSelectedIndex() - 1;
+            if (precedent < 0) {
+                afficherLeMedicament(modeleJComboBoxNomsPrenomsMedicaments.getSize() - 1);
+            } else {
+                afficherLeMedicament(precedent);
+            }
+        } else if (evenement.getSource() == vue.getjButtonSuivant()) {
+            int suivant = vue.getjComboBoxChercher().getSelectedIndex() + 1;
+            if (suivant > modeleJComboBoxNomsPrenomsMedicaments.getSize() - 1) {
+                afficherLeMedicament(0);
+            } else {
+                afficherLeMedicament(suivant);
+            }
+        } else if (evenement.getSource() == vue.getjComboBoxChercher()) {
+            int index = vue.getjComboBoxChercher().getSelectedIndex();
+            if (index != -1) {
+                afficherLeMedicament(index);
+            }
+        } else if (evenement.getSource() == vue.getjComboBoxFamille()) {
+            //
+        } else if (evenement.getSource() == vue.getjButtonMenuGeneral()) {
+            ctrlPrincipal.afficherMenuGeneral(vue);
         }
     }
 
@@ -420,6 +371,64 @@ public class CtrlMedicament implements WindowListener {
      */
     @Override
     public void windowDeactivated(WindowEvent e) {
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        if (e.getSource().equals(vue.getjTextFieldRechercher())) {
+            rechercheFocused = true;
+            afficherRecherche();
+            if (vue.getjTextFieldRechercher().getText().equals("Nom commercial")) {
+                vue.getjTextFieldRechercher().setText("");
+            }
+        }
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        if (e.getSource().equals(vue.getjTextFieldRechercher())) {
+            rechercheFocused = false;
+            afficherRecherche();
+            if (vue.getjTextFieldRechercher().getText().equals("")) {
+                vue.getjTextFieldRechercher().setText("Nom commercial");
+            }
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getSource().equals(vue.getjTextFieldRechercher())) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                afficherLeMedicament(vue.getjComboBoxChercher().getSelectedIndex());
+                vue.getjComboBoxChercher().hidePopup();
+            }
+            if (e.getKeyCode() == KeyEvent.VK_UP) {
+                int precedent = vue.getjComboBoxChercher().getSelectedIndex() - 1;
+                if (precedent < 0) {
+                    vue.getjComboBoxChercher().setSelectedIndex(modeleJComboBoxNomsPrenomsMedicaments.getSize() - 1);
+                } else {
+                    vue.getjComboBoxChercher().setSelectedIndex(precedent);
+                }
+                afficherLeMedicament(vue.getjComboBoxChercher().getSelectedIndex());
+            }
+            if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                int suivant = vue.getjComboBoxChercher().getSelectedIndex() + 1;
+                if (suivant > modeleJComboBoxNomsPrenomsMedicaments.getSize() - 1) {
+                    vue.getjComboBoxChercher().setSelectedIndex(0);
+                } else {
+                    vue.getjComboBoxChercher().setSelectedIndex(suivant);
+                }
+                afficherLeMedicament(vue.getjComboBoxChercher().getSelectedIndex());
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
 
 }

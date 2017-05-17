@@ -8,6 +8,9 @@ package vues;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
 /**
@@ -149,9 +152,9 @@ public class VueVisiteur extends javax.swing.JFrame {
 
         jLabelSecteur.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelSecteur.setForeground(new java.awt.Color(0, 0, 153));
-        jLabelSecteur.setText("DATE EMBAUCHE");
+        jLabelSecteur.setText("SECTEUR");
         jPanelVisiteur.add(jLabelSecteur);
-        jLabelSecteur.setBounds(160, 330, 100, 14);
+        jLabelSecteur.setBounds(160, 360, 100, 14);
 
         jLabelLabo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelLabo.setForeground(new java.awt.Color(0, 0, 153));
@@ -219,9 +222,9 @@ public class VueVisiteur extends javax.swing.JFrame {
 
         jLabelDateEmbauche.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelDateEmbauche.setForeground(new java.awt.Color(0, 0, 153));
-        jLabelDateEmbauche.setText("SECTEUR");
+        jLabelDateEmbauche.setText("DATE EMBAUCHE");
         jPanelVisiteur.add(jLabelDateEmbauche);
-        jLabelDateEmbauche.setBounds(160, 360, 60, 14);
+        jLabelDateEmbauche.setBounds(160, 330, 100, 14);
         jPanelVisiteur.add(jDateChooserDateEmbauche);
         jDateChooserDateEmbauche.setBounds(270, 330, 100, 20);
 
@@ -420,6 +423,58 @@ public class VueVisiteur extends javax.swing.JFrame {
      */
     public JTextField getjTextFieldRechercher() {
         return jTextFieldRechercher;
+    }
+
+    public JLabel getjLabelAdresse() {
+        return jLabelAdresse;
+    }
+
+    public JLabel getjLabelBackground() {
+        return jLabelBackground;
+    }
+
+    public JLabel getjLabelChercher() {
+        return jLabelChercher;
+    }
+
+    public JLabel getjLabelChercherVisiteurs() {
+        return jLabelChercherVisiteurs;
+    }
+
+    public JLabel getjLabelDateEmbauche() {
+        return jLabelDateEmbauche;
+    }
+
+    public JLabel getjLabelLabo() {
+        return jLabelLabo;
+    }
+
+    public JLabel getjLabelNom() {
+        return jLabelNom;
+    }
+
+    public JLabel getjLabelPrenom() {
+        return jLabelPrenom;
+    }
+
+    public JLabel getjLabelRechercher() {
+        return jLabelRechercher;
+    }
+
+    public JLabel getjLabelSecteur() {
+        return jLabelSecteur;
+    }
+
+    public JLabel getjLabelVille() {
+        return jLabelVille;
+    }
+
+    public JPanel getjPanelVisiteur() {
+        return jPanelVisiteur;
+    }
+
+    public JSeparator getjSeparator() {
+        return jSeparator;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

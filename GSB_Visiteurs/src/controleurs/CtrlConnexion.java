@@ -9,6 +9,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -36,7 +37,7 @@ import modele.metier.Visiteur;
  * @author bjaouen
  * @version 7/12/2016 - 1.0
  */
-public class CtrlConnexion implements WindowListener, ActionListener {
+public class CtrlConnexion implements WindowListener, ActionListener, KeyListener, MouseListener, FocusListener {
 
     /**
      * La vue connexion
@@ -95,23 +96,9 @@ public class CtrlConnexion implements WindowListener, ActionListener {
 
         checkSelectedBdd();
 
-        vue.getjTextFieldLogin().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent ke) {
-                if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-                    connection();
-                }
-            }
-        });
+        vue.getjTextFieldLogin().addKeyListener(this);
 
-        vue.getjPasswordMdp().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent ke) {
-                if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-                    connection();
-                }
-            }
-        });
+        vue.getjPasswordMdp().addKeyListener(this);
 
         //vérification de la validité du login à chaque caractère saisi
         /*vue.getjTextFieldLogin().getDocument().addDocumentListener(new DocumentListener() {
@@ -142,68 +129,16 @@ public class CtrlConnexion implements WindowListener, ActionListener {
          checkMdp();
          }
          });*/
-        vue.getjTextFieldLogin().addFocusListener(new FocusListener() {
+        vue.getjTextFieldLogin().addFocusListener(this);
 
-            @Override
-            public void focusGained(FocusEvent e) {
-                loginFocused = true;
-                vue.getjLabelCheckLogin().setVisible(false);
-            }
+        vue.getjPasswordMdp().addFocusListener(this);
 
-            @Override
-            public void focusLost(FocusEvent e) {
-                vue.getjLabelCheckLogin().setVisible(true);
-                loginFocused = false;
-                checkLogin();
-            }
-
-        });
-
-        vue.getjPasswordMdp().addFocusListener(new FocusListener() {
-
-            @Override
-            public void focusGained(FocusEvent e) {
-                mdpFocused = true;
-                vue.getjLabelCheckMdp().setVisible(false);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                vue.getjLabelCheckMdp().setVisible(true);
-                mdpFocused = false;
-                if (loginCorrect) {
-                    checkMdp();
-                }
-            }
-        });
-
-        vue.getjButtonAfficherMdp().addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent me) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent me) {
-                if (!vue.getjCheckBoxAfficher().isSelected()) {
-                    vue.getjPasswordMdp().setEchoChar('•');
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent me) {
-                vue.getjPasswordMdp().setEchoChar((char) 0);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent me) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent me) {
-            }
-        });
+        vue.getjButtonAfficherMdp().addMouseListener(this);
     }
 
+    /**
+     *
+     */
     public void connecter() {
         loading();
         try {
@@ -216,6 +151,84 @@ public class CtrlConnexion implements WindowListener, ActionListener {
             Logger.getLogger(CtrlConnexion.class.getName()).log(Level.SEVERE, null, ex);
         }
         stopLoading();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getSource().equals(vue.getjTextFieldLogin())) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                connection();
+            }
+        }
+        if (e.getSource().equals(vue.getjPasswordMdp())) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                connection();
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (e.getSource().equals(vue.getjButtonAfficherMdp())) {
+            vue.getjPasswordMdp().setEchoChar((char) 0);
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        if (e.getSource().equals(vue.getjButtonAfficherMdp())) {
+            if (!vue.getjCheckBoxAfficher().isSelected()) {
+                vue.getjPasswordMdp().setEchoChar('•');
+            }
+        }
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        if (e.getSource().equals(vue.getjTextFieldLogin())) {
+            loginFocused = true;
+            vue.getjLabelCheckLogin().setVisible(false);
+        }
+        if (e.getSource().equals(vue.getjPasswordMdp())) {
+            mdpFocused = true;
+            vue.getjLabelCheckMdp().setVisible(false);
+        }
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        if (e.getSource().equals(vue.getjTextFieldLogin())) {
+            vue.getjLabelCheckLogin().setVisible(true);
+            loginFocused = false;
+            checkLogin();
+        }
+        if (e.getSource().equals(vue.getjPasswordMdp())) {
+            vue.getjLabelCheckMdp().setVisible(true);
+            mdpFocused = false;
+            if (loginCorrect) {
+                checkMdp();
+            }
+        }
     }
 
     class timerTask extends TimerTask {
@@ -253,6 +266,9 @@ public class CtrlConnexion implements WindowListener, ActionListener {
         timer.scheduleAtFixedRate(timerTask, 0, 250);
     }
 
+    /**
+     *
+     */
     public void stopLoading() {
         timerTask.cancel();
         timer.cancel();

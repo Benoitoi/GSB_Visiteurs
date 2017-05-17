@@ -251,22 +251,42 @@ public class VueConnexion extends javax.swing.JFrame {
         return jLabelBaseDeDonnee;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getjButtonReconnection() {
         return jButtonReconnection;
     }
 
+    /**
+     *
+     * @return
+     */
     public JLabel getjLabelBackground() {
         return jLabelBackground;
     }
 
+    /**
+     *
+     * @return
+     */
     public JLabel getjLabelConnexion() {
         return jLabelConnexion;
     }
 
+    /**
+     *
+     * @return
+     */
     public JPanel getjPanelConnexion() {
         return jPanelConnexion;
     }
 
+    /**
+     *
+     * @return
+     */
     public JLabel getjLabelEtat() {
         return jLabelEtat;
     }
@@ -306,6 +326,10 @@ public class VueConnexion extends javax.swing.JFrame {
         });
     }
 
+    /**
+     *
+     * @return
+     */
     public JLabel getjLabelBdd() {
         return jLabelBdd;
     }
